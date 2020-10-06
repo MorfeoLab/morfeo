@@ -21,4 +21,4 @@ $ npm install --save @angular/cdk @angular/material json-logic-js moment @angula
 Inserire il form all'interno del template
 
 <app-eng-dynamic-form [form]="formJson"></app-eng-dynamic-form>
-La variabile formJson deve essere pubblica e contenere un JSON descrittivo del form
+La variabile formJson deve essere pubblica e contenere un JSON descrittivo del form.
