@@ -1,0 +1,6 @@
+@import '~@angular/material/theming';
+/* Importa eccezioni prima del tema material */
+@import 'material-exceptions';
+@import 'scss/mat-custom-theme';
+
+@include mat-core();

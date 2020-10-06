@@ -1,0 +1,32 @@
+<ng-container *ngIf="!!field">
+  <mat-form-field
+    class="field full-width"
+    [hintLabel]="(field.tooltip || '') | translate">
+    <input
+      (click)="picker.open()"
+      (dateChange)="picker.close()"
+      matInput
+      [matDatepicker]="picker"
+      [matDatepickerFilter]="myFilter"
+      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      placeholder="{{ displayLabel | translate }}"
+      [disabled]="(!!field.input && !!field.disabled) || readOnly"
+      [required]="!!(field.input ? field.validate && field.validate.required : false)"
+      [name]="field.key + field.suffix"
+      #me="ngModel"
+      mrfRegisterForm
+      [registerForm]="formRef"
+      [registerModel]="me"
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-form-field>
+  <label *ngIf="field.label.length > 30">
+    {{ field.label }}
+  </label>
+</ng-container>

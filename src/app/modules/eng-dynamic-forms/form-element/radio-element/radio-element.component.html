@@ -1,0 +1,39 @@
+<fieldset *ngIf="!!field">
+  <legend *ngIf="!!displayLabel && !labelIsBlank">
+    {{ displayLabel | translate }}
+    <mrf-tooltip-button
+      [field]="field"
+      *ngIf="!!field.tooltip"
+    ></mrf-tooltip-button>
+    <span *ngIf="!!(field.input ? field.validate && field.validate.required : false)">*</span>
+  </legend>
+  <legend *ngIf="!!labelIsBlank && (field.input ? field.validate && field.validate.required : false)" >Selezione obbligatoria *</legend>
+
+  <input
+    type="hidden"
+    [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+    [name]="field.key + field.suffix"
+    #hiddenElement="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="hiddenElement"
+    mrfValidateJsonRule
+    [jsonRule]="field.input ? field.validate.custom : ''"
+  />
+
+  <mat-radio-group
+    [required]="!!(field.input ? field.validate && field.validate.required : false)"
+    [disabled]="(!!field.input && !!field.disabled) || readOnly"
+    [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+  >
+    <mat-radio-button
+      *ngFor="let val of field.values"
+      [value]="val.value"
+      (click)="setTouched(hiddenElement)"
+    >
+      <div class="radio-label">{{ val.label | translate }}</div>
+    </mat-radio-button>
+    <mat-error *ngIf="hasRequiredError(hiddenElement)">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="hiddenElement.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-radio-group>
+</fieldset>

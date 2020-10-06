@@ -1,0 +1,71 @@
+div.actions {
+  position: absolute;
+  bottom: 17px;
+}
+
+.editor {
+  text-align: justify;
+  flex: 1 1;
+  overflow: auto;
+  min-height: 40px;
+  padding-bottom: 35px;
+  border-bottom: 1px solid;
+  margin-bottom: 17px;
+  margin-top: 16px;
+  padding-top: 2px;
+  cursor: text;
+}
+
+[contenteditable='true'] {
+  overflow: visible;
+}
+
+[contenteditable='true']:not(:empty):before, [contenteditable='true']:empty:focus:before {
+  content: attr(data-placeholder);
+  position: absolute;
+  transform: scale(0.8) translateY(-20px);
+  transform-origin: 0 0;
+  transition: all 300ms ease-in-out;
+}
+
+[contenteditable='true']:empty:before {
+  content: attr(data-placeholder);
+  position: absolute;
+  transition: all 300ms ease-in-out;
+  transform-origin: 0 0;
+}
+
+.flex-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+  > div {
+    flex: 1 1 auto;
+    margin-right: 10px;
+    position: relative;
+  }
+
+  label {
+    position: absolute;
+  }
+
+  .flex-small {
+    max-width: 150px;
+    flex: 1;
+  }
+}
+
+.contenteditable-disabled {
+  opacity: 0.5;
+  border-bottom: 1px dashed;
+}
+
+.wysiwyg-select-language {
+  position: absolute;
+  bottom: 0;
+}
+
+.mat-autocomplete-panel {
+  min-width: fit-content;
+}

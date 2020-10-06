@@ -1,0 +1,25 @@
+<mat-tab-group (selectedIndexChange)="refreshSubTabs($event)" [selectedIndex]="field.selectedIndex" (selectedTabChange)="tabChange($event)" *ngIf="!!field">
+  <ng-container *ngFor="let tab of field.components">
+    <ng-container *ngIf="!tab.hidden">
+      <mat-tab [label]="getPrintableLabel(tab) | translatable">
+        <mat-card class="trasparent">
+          <mat-card-header *ngIf="!utility.isNullOrUndefined(tab.tabsLabel)">
+            <mat-card-title>
+              <span>
+                <p>{{tab.tabsLabel | translatable}}</p>
+              </span>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mrf-element-wrapper
+              [externalData]="externalData"
+              [component]="component"
+              [formRef]="formRef"
+              [readOnly]="!!component.readOnly || readOnly"
+              *ngFor="let component of tab.components"></mrf-element-wrapper>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+    </ng-container>
+  </ng-container>
+</mat-tab-group>

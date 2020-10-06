@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<mat-dialog-content class="mat-typography">
+  <p>{{data.message}}</p>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">{{data.labels? data.labels.cancelButton : 'Annulla'}}</button>
+  <button mat-button [mat-dialog-close]="data.item" cdkFocusInitial>{{data.labels? data.labels.confirmButton : 'Sì'}}</button>
+  <button mat-button *ngIf="!!data.labels.actionButton" [mat-dialog-close]="'action'" cdkFocusInitial>{{data.labels.actionButton}}</button>
+</div>

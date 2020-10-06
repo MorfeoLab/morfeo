@@ -1,0 +1,32 @@
+<ng-container *ngIf="!!field">
+  <legend *ngIf="!!displayLegend" class="select-boxes">{{ displayLegend | translate }}</legend>
+  <mat-form-field
+    [floatLabel]="!!displayLegend ? 'never' : 'auto'"
+    class="field full-width"
+    [hintLabel]="(field.tooltip || '') | translate">
+    <mat-select
+      placeholder="{{ displayLabel | translate }}"
+      [required]="!!(field.input ? field.validate && field.validate.required : false)"
+      [disabled]="!!(field.input && field.disabled) || !!readOnly"
+      [value]="field.defaultValue ? field.defaultValue : ''"
+      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      [name]="field.key + field.suffix"
+      #me="ngModel"
+      mrfRegisterForm
+      [registerForm]="formRef"
+      [registerModel]="me"
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+      (selectionChange)="optionSelectedEvent($event.value)"
+    >
+      <mat-option *ngFor="let value of comboElements" [value]="value.value">
+        {{ value.label | translate }}
+      </mat-option>
+    </mat-select>
+<!--    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>-->
+<!--    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>-->
+  </mat-form-field>
+</ng-container>
+
+

@@ -1,0 +1,22 @@
+<ng-container *ngIf="!!field">
+  <fieldset class="boxed">
+    <legend
+      class="fieldset-label"
+      [ngClass]="{'tooltip-label': !!field.tooltip}">
+      <!-- se arriva legend stampo quello se no la label -->
+      {{(field.legend || field.label) | translate}}
+      <mrf-tooltip-button *ngIf="!!field.tooltip" [field]="field"></mrf-tooltip-button>
+    </legend>
+
+    <ng-container *ngFor="let component of field.components">
+      <mrf-element-wrapper
+        [component]="component"
+        [formRef]="formRef"
+        [externalData]="externalData"
+        [readOnly]="!!component.readOnly || readOnly"
+      ></mrf-element-wrapper>
+    </ng-container>
+  </fieldset>
+
+</ng-container>
+

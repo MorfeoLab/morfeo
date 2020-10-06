@@ -1,0 +1,63 @@
+<ng-container *ngIf="!!field">
+  <div class="flex-container">
+    <!-- SELECT ELEMENT TO CHOSE LANGUAGE -->
+    <div class="flex-small">
+      <mat-form-field class="full-width wysiwyg-select-language">
+        <mat-select
+          [(ngModel)]="defaultComboValue"
+          placeholder="Lingua"
+          name="valueSelect"
+          [disabled]="(!!field.input && !!field.disabled) || readOnly"
+          [required]="!!(field.input ? field.validate && field.validate.required : false)"
+          #textElement="ngModel"
+          mrfRegisterForm
+          [registerForm]="valuesForm"
+          [registerModel]="textElement"
+          (selectionChange)="keyChanged()"
+        >
+          <mat-option
+            *ngFor="let langObj of languagesCombo"
+            [value]="langObj.value"
+          >
+            {{ langObj.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-large">
+      <div
+        ondrop="return false;"
+        #richTextArea
+        attr.data-placeholder="{{ field.label | translate }}"
+        [attr.contenteditable]="!field.disabled"
+        class="editor"
+        [ngClass]="{ 'contenteditable-disabled': field.disabled }"
+        (input)="contentChanged()"
+      ></div>
+
+      <div class="actions" *ngIf="!((!!field.input && !!field.disabled) || readOnly)">
+        <button type="button" class="actions" mat-button (click)="editText('bold')">
+          <mat-icon>format_bold</mat-icon>
+        </button>
+        <button type="button" class="actions" mat-button (click)="editText('italic')">
+          <mat-icon>format_italic</mat-icon>
+        </button>
+        <button type="button" class="actions" mat-button (click)="editText('underline')">
+          <mat-icon>format_underline</mat-icon>
+        </button>
+        <button type="button" class="actions" mat-button (click)="editText('createLink')">
+          <mat-icon>http</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <input
+    type="hidden"
+    [(ngModel)]="hiddenControlVal"
+    [name]="field.key + field.suffix"
+    #hiddenElement="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="hiddenElement"
+  />
+</ng-container>

@@ -1,0 +1,10 @@
+@import '../theme-variables';
+
+@function color-to-gradient($color) {
+  @return linear-gradient(
+    adjust_hue($color, -10%),
+    adjust_hue(desaturate($color, 20%), 10%)
+  );
+}
+
+@import 'default-theme';

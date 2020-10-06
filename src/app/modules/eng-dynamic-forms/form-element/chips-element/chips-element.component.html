@@ -1,0 +1,66 @@
+<ng-container *ngIf="!!field">
+  <mat-form-field
+    class="full-width"
+    [hintLabel]="(field.tooltip || '') | translate"
+  >
+    <input
+      type="hidden"
+      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      [name]="field.key + field.suffix"
+      #hiddenElement="ngModel"
+      mrfRegisterForm
+      [registerForm]="formRef"
+      [registerModel]="hiddenElement"
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+    />
+    <input
+      type="text"
+      ngModel
+      matInput
+      placeholder="{{ displayLabel | translate }}"
+      (keyup.enter)="onEnter()"
+      (blur)="onBlur($event)"
+      [matAutocomplete]="auto"
+      name="autocompleteText"
+      [disabled]="(!!field.input && !!field.disabled) || readOnly"
+      [required]="!!(field.input ? field.validate && field.validate.required : false)"
+      #me="ngModel"
+      mrfRegisterForm
+      [registerForm]="autocompleteTextForm"
+      [registerModel]="me"
+      #textInput
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+    />
+
+    <mat-autocomplete
+      autoActiveFirstOption
+      #auto="matAutocomplete"
+      [displayWith]="dataService.displayFn"
+      [ngClass]="'mrf-chips-' + field.key"
+      (optionSelected)="optionSelected($event)"
+    >
+      <mat-option *ngFor="let value of filteredOptions | async" [value]="value">
+        {{ value.label | translate }}
+      </mat-option>
+    </mat-autocomplete>
+
+    <mat-chip-list>
+      <mat-chip
+        *ngFor="let chip of chips"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="removeChip(chip)"
+        [disabled]="(!!field.input && !!field.disabled) || readOnly"
+      >
+        {{ chip.label }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-form-field>
+</ng-container>

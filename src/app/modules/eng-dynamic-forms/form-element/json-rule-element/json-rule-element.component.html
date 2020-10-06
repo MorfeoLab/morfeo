@@ -1,0 +1,143 @@
+<div class="scroll-container">
+  <ng-container *ngFor="let node of dataForm; index as nodeIndex">
+    <ng-container *ngTemplateOutlet="SWITCH; context: { node: node, parent: dataForm, index: nodeIndex }"></ng-container>
+  </ng-container>
+
+  <!-- pulsante per aggiungere un nuovo nodo root -->
+  <button
+    (click)="addJsonLogicInputToArray()"
+    type="button"
+    mat-icon-button
+    color="primary"
+    aria-label="Add">
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+</div>
+
+<ng-template
+  #SWITCH
+  let-node="node"
+  let-parent="parent"
+  let-index="index">
+
+  <div class="row-container">
+    <div class="select-container">
+
+      <!-- Pulsante che rimuove tutto il nodo -->
+      <button
+        (click)="removeItemFromArrayByIndex(parent, index)"
+        type="button"
+        mat-icon-button
+        color="warn"
+        aria-label="Remove">
+        <mat-icon>remove_circle_outline</mat-icon>
+
+      </button>
+
+      <mat-form-field>
+        <mat-select
+          (selectionChange)="selectionChanged(node)"
+          [(ngModel)]="node['expression']">
+
+          <mat-optgroup
+            *ngFor="let group of expressions"
+            [label]="group.name"
+            [disabled]="group.disabled">
+
+            <mat-option
+              *ngFor="let expression of group.values"
+              [value]="expression.value">
+              {{expression.label | translate}}
+            </mat-option>
+
+          </mat-optgroup>
+
+        </mat-select>
+
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="node['expression'] === 'lit'">
+        <input
+          matInput
+          (change)="saveChanges()"
+          [(ngModel)]="node['value']">
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="node['expression'] === 'regex'">
+        <input
+          matInput
+          (change)="saveChanges()"
+          [(ngModel)]="node['value']">
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="node['expression'] === 'var'">
+        <input
+          matInput
+          (keyup)="autoCompleteMe($event)"
+          (blur)="cleanValue($event)"
+          placeholder="Filtra"
+          [matAutocomplete]="auto"
+          [value]="node['value']">
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayName"
+          (optionSelected)="autocompleteOptionSelected($event, node)">
+
+          <mat-option
+            *ngFor="let option of filteredOptions"
+            [value]="option">
+            {{option.key}}
+          </mat-option>
+
+        </mat-autocomplete>
+
+      </mat-form-field>
+
+      <!-- Pulsante per aggiungere nuovi nodi figli -->
+      <button
+        *ngIf="canAddChild(node)"
+        [disabled]="!canAddChild(node)"
+        (click)="addJsonLogicInputToArray(node)"
+        type="button"
+        mat-icon-button
+        color="primary"
+        aria-label="Add">
+        <mat-icon>playlist_add</mat-icon>
+      </button>
+    </div>
+
+    <div
+      class="controls-container"
+      *ngIf="['lit', 'var'].indexOf(node['expression']) < 0">
+      <ng-container
+        *ngFor="let child of node['children']; index as childIndex">
+        <ng-container
+          *ngTemplateOutlet="SWITCH; context: { node: child, parent: node['children'], index: childIndex }">
+
+        </ng-container>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</ng-template>
+
+
+<input
+  type="hidden"
+  [(ngModel)]="hiddenControlVal"
+  [name]="field.key + field.suffix"
+  #hiddenElement="ngModel"
+  mrfRegisterForm
+  [registerForm]="formRef"
+  [registerModel]="hiddenElement"
+
+  mrfValidateJsonRule
+  [jsonRule]="field.input ? field.validate.custom : ''"
+/>

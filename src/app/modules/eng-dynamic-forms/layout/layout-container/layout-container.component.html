@@ -1,0 +1,16 @@
+<ng-container *ngIf="!!field">
+  <fieldset>
+    <legend *ngIf="field.type === 'container'">
+      {{field.legend ? field.legend : field.label | translate}}
+    </legend>
+    <ng-container *ngFor="let component of field.components">
+      <mrf-element-wrapper
+        [component]="component"
+        [formRef]="formRef"
+        [externalData]="externalData"
+        [readOnly]="!!component.readOnly || readOnly"
+      ></mrf-element-wrapper>
+    </ng-container>
+  </fieldset>
+</ng-container>
+

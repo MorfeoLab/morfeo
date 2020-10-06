@@ -1,0 +1,54 @@
+<ng-container *ngIf="!!field">
+  <div class="flex-container">
+    <div class="flex-small">
+      <mat-form-field class="full-width">
+        <mat-select
+          [(ngModel)]="defaultComboValue"
+          placeholder="Lingua"
+          name="valueSelect"
+          [disabled]="field.input && field.disabled"
+          [required]="!!(field.input ? field.validate && field.validate.required : false)"
+          #textElement="ngModel"
+          mrfRegisterForm
+          [registerForm]="valuesForm"
+          [registerModel]="textElement"
+        >
+          <mat-option
+            *ngFor="let langObj of languagesCombo"
+            [value]="langObj.value"
+          >
+            {{ langObj.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-large">
+      <mat-form-field
+        class="full-width"
+        [hintLabel]="field.tooltip || '' | translate"
+      >
+        <textarea
+          matInput
+          placeholder="{{ displayLabel | translate }}"
+          ngModel
+          name="valueText"
+          [disabled]="field.input && field.disabled"
+          [required]="!!(field.input ? field.validate && field.validate.required : false)"
+          #comboElement="ngModel"
+          mrfRegisterForm
+          [registerForm]="valuesForm"
+          [registerModel]="comboElement"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <input
+    type="hidden"
+    [(ngModel)]="hiddenControlVal"
+    [name]="field.key + field.suffix"
+    #hiddenElement="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="hiddenElement"
+  />
+</ng-container>

@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Test form</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+<!--    <input [(ngModel)]="nomeCampoFocus"/>-->
+<!--    <a mat-button (click)="nextTab()">NEXT</a>-->
+    <!--    <a mat-button (click)="resetFormValue()">resetValue</a>-->
+<!--    <a mat-button (click)="setFocus()">focus</a>-->
+    <app-eng-dynamic-forms
+        #form1
+        [externalData]="{'DATA_ODIERNA':'2020-03-24T10:52:19.825Z'}"
+        [form]="searchForm"
+        [config]="searchFormConfig"
+    ></app-eng-dynamic-forms>
+<!--    <app-eng-dynamic-forms-->
+<!--        #form2-->
+<!--        [externalData]="{'DATA_ODIERNA':'2020-03-24T10:52:19.825Z'}"-->
+<!--        [form]="searchForm2"-->
+<!--        [config]="searchFormConfig"-->
+<!--    ></app-eng-dynamic-forms>-->
+  </mat-card-content>
+  <mrf-debug-object *ngIf="!!formContainer" [istanza]="formContainer.value"></mrf-debug-object>
+
+
+  <button (click)="callMeBaby()">Push me!</button>
+<!--  <button (click)="post1()">Push post 1</button>-->
+<!--  <button (click)="post2()">Push post 2</button>-->
+
+
+</mat-card>
+

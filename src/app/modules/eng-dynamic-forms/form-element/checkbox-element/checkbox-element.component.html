@@ -1,0 +1,24 @@
+<ng-container *ngIf="!!field">
+  <div class="check-boxes">
+
+    <mat-checkbox
+        #checkbox
+        [(ngModel)]="(!!field.input && !!field.disabled) || readOnly ? '' : formRef.form.value[field.key + field.suffix]"
+        [name]="field.key + field.suffix"
+        [required]="!!(field.input ? field.validate && field.validate.required : false)"
+        [id]="field.key + field.suffix"
+        [disabled]="(!!field.input && !!field.disabled) || readOnly"
+        #me="ngModel"
+        mrfRegisterForm
+        [registerForm]="formRef"
+        [registerModel]="me"
+
+        mrfValidateJsonRule
+        [jsonRule]="field.input ? field.validate.custom : ''"
+    >
+    </mat-checkbox>
+    {{ displayLabel | translate }}&nbsp;<span *ngIf="!!(field.input ? field.validate && field.validate.required : false)">*</span>
+  </div>
+  <mat-error *ngIf="hasRequiredError(me)">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+<!--  <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>-->
+</ng-container>

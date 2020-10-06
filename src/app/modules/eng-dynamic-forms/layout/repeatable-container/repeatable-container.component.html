@@ -1,0 +1,30 @@
+<ng-container *ngIf="!!field">
+  <div class="repeatable-container mat-elevation-z1">
+    <ng-container *ngFor="let innerField of fields">
+      <ng-container *ngIf="!!innerField">
+        <div class="row">
+          <mrf-element-wrapper
+            [externalData]="externalData"
+            [component]="innerField"
+            [formRef]="formRef"
+            [readOnly]="!!innerField.readOnly || !!readOnly"
+            class="flex-large"
+          ></mrf-element-wrapper>
+          <button
+            mat-button
+            type="button"
+            *ngIf="field.displayMode !== 'output' && !readOnly"
+            (click)="deleteElement(innerField)"
+            class="flex-small"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
+    <a mat-button (click)="addElement()" *ngIf="!!fields && !!fields.length && field.displayMode !== 'output' && !readOnly">
+      <mat-icon>add</mat-icon>
+      {{ field.label | translate }}
+    </a>
+  </div>
+</ng-container>

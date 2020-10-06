@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+mat-chip-list .mat-chip-list-wrapper {
+  margin: 0 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// The style below will help to develop and test library functionality, comment before publish
+
+/* CSS Reset */
+// @import '../../../assets/css-reset.css';
+
+// /* Self hosted material icons */
+// @import '../../../assets/iconfont/material-icons.css';
+
+// /* Color schemes */
+// @import '../../../assets/scss/color-by-action';

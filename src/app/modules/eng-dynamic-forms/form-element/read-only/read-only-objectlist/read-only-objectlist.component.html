@@ -1,0 +1,41 @@
+<ng-container *ngIf="!!field">
+  <div
+    class="mat-typography"
+    [id]="field.key + field.suffix"
+  >
+    {{field.label | translate}}
+  </div>
+
+  <div
+    *ngIf="!!htmlValue && htmlValue.length>0"
+    class="mat-typography"
+  >
+    <table
+      class="full-width"
+    >
+      <tr>
+        <td><span *ngIf="!!field.columnsDefinition[0]">{{field.columnsDefinition[0].label | translate }}</span>
+        </td>
+        <td><span *ngIf="!!field.columnsDefinition[1]">{{field.columnsDefinition[1].label | translate}}</span>
+        </td>
+        <td><span *ngIf="!!field.columnsDefinition[2]">{{field.columnsDefinition[2].label | translate}}</span>
+        </td>
+      </tr>
+      <tr *ngFor="let element of htmlValue">
+        <td>{{element.codice}}</td>
+        <td>{{element.descrizione.it}}</td>
+        <td>{{element.tipoOggetto}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <input
+    type="hidden"
+    [name]="field.key + field.suffix"
+    ngModel
+    #me="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="me"/>
+
+</ng-container>

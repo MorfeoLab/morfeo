@@ -1,0 +1,10 @@
+<div class="columns-container" [ngClass]="field.className || ''" *ngIf="!!field">
+  <div class="column column-{{column.width}}" *ngFor="let column of field.columns">
+    <mrf-element-wrapper
+      [component]="component"
+      [formRef]="formRef"
+      [externalData]="externalData"
+      [readOnly]="!!component.readOnly || readOnly"
+      *ngFor="let component of column.components"></mrf-element-wrapper>
+  </div>
+</div>

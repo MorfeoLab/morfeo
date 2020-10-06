@@ -1,0 +1,56 @@
+<legend *ngIf="!!field.label">{{field.label}}</legend>
+<ng-container *ngIf="!!filterFormJson">
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="!!filterFormJson.expanded">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filtra i dati
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-eng-dynamic-forms [form]="filterFormJson" [config]="formConfig"></app-eng-dynamic-forms>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <hr>
+</ng-container>
+
+<div class="table-container">
+  <div class="empty-shade" *ngIf="!!dataSource && !dataSource.data?.length">
+    <div class="table-empty">
+      Nessun dato da visualizzare
+    </div>
+  </div>
+  <div class="loading-shade" *ngIf="isLoading || isError">
+    <mat-spinner *ngIf="!hideLoader && isLoading"></mat-spinner>
+    <div class="table-error" *ngIf="isError">
+      Errore nel caricamento dei dati
+    </div>
+  </div>
+  <table mat-table matSort [dataSource]="dataSource">
+
+    <ng-container *ngFor="let col of columns" matColumnDef="{{col.value}}">
+      <mat-header-cell mat-sort-header [disabled]="!col.sortable" *matHeaderCellDef>{{col.label}}</mat-header-cell>
+      <mat-cell [attr.data-label]="col.label" *matCellDef="let row"
+                class="align-{{col.style?.align}} vertical-align-{{col.style?.verticalAlign}}">
+        <ng-container *ngIf="!!col.value">
+          {{render(row, col)}}
+        </ng-container>
+        <ng-container *ngIf="!!col.buttons">
+          <ng-container *ngFor="let button of col.buttons">
+
+          <mrf-generic-button
+            [button]="button"
+            (click)="buttonAction([col.value, button.action], row)"
+            *ngIf="isButtonVisible([col.value, button.action], row, button)"
+          ></mrf-generic-button>
+          </ng-container>
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </table>
+
+  <mat-paginator *ngIf="!!field.data.pagination"></mat-paginator>
+</div>

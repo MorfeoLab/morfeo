@@ -1,0 +1,14 @@
+<div class="mat-typography container" [ngClass]="{ success: data.type, error: !data.type }">
+  <div class="left">
+    <mat-icon class="green" *ngIf="data.type">check_circle_outline</mat-icon>
+    <mat-icon class="red" *ngIf="!data.type">error_outline</mat-icon>
+  </div>
+  <div class="message">
+    <div>{{data.message}}</div>
+  </div>
+  <div class="right">
+    <button mat-raised-button color="secondary" (click)="dismissSnackbar();">
+      <mat-icon class="inlineIcon">close</mat-icon>
+    </button>
+  </div>
+</div>

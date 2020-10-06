@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+  .flex-large {
+    flex: 1 1 auto;
+  }
+  .flex-small {
+    max-width: 20%;
+  }
+}
+.repeatable-container {
+  padding: 10px;
+  margin: 0 5px 5px 0;
+}

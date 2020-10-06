@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  .flex-large {
+    flex: 1 1 auto;
+  }
+  .flex-small {
+    max-width: 20%;
+  }
+}

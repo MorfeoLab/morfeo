@@ -1,0 +1,63 @@
+<ng-container *ngIf="!!field">
+  <div class="flex-container">
+    <div class="flex-small">
+      <mat-form-field
+        class="full-width">
+        <mat-select
+          [(ngModel)]="defaultComboValue"
+          placeholder="Lingua"
+          name="valueSelect"
+          [disabled]="(!!field.input && !!field.disabled) || readOnly"
+          [required]="!!(field.input ? field.validate && field.validate.required : false)"
+          #textElement="ngModel"
+          mrfRegisterForm
+          [registerForm]="valuesForm"
+          [registerModel]="textElement"
+
+          mrfValidateJsonRule
+          [jsonRule]="field.input ? field.validate.custom : ''"
+        >
+          <mat-option *ngFor="let value of comboElements" [value]="value.value">
+            {{ value.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-large">
+      <mat-form-field
+        class="full-width"
+        [hintLabel]="(field.tooltip || '') | translate">
+        <input
+          type="text"
+          [ngClass]="'mrf-map-' + field.key"
+          placeholder="{{ displayLabel | translate }}"
+          matInput
+          ngModel
+          name="valueText"
+          [disabled]="(!!field.input && !!field.disabled) || readOnly"
+          [required]="!!(field.input ? field.validate && field.validate.required : false)"
+          #comboElement="ngModel"
+          mrfRegisterForm
+          [registerForm]="valuesForm"
+          [registerModel]="comboElement"
+
+          mrfValidateJsonRule
+          [jsonRule]="field.input ? field.validate.custom : ''"
+        />
+        <mat-error *ngIf="comboElement.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <input
+    type="hidden"
+    [(ngModel)]="hiddenControlVal"
+    [name]="field.key + field.suffix"
+    #hiddenElement="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="hiddenElement"
+
+    mrfValidateJsonRule
+    [jsonRule]="field.input ? field.validate.custom : ''"
+  />
+</ng-container>

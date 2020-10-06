@@ -1,0 +1,101 @@
+<ng-container *ngIf="!!field">
+  <mat-form-field
+    class="full-width"
+    [hintLabel]="(field.tooltip || '') | translate"
+  >
+  <input
+    matInput
+    ngModel
+    type="text"
+    [hidden]="true"
+    [name]="field.key + field.suffix"
+    [disabled]="field.input && field.disabled"
+    placeholder="{{ displayLabel | translate }}
+"
+
+    [required]="!!(field.input ? field.validate && field.validate.required : false)"
+    [minlength]="field.validate.minLength"
+    [maxlength]="field.validate.maxLength"
+
+    #me="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="me"
+
+    mrfValidateJsonRule
+    [jsonRule]="field.input ? field.validate.custom : ''"
+  />
+  <div class="object-list-container">
+    <div class="title-container" *ngIf="!tableDataSource.data?.length">
+      <button
+        mat-mini-fab
+        type="button"
+        (click)="openDialog()"
+        [id]="'mrf-objectlist-' + field.key"
+        [disabled]="field.input && field.disabled"
+      >
+        <mat-icon aria-label="Open elements">add</mat-icon>
+      </button>
+      <span>{{ displayLabel | translate }}</span>
+    </div>
+    <table
+      class="full-width"
+      mat-table
+      cdkDropList
+      (cdkDropListDropped)="onListDrop($event)"
+      [dataSource]="tableDataSource"
+      *ngIf="tableDataSource.data?.length"
+    >
+      <ng-container matColumnDef="reorder">
+        <th mat-header-cell *matHeaderCellDef>
+          <button mat-mini-fab type="button" (click)="openDialog()">
+            <mat-icon aria-label="Open elements">add</mat-icon>
+          </button>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button type="button" cdkDragHandle>
+            <mat-icon aria-label="Reorder">reorder</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tools">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            (click)="removeElement(element)"
+            [disabled]="field.input && field.disabled"
+          >
+            <mat-icon color="warn" cdkDragHandle aria-label="clear"
+              >clear</mat-icon
+            >
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container
+        [matColumnDef]="column.value"
+        *ngFor="let column of columnsDefinition"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column.label | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            column.localized ? element[column.value].it : element[column.value]
+          }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        cdkDrag
+        [cdkDragData]="row"
+      ></tr>
+    </table>
+  </div>
+    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-form-field>
+</ng-container>

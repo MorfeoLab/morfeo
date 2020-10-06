@@ -1,0 +1,25 @@
+/* Quando le etichette sono troppo lunghe il testo non va a capo, qussto risolve */
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+.mat-checkbox-inner-container {
+  @extend .mat-checkbox-layout;
+}
+
+.mat-expansion-panel.mat-expanded {
+  .mat-expansion-panel-header {
+    .mat-expansion-panel-header-description {
+      transition: opacity 400ms ease;
+      opacity: 0;
+    }
+  }
+}
+
+/* Internet Explorer non supporta flexbox e min-height */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .mat-header-row,
+  .mat-row {
+    min-height: 0;
+    height: 48px;
+  }
+}

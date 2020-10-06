@@ -1,0 +1,26 @@
+<ng-container *ngIf="!!field">
+  <mat-form-field class="field full-width">
+    <textarea
+      matInput
+      placeholder="{{ displayLabel | translate }}"
+      [id]="field.key"
+      [name]="field.key + field.suffix"
+      [disabled]="(!!field.input && !!field.disabled) || readOnly"
+      [required]="!!(field.input ? field.validate && field.validate.required : false)"
+      [minlength]="field.validate.minLength"
+      [maxlength]="field.validate.maxLength"
+      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      #me="ngModel"
+      mrfRegisterForm
+      [registerForm]="formRef"
+      [registerModel]="me"
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+    ></textarea>
+    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('minlength')">{{'generic.labels.minLeght' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('maxlength')">{{'generic.labels.maxLeght' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-form-field>
+</ng-container>

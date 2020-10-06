@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{ 'generic.form.obbligatorio' | translate }}  {{data.element.codice}}</h1>
+
+<mat-radio-group aria-label="Seleziona" [(ngModel)]="defaultValueRadioButton">
+  <mat-radio-button value="false">{{'quadri.labels.opzioneNo' | translate}}</mat-radio-button>
+  <mat-radio-button value="true">{{'quadri.labels.opzioneSi' | translate}}</mat-radio-button>
+  <mat-radio-button value="json">{{'quadri.labels.opzioneRule' | translate}}</mat-radio-button>
+</mat-radio-group>
+
+<!--Form per le regole: case json-->
+<div [hidden]="defaultValueRadioButton === 'false' || defaultValueRadioButton === 'true'">
+  <mat-dialog-content>
+    <app-eng-dynamic-forms [form]="form" [config]="formConfig">
+    </app-eng-dynamic-forms>
+  </mat-dialog-content>
+</div>
+
+<!--case true o false-->
+<div mat-dialog-actions *ngIf="defaultValueRadioButton === 'false' || defaultValueRadioButton === 'true'">
+  <button mat-button (click)="closeDialog()">
+    <mat-icon>delete</mat-icon><span translate>generic.buttons.cancel</span>
+  </button>
+  <button mat-button (click)="salvaOpzione()">
+    <mat-icon>save</mat-icon><span translate>generic.buttons.save</span>
+  </button>
+</div>

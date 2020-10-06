@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>Seleziona</h1>
+<div mat-dialog-content>
+  <table class="full-width" mat-table [dataSource]="dataSource">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="selectDeselect(row, $event)"
+          [checked]="selection.isSelected(row) || isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container
+      [matColumnDef]="column.value"
+      *ngFor="let column of columnsDefinition"
+    >
+      <th mat-header-cell *matHeaderCellDef>{{ column.label | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          column.localized ? element[column.value].it : element[column.value]
+        }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      class="cursor-pointer"
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="selection.toggle(row)"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="resultsPageSize"
+    [pageIndex]="resultsPageNumber"
+    [length]="resultsLength"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">
+    <mat-icon>clear</mat-icon><span translate>annulla</span>
+  </button>
+  <button mat-button [mat-dialog-close]="selection">
+    <mat-icon>get_app</mat-icon><span translate>conferma</span>
+  </button>
+</div>

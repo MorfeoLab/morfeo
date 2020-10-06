@@ -1,0 +1,14 @@
+<ng-container [ngSwitch]="button.style">
+  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'raised'"
+          [disabled]="!!button.disabled" mat-raised-button>{{button.label}}</button>
+  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'stroked'"
+          [disabled]="!!button.disabled" mat-stroked-button>{{button.label}}</button>
+  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'flat'"
+          [disabled]="!!button.disabled" mat-flat-button>{{button.label}}</button>
+  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'icon'"
+          [disabled]="!!button.disabled" mat-icon-button>
+    <mat-icon [attr.aria-label]="button.label" [color]="button.color">{{button.icon}}</mat-icon>
+  </button>
+  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchDefault [disabled]="!!button.disabled"
+          mat-button>{{button.label}}</button>
+</ng-container>

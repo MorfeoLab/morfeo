@@ -1,0 +1,21 @@
+.flex-container {
+  display: flex;
+  .flex-large {
+    flex: 1 1 auto;
+    align-self: center;
+    padding-right: 8px;
+  }
+  .flex-small {
+    display: flex;
+  }
+}
+
+
+.mat-raised-button:not(:first-child):last-child {
+  margin-left: 15px;
+}
+
+.mat-error {
+  margin-bottom: 15px;
+  margin-left: 15px;
+}

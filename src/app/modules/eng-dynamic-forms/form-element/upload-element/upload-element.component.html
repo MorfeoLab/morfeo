@@ -1,0 +1,75 @@
+<mat-list role="list">
+  <mat-list-item>
+    <div class="flex-container">
+      <label class="flex-large">{{field.label | translate}}</label>
+      <span class="flex-small">
+         <button
+           (click)="downloadFile(field.downloadFile)"
+           *ngIf="!!field.downloadFile"
+           color="secondary"
+           mat-raised-button
+           type="button">
+          <mat-icon>cloud_download</mat-icon>&nbsp;
+          <span translate>generic.labels.download_file</span>
+        </button>
+           <button
+             (click)="fileUploadInput.click()"
+             [disabled]="!!(field.input && field.disabled) || !!readOnly"
+             [ngClass]="'mrf-upload-' + field.key"
+             color="primary"
+             mat-raised-button
+             type="button">
+          <mat-icon>attach_file</mat-icon>&nbsp;
+          <span translate>generic.labels.upload_file</span>
+          <span *ngIf="field.input && field.validate && field.validate.required">*</span>
+        </button>
+      </span>
+    </div>
+  </mat-list-item>
+
+  <mat-nav-list>
+    <a *ngFor="let file of files" mat-list-item>
+    <span matLine>
+      {{file.data.name}} [{{file.data.size | bytes}}]
+      <mat-progress-bar [color]="file.progress?'primary':'accent'" [value]="file.progress"></mat-progress-bar>
+    </span>
+      <button (click)="downloadFile(file)" *ngIf="file.canDownload && !!field.downloadUrl" mat-icon-button
+              type="button">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      <button (click)="cancelFile(file)" *ngIf="file.canCancel && !readOnly" mat-icon-button type="button">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </a>
+  </mat-nav-list>
+</mat-list>
+<form #fakeForm [id]="field.key">
+  <input
+    #fileUpload
+    accept="{{accept}}"
+    hidden
+    type="file"/>
+</form>
+<input
+  #hiddenElement="ngModel"
+  [name]="field.key + field.suffix"
+  [component]="this"
+  [field]="field"
+  [registerForm]="formRef"
+  [registerModel]="hiddenElement"
+  [required]="field.input ? field.validate && field.validate.required : false"
+  [uploadRequired]="field.input ? field.validate && field.validate.required : false"
+  [uploadPattern]="field.validate.pattern"
+  mrfRegisterForm
+
+  mrfUploadValidation
+
+  ngModel
+  type="hidden"
+/>
+<ng-container *ngIf="hiddenElement.touched">
+  <mat-error
+    *ngIf="hiddenElement.hasError('uploadRequired')">{{'generic.labels.fileObbligatorio' | translate}}</mat-error>
+  <mat-error
+    *ngIf="hiddenElement.hasError('patternWrong')">{{'generic.labels.filePatternWrong' | translate}}</mat-error>
+</ng-container>

@@ -1,0 +1,12 @@
+<ng-container *ngIf="!!field">
+  <button
+    type="button"
+    mat-button
+    [matTooltip]="(field.tooltip || '') | translate"
+    (click)="execute()"
+    [disabled]="(!!field.input && !!field.disabled) || readOnly"
+    [name]="field.key + field.suffix"
+  >
+    {{ displayLabel() }}
+  </button>
+</ng-container>

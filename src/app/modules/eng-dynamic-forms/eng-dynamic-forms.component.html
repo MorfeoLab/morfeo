@@ -1,0 +1,55 @@
+<form *ngIf="!!form" #f="ngForm" (ngSubmit)="submitForm($event)"
+      (keydown.enter)="$event.preventDefault()">
+  <mat-card-content>
+    <mrf-element-wrapper
+      [formRef]="f"
+      [component]="component"
+      [externalData]="externalData"
+      [readOnly]="!!form.readOnly"
+      *ngFor="let component of form.components"
+    ></mrf-element-wrapper>
+  </mat-card-content>
+  <ng-container *ngIf="!!config">
+    <mat-card-actions>
+      <button
+        type="button"
+        mat-button
+        *ngFor="let button of config.buttons"
+        [disabled]="form.readOnly"
+        (click)="buttonCallback(button)">
+        <mat-icon *ngIf="!!button.icon">{{
+            button.icon
+          }}</mat-icon>
+        <span translate *ngIf="button.label">{{
+            button.label
+          }}</span>
+      </button>
+      <button
+        mat-button
+        type="reset"
+        [disabled]="form.readOnly"
+        (click)="resetForm()"
+        *ngIf="config.showReset">
+        <mat-icon *ngIf="!!config.resetIcon">{{
+            config.resetIcon
+          }}</mat-icon>
+        <span translate *ngIf="config.resetLabel">{{
+            config.resetLabel
+          }}</span>
+      </button>
+      <button
+        mat-button
+        type="submit"
+        *ngIf="config.showSubmit"
+        [disabled]="!f.valid || !!form.readOnly"
+      >
+        <mat-icon *ngIf="!!config.submitIcon">{{
+            config.submitIcon
+          }}</mat-icon>
+        <span translate *ngIf="config.submitLabel">{{
+            config.submitLabel
+          }}</span>
+      </button>
+    </mat-card-actions>
+  </ng-container>
+</form>

@@ -1,0 +1,35 @@
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+
+  mat-radio-button {
+    margin: 10px;
+  }
+}
+
+mat-radio-group.row {
+  display: flex;
+  flex-direction: row;
+
+  mat-radio-button {
+    margin: 10px;
+  }
+}
+
+.mat-radio-label {
+  margin-top: 5px;
+  display: flex;
+  white-space: pre-wrap;
+}
+
+div {
+  display: flex;
+}
+
+div.radio-label {
+  display: inline-flex;
+  align-items: center;
+  white-space: pre-wrap;
+  line-height: 1.35;
+  margin-top: 5px;
+}

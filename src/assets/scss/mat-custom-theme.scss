@@ -1,0 +1,76 @@
+/*
+ * TEMA PRINCIPALE
+ */
+$material-theme-mrf-primary: mat-palette($mat-blue, 300, 100, 500);
+$material-theme-mrf-accent: mat-palette($mat-pink, 700, 400, 900);
+$material-theme-mrf-warn: mat-palette($mat-deep-orange, 500, 300, 700);
+
+@mixin card-header-underline($color-set, $amount: 500) {
+  $bg-color: map_get($color-set, $amount);
+  .mat-card {
+    .mat-card-header {
+      border: {
+        bottom: {
+          color: $bg-color;
+          width: 3px;
+          style: solid;
+        }
+      }
+    }
+  }
+}
+
+@mixin boxed-fieldset($color-set, $amount: 500) {
+  fieldset.boxed {
+    padding: 1em;
+    border-top: 1px solid map_get($color-set, $amount);
+
+    legend {
+      padding: 0.2em 0.5em;
+      color: map_get($color-set, $amount);
+    }
+  }
+}
+
+@mixin sticky-background($theme) {
+  .sticky > div {
+    $background: map-get($theme, background);
+    background: mat-color($background, card);
+  }
+}
+
+@mixin list-badge($theme) {
+  span.list-badge > span {
+    @include _mat-toolbar-color(map-get($theme, primary));
+
+    &.primary {
+      @include _mat-toolbar-color(map-get($theme, primary));
+    }
+    &.warn {
+      @include _mat-toolbar-color(map-get($theme, warn));
+    }
+    &.accent {
+      @include _mat-toolbar-color(map-get($theme, accent));
+    }
+  }
+}
+
+
+
+@function mat-custom-theme(
+  $primary,
+  $accent,
+  $warn: mat-palette($mat-red),
+  $is-dark: false,
+  $foreground: $mat-light-theme-foreground,
+  $background: $mat-light-theme-background
+) {
+  @return (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    is-dark: $is-dark,
+    foreground: $foreground,
+    background: $background,
+  );
+}

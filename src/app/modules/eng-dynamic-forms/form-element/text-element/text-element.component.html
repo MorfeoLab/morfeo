@@ -1,0 +1,44 @@
+<ng-container *ngIf="!!field">
+  <legend *ngIf="!!displayLegend" class="select-boxes">{{ displayLegend | translate }}</legend>
+  <mat-form-field
+    [floatLabel]="!!displayLegend ? 'never' : 'auto'"
+    class="field full-width"
+    [matTooltip]="(field.tooltip || '') | translate"
+  >
+    <input
+      matInput
+      #inputElement
+      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      [name]="field.key + field.suffix"
+      [type]="inputType"
+      [disabled]="(!!field.input && !!field.disabled && !calcolatoEDisabilitato) || readOnly"
+      [readonly]="calcolatoEDisabilitato"
+      placeholder="{{ displayLabel | translate }}"
+      [pattern]="!!field.validate ? field.validate.pattern : ''"
+      [required]="!!(field.input ? field.validate && field.validate.required : false)"
+      [minlength]="field.validate.minLength"
+      [maxlength]="field.validate.maxLength"
+      [min]="field.validate.min"
+      [max]="field.validate.max"
+
+      #me="ngModel"
+      mrfRegisterForm
+      [registerForm]="formRef"
+      [registerModel]="me"
+
+      mrfValidateCustom
+
+      mrfValidateJsonRule
+      [jsonRule]="field.input ? field.validate.custom : ''"
+      [value]="field.defaultValue || valueNgModel"
+    />
+    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('minlength')">{{'generic.labels.minLength' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('maxlength')">{{'generic.labels.maxLength' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('min')">{{'generic.labels.min' | translate}} {{me.getError('min')}}</mat-error>
+    <mat-error *ngIf="me.hasError('max')">{{'generic.labels.max' | translate}} {{me.getError('max')}}</mat-error>
+    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('pattern')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+  </mat-form-field>
+
+</ng-container>

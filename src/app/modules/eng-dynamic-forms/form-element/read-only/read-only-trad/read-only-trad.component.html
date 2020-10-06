@@ -1,0 +1,17 @@
+<ng-container *ngIf="!!field">
+  <div
+    class="mat-typography"
+    [id]="field.key + field.suffix"
+  >
+    <p>{{field.label | translate}}: {{htmlValue}}</p>
+  </div>
+  <input
+    type="hidden"
+    [name]="field.key + field.suffix"
+    ngModel
+    #me="ngModel"
+    mrfRegisterForm
+    [registerForm]="formRef"
+    [registerModel]="me"/>
+
+</ng-container>

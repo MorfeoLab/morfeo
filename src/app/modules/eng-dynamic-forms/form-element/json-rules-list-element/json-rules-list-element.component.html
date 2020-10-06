@@ -1,0 +1,13 @@
+<app-eng-dynamic-forms [form]="formJson"></app-eng-dynamic-forms>
+<input
+  type="hidden"
+  [(ngModel)]="hiddenControlVal"
+  [name]="field.key + field.suffix"
+  #hiddenElement="ngModel"
+  mrfRegisterForm
+  [registerForm]="formRef"
+  [registerModel]="hiddenElement"
+
+  mrfValidateJsonRule
+  [jsonRule]="field.input ? field.validate.custom : ''"
+/>

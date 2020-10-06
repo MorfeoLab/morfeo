@@ -1,0 +1,38 @@
+table {
+  width: 100%;
+}
+
+.table-container {
+  position: relative;
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+  }
+
+  .empty-shade {
+    @extend .loading-shade;
+    background-color: rgba(255, 255, 255, 0.85);
+    min-height: 100px;
+  }
+}
+
+$aligns: right center left;
+$justify-content: flex-end center flex-start;
+@each $align in $aligns {
+  $i: index($aligns, $align);
+  .align-#{$align} {
+    justify-content: nth($justify-content, $i)
+  }
+}
+
+@import "responsive-table";

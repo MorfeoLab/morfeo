@@ -1,0 +1,64 @@
+<h1 mat-dialog-title><span translate>generic.labels.seleziona</span></h1>
+<div mat-dialog-content [ngClass]="{nascosto: (dataSource.data || []).length === 0}" >
+
+  <table class="full-width" mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="selectDeselect(row, $event)"
+          [checked]="selection.isSelected(row) || isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container
+      [matColumnDef]="column.value"
+      *ngFor="let column of columnsDefinition">
+      <th mat-header-cell *matHeaderCellDef >{{ column.label | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          column.localized ? element[column.value].it : element[column.value]
+        }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      class="cursor-pointer"
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="selection.toggle(row)"
+    ></tr>
+  </table>
+  <div style="display: flex; justify-content: space-between;" >
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="resultsPageSize"
+    [pageIndex]="resultsPageNumber"
+    [length]="resultsLength"
+    showFirstLastButtons
+  ></mat-paginator>
+  </div>
+</div>
+<div *ngIf="(dataSource.data || []).length === 0">
+  <p class="mat-typography" translate>generic.labels.nessunRisultato</p>
+</div>
+<div>
+  <mat-form-field>
+    <input matInput #searchFullText  placeholder="{{'generic.labels.filtra' | translate}}">
+  </mat-form-field>
+  <button mat-button mat-icon-button (click)="searchCodiceDescrizione(searchFullText.value)">
+    <mat-icon>search</mat-icon>
+  </button>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">
+    <mat-icon>clear</mat-icon><span translate>generic.buttons.close</span>
+  </button>
+  <button mat-button [mat-dialog-close]="selection">
+    <mat-icon>save</mat-icon><span translate>generic.buttons.confirm</span>
+  </button>
+</div>

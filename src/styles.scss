@@ -1,0 +1,48 @@
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(https://fonts.gstatic.com/s/materialicons/v21/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons', sans-serif;
+}
+
+
+/**
+ * MAT TABS
+ */
+mat-tab-body {
+  background: linear-gradient(rgba(127, 127, 127, 0.025), rgba(127, 127, 127, 0) 200px);
+}
+mat-tab-group {
+  mat-card.mat-card {
+    background: transparent;
+    box-shadow: none;
+    padding: 10px 5px;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .mat-card-header {
+    .mat-card-title {
+      font-size: 1.2rem;
+      p {
+        margin: 0;
+      }
+    }
+  }
+  .mat-tab-labels {
+    .mat-tab-label {
+      min-width: 100px;
+      height: 28px;
+      padding: 0 10px;
+    }
+  }
+}

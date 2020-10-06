@@ -1,0 +1,12 @@
+.mat-header-row {
+  height: 2em;
+  line-height: 2em;
+}
+.mat-row {
+  @extend .mat-header-row;
+}
+
+
+.nascosto{
+  display: none;
+}

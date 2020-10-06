@@ -1,0 +1,64 @@
+
+
+
+/** **********************
+ *  DEFAULT THEME
+ ** ********************** */
+$main-color: $mat-light-blue;
+$secondary-color: map-get($mat-light-blue, 900);
+$default-theme: mat-dark-theme(
+    $material-theme-mrf-primary,
+    $material-theme-mrf-accent,
+    $material-theme-mrf-warn
+);
+@include angular-material-theme($default-theme);
+@include sticky-background($default-theme);
+@include  list-badge($default-theme);
+
+
+.breadcrumb-item {
+  color: mat-contrast($material-theme-mrf-primary, 500);
+  .mat-button-wrapper > span::after {
+    content: '/';
+    display: inline-block;
+    transform: translateX(16px);
+  }
+
+  &[disabled] {
+    * {
+      color: mat-contrast($material-theme-mrf-primary, 500);
+    }
+
+    .mat-button-wrapper > span::after {
+      content: '';
+    }
+  }
+}
+
+.mat-form-field-label {
+  overflow: visible !important;
+}
+.mat-tab-label {
+  color: map_get($material-theme-mrf-primary, 500);
+}
+.mat-cell, .mat-header-cell {
+  padding: 0.6em 0.6em 0.6em 0;
+}
+span.mat-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-nav-list a.active {
+  background: map_get($main-color, 100);
+  color: mat_contrast($main-color, 100);
+}
+@include boxed-fieldset($material-theme-mrf-primary);
+
+.step-bar-disabled {
+  color: map_get($mat-dark-theme-foreground, disabled);
+}
+.sidenav-container .mat-drawer.mat-drawer-side  {
+  z-index: 1;
+}

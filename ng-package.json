@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "public_api.ts",
+    "umdModuleIds": {
+      "json-logic-js/logic": "jsonLogic",
+      "dot-object/dist/dot-object": "dotObject",
+      "@ngx-translate/core": "ngxTranslate",
+      "util": "morfeoUtil",
+      "@ngx-translate/http-loader": "httpLoader"
+    }
+  }
+}

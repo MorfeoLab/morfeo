@@ -1,0 +1,22 @@
+<ng-container *ngIf="!!table">
+  <div class="table-container">
+    <table>
+      <thead *ngIf="table.header && table.header.length>0" >
+        <tr class="header-row">
+          <td *ngFor="let header of table.header">{{header}}</td>
+        </tr>
+      </thead>
+      <tr *ngFor="let row of table.rows">{{table.suffix}}
+        <td *ngFor="let col of row">
+          <mrf-element-wrapper
+            [component]="component"
+            [formRef]="formRef"
+            [externalData]="externalData"
+            [readOnly]="!!component.readOnly || readOnly"
+            *ngFor="let component of col.components;"
+          ></mrf-element-wrapper>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ng-container>

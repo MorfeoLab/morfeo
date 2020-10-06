@@ -1,0 +1,7 @@
+<ng-container *ngIf="!!field">
+  <div
+    class="mat-typography"
+    [innerHTML]="decodeURI( ( field.content | translatable) || (field.html | stringToHtml) )"
+    *ngIf="field.content || field.html"
+  ></div>
+</ng-container>
