@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TranslatablePipe } from './modules/eng-dynamic-forms/shared/pipes/translatable/translatable.pipe';
-import { TestComponentComponent } from './modules/eng-dynamic-forms/test-component/test-component.component';
-import { EngDynamicFormsModule } from './modules/eng-dynamic-forms/eng-dynamic-forms.module';
+import {TestComponentComponent} from './modules/mrf-form/test-component/test-component.component';
+import {MrfFormModule} from './modules/mrf-form/mrf-form.module';
+import {TranslatablePipe} from './modules/mrf-form/shared/pipes/translatable/translatable.pipe';
 
 export const routes: Routes = [
   {
@@ -17,7 +17,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), EngDynamicFormsModule],
+  imports: [RouterModule.forRoot(routes), MrfFormModule],
   exports: [RouterModule],
   providers: [TranslatablePipe]
 })

@@ -1,5 +1,5 @@
 import {MaterialImportsModule} from '../imports/material-imports.module';
-import {EngDynamicFormsComponent} from './eng-dynamic-forms.component';
+import {MrfFormComponent} from './mrf-form.component';
 import {DebugObjectComponent} from './shared/components/debug-object/debug-object.component';
 import {ModalComponent} from './shared/components/modal/modal.component';
 import {StringToHtmlPipe} from './shared/pipes/string-to-html/string-to-html.pipe';
@@ -39,14 +39,6 @@ import {UploadElementComponent} from './form-element/upload-element/upload-eleme
 import {UploadConfirmComponent} from './form-element/upload-element/upload-confirm/upload-confirm.component';
 import {WysiwygElementComponent} from './form-element/wysiwyg-element/wysiwyg-element.component';
 import {TextMultilinguaComponent} from './form-element/text-multilingua/text-multilingua.component';
-
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-
-import {NgModule} from '@angular/core';
 import {ValidateJsonRuleDirective} from './shared/directives/validate-json-rule/validate-json-rule.directive';
 import {SnackBarCustomComponent} from './shared/components/snack-bar-custom/snack-bar-custom.component';
 import {JsonRuleElementComponent} from './form-element/json-rule-element/json-rule-element.component';
@@ -58,15 +50,21 @@ import {OnlyBooleanPipe} from './shared/pipes/only-boolean/only-boolean.pipe';
 import {UploadValidationDirective} from './form-element/upload-element/upload-validation.directive';
 import {ReadOnlyWysiwygComponent} from './form-element/read-only/read-only-wysiwyg/read-only-wysiwyg.component';
 import {HtmlBoxElementComponent} from './form-element/html-box-element/html-box-element.component';
-import {RouterModule} from '@angular/router';
 import {ElementWrapperComponent} from './form-element/element-wrapper/element-wrapper.component';
-import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {CacheRegistryInterceptor} from './cache/cache-registry.interceptor';
 import {DataTableComponent} from './form-element/data-table/data-table.component';
 import {GenericButtonComponent} from './shared/components/generic-button/generic-button.component';
 import {TextElementComponent} from './form-element/text-element/text-element.component';
 import { DatetimeElementComponent } from './form-element/datetime-element/datetime-element.component';
 import {ValidateCustomDirective} from './shared/directives/validate-custom/validate-custom.directive';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -84,7 +82,7 @@ export const declarationList = [
   DataTableComponent,
   DateElementComponent,
   DebugObjectComponent,
-  EngDynamicFormsComponent,
+  MrfFormComponent,
   FormElementComponent,
   HtmlBoxElementComponent,
   HtmlElementComponent,
@@ -154,7 +152,7 @@ export const exportsList = [
   ComboElementComponent,
   DateElementComponent,
   DebugObjectComponent,
-  EngDynamicFormsComponent,
+  MrfFormComponent,
   FormElementComponent,
   HtmlElementComponent,
   JsonRuleElementComponent,
@@ -246,7 +244,7 @@ export const entryComponentsList = [
   WysiwygElementComponent,
 ];
 
-// TODO - check if we need to export all components or just EngDynamicFormsComponent
+// TODO - check if we need to export all components or just MrfFormComponent
 @NgModule({
   declarations: [
     declarationList,
@@ -262,5 +260,5 @@ export const entryComponentsList = [
   providers: providersList,
   entryComponents: entryComponentsList
 })
-export class EngDynamicFormsModule {
+export class MrfFormModule {
 }

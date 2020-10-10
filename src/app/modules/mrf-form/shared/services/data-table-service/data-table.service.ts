@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {IFormAjaxResponse} from '../../models/form-element.model';
-import {EngDynamicFormsComponent} from '../../../eng-dynamic-forms.component';
+import {MrfFormComponent} from '../../../mrf-form.component';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class DataTableService {
   private rendererList: any = {};
   private responseList: any = {};
   private buttonVisibilityList: any = {};
-  private searchFormRef: { [key: string]: EngDynamicFormsComponent } = {}
+  private searchFormRef: { [key: string]: MrfFormComponent } = {}
 
   private dataEmitter: {
     [key: string]: EventEmitter<any[]>
@@ -21,8 +21,6 @@ export class DataTableService {
 
   /**
    * Imposta una callback da richiamare al click su un pulsante
-   * @param path
-   * @param callback
    */
   public setCallback(path: string[], callback: (a) => void): void {
     this.callbackList[path.join('.')] = callback;
@@ -30,7 +28,6 @@ export class DataTableService {
 
   /**
    * Restituisce il riferimento alla callback registrata, se esiste
-   * @param path
    */
   public getCallback(path: string[]): (a) => void {
     const callbackId = path.join('.');
@@ -42,8 +39,6 @@ export class DataTableService {
 
   /**
    * Imposta una callback da richiamare per il rendering del contentuo di una cella
-   * @param id
-   * @param callback
    */
   public setRenderer(id: string, callback: (a) => string): void {
     this.rendererList[id] = callback;
@@ -51,7 +46,6 @@ export class DataTableService {
 
   /**
    * Restituisce un riferimento alla callback registrata, se esiste
-   * @param id
    */
   public getRenderer(id: string): (a) => string {
     if (this.rendererList.hasOwnProperty(id)) {
@@ -62,8 +56,6 @@ export class DataTableService {
 
   /**
    * Imposta una callback da richiamare per la gestione di una risposta HTTP
-   * @param id
-   * @param callback
    */
   public setResponseHandler(id: string, callback: (res) => IFormAjaxResponse<any>) {
     this.responseList[id] = callback;
@@ -71,7 +63,6 @@ export class DataTableService {
 
   /**
    * Restituisce un riferimento alla callback registrata, se esiste
-   * @param id
    */
   public getResponseHandler(key: string): (res) => IFormAjaxResponse<any> {
     if (this.responseList.hasOwnProperty(key)) {
@@ -82,7 +73,7 @@ export class DataTableService {
 
   public getRequestFilter(filterFields: any): string {
     let response = '';
-    for (let key in filterFields) {
+    for (const key in filterFields) {
       if (filterFields.hasOwnProperty(key)) {
         if (null !== filterFields[key]) {
           /// @todo: alcuni campi non hanno stringa come valore e qui scrive [Object object] (ad esempio Autocomplete)
@@ -93,11 +84,11 @@ export class DataTableService {
     return response;
   }
 
-  public setFormRef(key: string, f: EngDynamicFormsComponent) {
+  public setFormRef(key: string, f: MrfFormComponent) {
     this.searchFormRef[key] = f;
   }
 
-  public getFormRef(key: string): EngDynamicFormsComponent {
+  public getFormRef(key: string): MrfFormComponent {
     return this.searchFormRef[key];
   }
 

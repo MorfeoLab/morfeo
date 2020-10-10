@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {IForm, IFormElement} from '../../../shared/models/form-element.model';
-import {EngDynamicFormsComponent, FormContainerConfig} from '../../../eng-dynamic-forms.component';
+import {MrfFormComponent, FormContainerConfig} from '../../../mrf-form.component';
 import {NgForm} from '@angular/forms';
 import {JsonLogicNode} from '../../json-rule-element/json-rule-element.component';
 import {DataService} from '../../../shared/services/data-service/data-service.service';
@@ -23,7 +23,7 @@ export class ObjRulesModalComponent implements AfterViewInit {
   private filteredOptions: any[];
   public defaultValueRadioButton = "true";
 
-  @ViewChild (EngDynamicFormsComponent, {static: false}) private formContainer: EngDynamicFormsComponent;
+  @ViewChild (MrfFormComponent, {static: false}) private formContainer: MrfFormComponent;
 
   constructor(
     @Inject (MAT_DIALOG_DATA) public data: any,

@@ -2,12 +2,12 @@ import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChi
 import {NgForm} from '@angular/forms';
 import {IForm, IFormAjaxResponse, IFormOptions} from '../shared/models/form-element.model';
 import {TabsService} from '../shared/services/tabs/tabs.service';
-import {EngDynamicFormsComponent, FormContainerConfig} from '../eng-dynamic-forms.component';
+import {MrfFormComponent, FormContainerConfig} from '../mrf-form.component';
 import {DataService} from '../shared/services/data-service/data-service.service';
-import {HttpClient, HttpResponse} from "@angular/common/http";
 import {DataTableService} from '../shared/services/data-table-service/data-table.service';
 import {DatepickerService} from '../shared/services/datepicker-service/datepicker.service';
 import {UploaderService} from '../shared/services/uploader.service';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 
 @Component({
@@ -23,9 +23,9 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   public searchForm: IForm;
   public searchForm2: IForm;
   public formRef: NgForm;
-  @ViewChild('form1', {static: true}) public formContainer: EngDynamicFormsComponent;
+  @ViewChild('form1', {static: true}) public formContainer: MrfFormComponent;
   @ViewChild('form1', {static: true}) public asd: ElementRef;
-  @ViewChild('form2') public formContainer2: EngDynamicFormsComponent;
+  @ViewChild('form2') public formContainer2: MrfFormComponent;
 
   public elementAvailable: IFormOptions[] = [];
 
@@ -46,58 +46,46 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
         this.applyFilter();
         this.dataTableService.setData('table1', [
           {
-            "id": 1,
-            "first_name": "Sgracchio",
-            "last_name": "Tuting",
-            "email": "dtuting0@dropbox.com"
+            id: 3,
+            first_name: 'Morvo',
+            last_name: 'Fennelly',
+            email: 'efennelly2@ucoz.com'
           },
           {
-            "id": 2,
-            "first_name": "Pirito",
-            "last_name": "Egger",
-            "email": "hegger1@soup.io"
+            id: 4,
+            first_name: 'Brontolo',
+            last_name: 'Tuting',
+            email: 'dtuting0@dropbox.com'
           },
           {
-            "id": 3,
-            "first_name": "Morvo",
-            "last_name": "Fennelly",
-            "email": "efennelly2@ucoz.com"
+            id: 5,
+            first_name: 'Pisolo',
+            last_name: 'Egger',
+            email: 'hegger1@soup.io'
           },
           {
-            "id": 4,
-            "first_name": "Brontolo",
-            "last_name": "Tuting",
-            "email": "dtuting0@dropbox.com"
+            id: 6,
+            first_name: 'Eolo',
+            last_name: 'Fennelly',
+            email: 'efennelly2@ucoz.com'
           },
           {
-            "id": 5,
-            "first_name": "Pisolo",
-            "last_name": "Egger",
-            "email": "hegger1@soup.io"
+            id: 7,
+            first_name: 'Mammolo',
+            last_name: 'Tuting',
+            email: 'dtuting0@dropbox.com'
           },
           {
-            "id": 6,
-            "first_name": "Eolo",
-            "last_name": "Fennelly",
-            "email": "efennelly2@ucoz.com"
+            id: 8,
+            first_name: 'Cucciolo',
+            last_name: 'Egger',
+            email: 'hegger1@soup.io'
           },
           {
-            "id": 7,
-            "first_name": "Mammolo",
-            "last_name": "Tuting",
-            "email": "dtuting0@dropbox.com"
-          },
-          {
-            "id": 8,
-            "first_name": "Cucciolo",
-            "last_name": "Egger",
-            "email": "hegger1@soup.io"
-          },
-          {
-            "id": 9,
-            "first_name": "Dotto",
-            "last_name": "Fennelly",
-            "email": "efennelly2@ucoz.com"
+            id: 9,
+            first_name: 'Dotto',
+            last_name: 'Fennelly',
+            email: 'efennelly2@ucoz.com'
           }
         ])
       },
@@ -145,68 +133,68 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
 
   setSearchForm() {
     this.searchForm = {
-      "components": [
+      components: [
         {
-          "type": "select",
-          "label": "Esito Istruttoria",
-          "key": "esito",
-          "dataSrc": "values",
-          "data": {
-            "values": [
+          type: 'select',
+          label: 'Esito Istruttoria',
+          key: 'esito',
+          dataSrc: 'values',
+          data: {
+            values: [
               {
-                "value": null,
-                "label": ""
+                value: null,
+                label: ''
               },
               {
-                "value": "A",
-                "label": "Istruttoria con esito positivo"
+                value: 'A',
+                label: 'Istruttoria con esito positivo'
               },
               {
-                "value": "I",
-                "label": "Richiesta di integrazioni"
+                value: 'I',
+                label: 'Richiesta di integrazioni'
               },
               {
-                "value": "R",
-                "label": "Istruttoria con esito negativo"
+                value: 'R',
+                label: 'Istruttoria con esito negativo'
               }
             ]
           },
-          "validate": {
-            "required": true
+          validate: {
+            required: true
           }
         },
         {
-          "type": "textarea",
-          "label": "Note pubbliche",
-          "key": "notePubbliche",
-          "validate": {
-            "required":  "[{\"!\":[{\"==\":[{\"var\":\"esito\"},\"A\"]}]}]"
+          type: 'textarea',
+          label: 'Note pubbliche',
+          key: 'notePubbliche',
+          validate: {
+            required:  '[{"!":[{"==":[{"var":"esito"},"A"]}]}]'
           }
         },
         {
-          "type": "textarea",
-          "label": "Note interne",
-          "key": "notePrivate"
+          type: 'textarea',
+          label: 'Note interne',
+          key: 'notePrivate'
         },
         {
-          "key": "esitoPdf",
-          "type": "file",
-          "label": "Carica PDF firmato",
-          "downloadFile": "#",
-          "target": "/documento/esito/integrazioni/{idIstanza}",
-          "deleteUrl": "",
-          "hidden": "[{\"and\":[{\"!=\":[{\"var\":\"esito\"},\"I\"]},{\"!=\":[{\"var\":\"esito\"},\"R\"]}]}]",
-          "singleUpload": true,
-          "validate": {
-            "required": true,
-            "pattern": ".pdf",
-            "custom": ""
+          key: 'esitoPdf',
+          type: 'file',
+          label: 'Carica PDF firmato',
+          downloadFile: '#',
+          target: '/documento/esito/integrazioni/{idIstanza}',
+          deleteUrl: '',
+          hidden: '[{"and":[{"!=":[{"var":"esito"},"I"]},{"!=":[{"var":"esito"},"R"]}]}]',
+          singleUpload: true,
+          validate: {
+            required: true,
+            pattern: '.pdf',
+            custom: ''
           },
-          "suffix": "",
-          "defaultValue": null,
-          "input": true,
-          "data": {},
-          "disabled": false
+          suffix: '',
+          defaultValue: null,
+          input: true,
+          data: {},
+          disabled: false
         }
       ]
     }
@@ -267,22 +255,22 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
 
   callMeBaby() {
     console.log(this.formRef.valid);
-    this.uploadService.setDownload("esitoPdf", "http://www.google.com");
+    this.uploadService.setDownload('esitoPdf', 'http://www.google.com');
   }
 
   post1() {
-    this.httpClient.post("https://reqres.in/api/users", {
-      "name": "morpheus",
-      "job": "leader"
+    this.httpClient.post('https://reqres.in/api/users', {
+      name: 'morpheus',
+      job: 'leader'
     }).subscribe((value => {
       console.log(value)
     }))
   }
 
   post2() {
-    this.httpClient.post("https://reqres.in/api/users", {
-      "name": "tamatrz",
-      "job": "tm3"
+    this.httpClient.post('https://reqres.in/api/users', {
+      name: 'tamatrz',
+      job: 'tm3'
     }).subscribe((value => {
       console.log(value)
     }))

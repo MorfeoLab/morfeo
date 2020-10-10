@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IForm, IFormElement} from '../../shared/models/form-element.model';
 import {NgForm} from '@angular/forms';
-import {EngDynamicFormsComponent} from '../../eng-dynamic-forms.component';
+import {MrfFormComponent} from '../../mrf-form.component';
 
 @Component({
   selector: 'mrf-json-rules-list-element',
@@ -29,7 +29,7 @@ export class JsonRulesListElementComponent implements OnInit, AfterViewInit {
 
   public hiddenControlVal: any;
 
-  @ViewChild(EngDynamicFormsComponent) private formElement: EngDynamicFormsComponent;
+  @ViewChild(MrfFormComponent) private formElement: MrfFormComponent;
 
   constructor(
     private changeDetector: ChangeDetectorRef

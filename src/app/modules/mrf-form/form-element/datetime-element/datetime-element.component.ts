@@ -3,7 +3,7 @@ import {IFormElement} from '../../shared/models/form-element.model';
 import {NgForm} from '@angular/forms';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {ValueService} from '../../shared/services/value/value.service';
-import {EngDynamicFormsComponent} from '../../eng-dynamic-forms.component';
+import {MrfFormComponent} from '../../mrf-form.component';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {EngDynamicFormsComponent} from '../../eng-dynamic-forms.component';
   styleUrls: ['./datetime-element.component.scss'],
   viewProviders: [
     {
-      provide: EngDynamicFormsComponent,
+      provide: MrfFormComponent,
       useExisting: NgForm
     }
   ]
@@ -60,7 +60,6 @@ export class DatetimeElementComponent implements AfterViewInit, AfterContentChec
       this.displayLabel = this.translatable.transform(this.field.label);
       this.displayLegend = this.translatable.transform(this.field.legend);
     }
-    debugger;
 
     if (!!this.field.calculatedValue) {
       if (!!this.field.disabled) {
@@ -94,7 +93,7 @@ export class DatetimeElementComponent implements AfterViewInit, AfterContentChec
           try {
             const splitted = this.field.jsonLogic.validate.split('{"regex": ["');
             const splitted2 = splitted[1].split('", "{var:"');
-            let regex = splitted2[0];
+            const regex = splitted2[0];
             this.field.validate.pattern = regex;
           } catch (e) {
             console.warn('Error on ' + this.field.key);

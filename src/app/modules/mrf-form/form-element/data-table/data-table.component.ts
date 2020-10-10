@@ -3,7 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {IForm, IFormAjaxResponse, IFormElement, IFormTableColumn} from '../../shared/models/form-element.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {EngDynamicFormsComponent, FormContainerConfig} from '../../eng-dynamic-forms.component';
+import {MrfFormComponent, FormContainerConfig} from '../../mrf-form.component';
 import {DataTableService} from '../../shared/services/data-table-service/data-table.service';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
@@ -21,7 +21,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[];
   columns: IFormTableColumn[] = [];
 
-  @ViewChild(EngDynamicFormsComponent) filterFormRef: EngDynamicFormsComponent;
+  @ViewChild(MrfFormComponent) filterFormRef: MrfFormComponent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 

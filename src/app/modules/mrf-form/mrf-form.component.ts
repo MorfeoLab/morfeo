@@ -16,11 +16,11 @@ import {ExternalDataService} from "./shared/services/external-data.service";
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-eng-dynamic-forms, mrf-form',
-  templateUrl: './eng-dynamic-forms.component.html',
-  styleUrls: ['./eng-dynamic-forms.component.scss'],
+  templateUrl: './mrf-form.component.html',
+  styleUrls: ['./mrf-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class EngDynamicFormsComponent implements OnDestroy, OnInit {
+export class MrfFormComponent implements OnDestroy, OnInit {
   /**
    * La definizione JSON del form da costruire
    */

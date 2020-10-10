@@ -1,7 +1,7 @@
 import {AfterContentChecked, AfterViewInit, Component, Input} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {IFormElement} from '../../shared/models/form-element.model';
-import {EngDynamicFormsComponent} from '../../eng-dynamic-forms.component';
+import {MrfFormComponent} from '../../mrf-form.component';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {ValueService} from '../../shared/services/value/value.service';
 
@@ -11,7 +11,7 @@ import {ValueService} from '../../shared/services/value/value.service';
   styleUrls: ['./text-element.component.scss'],
   viewProviders: [
     {
-      provide: EngDynamicFormsComponent,
+      provide: MrfFormComponent,
       useExisting: NgForm
     }
   ]
