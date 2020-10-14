@@ -19,9 +19,12 @@ export class TranslatablePipe implements PipeTransform {
       return '';
     }
 
-    // se il valore è una stringa, ritorna il valore stesso
     if (typeof value === 'string') {
+      // se il valore è una stringa, ritorna il valore stesso
       return value;
+    } else if (typeof value === 'number') {
+      /// se il valore è un numero, ritorna una stringa contenente il numero
+      return String(value);
     }
 
     const defaultLang = this.ts.getDefaultLang();
