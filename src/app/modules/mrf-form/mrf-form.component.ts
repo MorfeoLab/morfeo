@@ -11,11 +11,10 @@ import {UploaderService} from './shared/services/uploader.service';
 import {ResetOnChangeService} from './shared/services/reset-on-change.service';
 import {MatSelect} from '@angular/material/select';
 import {ValueService} from './shared/services/value/value.service';
-import {ExternalDataService} from "./shared/services/external-data.service";
+import {ExternalDataService} from './shared/services/external-data.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'app-eng-dynamic-forms, mrf-form',
+  selector: 'mrf-form',
   templateUrl: './mrf-form.component.html',
   styleUrls: ['./mrf-form.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -324,3 +323,13 @@ export interface ButtonConfig {
   icon?: string;
   callback?: () => void;
 }
+
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'app-eng-dynamic-forms',
+  templateUrl: './mrf-form.component.html',
+  styleUrls: ['./mrf-form.component.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class EngDynamicFormsComponent extends MrfFormComponent {}

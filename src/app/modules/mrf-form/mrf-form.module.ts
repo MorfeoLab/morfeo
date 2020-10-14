@@ -1,5 +1,5 @@
 import {MaterialImportsModule} from '../imports/material-imports.module';
-import {MrfFormComponent} from './mrf-form.component';
+import {EngDynamicFormsComponent, MrfFormComponent} from './mrf-form.component';
 import {DebugObjectComponent} from './shared/components/debug-object/debug-object.component';
 import {ModalComponent} from './shared/components/modal/modal.component';
 import {StringToHtmlPipe} from './shared/pipes/string-to-html/string-to-html.pipe';
@@ -55,7 +55,7 @@ import {CacheRegistryInterceptor} from './cache/cache-registry.interceptor';
 import {DataTableComponent} from './form-element/data-table/data-table.component';
 import {GenericButtonComponent} from './shared/components/generic-button/generic-button.component';
 import {TextElementComponent} from './form-element/text-element/text-element.component';
-import { DatetimeElementComponent } from './form-element/datetime-element/datetime-element.component';
+import {DatetimeElementComponent} from './form-element/datetime-element/datetime-element.component';
 import {ValidateCustomDirective} from './shared/directives/validate-custom/validate-custom.directive';
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
@@ -67,198 +67,200 @@ import {CommonModule} from '@angular/common';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 export const COMBO_ELEMENT_VALUE = {};
 
 export const declarationList = [
-  AutocompleteElementComponent,
-  ButtonElementComponent,
-  BytesPipe,
-  CheckboxElementComponent,
-  ChipsElementComponent,
-  ComboElementComponent,
-  DataTableComponent,
-  DateElementComponent,
-  DebugObjectComponent,
-  MrfFormComponent,
-  FormElementComponent,
-  HtmlBoxElementComponent,
-  HtmlElementComponent,
-  JsonRuleElementComponent,
-  JsonRulesListElementComponent,
-  LayoutColumnsComponent,
-  LayoutContainerComponent,
-  LayoutFieldsetComponent,
-  LayoutTablesComponent,
-  LayoutTabsComponent,
-  ListModalComponent,
-  MapElementComponent,
-  ModalComponent,
-  ObjectListComponent,
-  ObjectListModalComponent,
-  ObjectListSelectorComponent,
-  ObjectListSelectorModalComponent,
-  ObjRulesModalComponent,
-  OnlyBooleanPipe,
-  RadioElementComponent,
-  ReadOnlyComponent,
-  ReadOnlyKeyvalueComponent,
-  ReadOnlyTradComponent,
-  ReadOnlyFileComponent,
-  ReadOnlyDateComponent,
-  ReadOnlyObjectlistComponent,
-  ReadOnlyWysiwygComponent,
-  RegisterFormModelDirective,
-  RepeatableContainerComponent,
-  SelectBoxesComponent,
-  SnackBarCustomComponent,
-  StringToHtmlPipe,
-  TestComponentComponent,
-  TextAreaElementComponent,
-  TextElementComponent,
-  TextMultilinguaComponent,
-  TooltipButtonComponent,
-  TranslatablePipe,
-  UploadConfirmComponent,
-  UploadElementComponent,
-  UploadValidationDirective,
-  ValidateCustomDirective,
-  ValidateJsonRuleDirective,
-  WysiwygElementComponent
+    AutocompleteElementComponent,
+    ButtonElementComponent,
+    BytesPipe,
+    CheckboxElementComponent,
+    ChipsElementComponent,
+    ComboElementComponent,
+    DataTableComponent,
+    DateElementComponent,
+    DebugObjectComponent,
+    EngDynamicFormsComponent,
+    MrfFormComponent,
+    FormElementComponent,
+    HtmlBoxElementComponent,
+    HtmlElementComponent,
+    JsonRuleElementComponent,
+    JsonRulesListElementComponent,
+    LayoutColumnsComponent,
+    LayoutContainerComponent,
+    LayoutFieldsetComponent,
+    LayoutTablesComponent,
+    LayoutTabsComponent,
+    ListModalComponent,
+    MapElementComponent,
+    ModalComponent,
+    ObjectListComponent,
+    ObjectListModalComponent,
+    ObjectListSelectorComponent,
+    ObjectListSelectorModalComponent,
+    ObjRulesModalComponent,
+    OnlyBooleanPipe,
+    RadioElementComponent,
+    ReadOnlyComponent,
+    ReadOnlyKeyvalueComponent,
+    ReadOnlyTradComponent,
+    ReadOnlyFileComponent,
+    ReadOnlyDateComponent,
+    ReadOnlyObjectlistComponent,
+    ReadOnlyWysiwygComponent,
+    RegisterFormModelDirective,
+    RepeatableContainerComponent,
+    SelectBoxesComponent,
+    SnackBarCustomComponent,
+    StringToHtmlPipe,
+    TestComponentComponent,
+    TextAreaElementComponent,
+    TextElementComponent,
+    TextMultilinguaComponent,
+    TooltipButtonComponent,
+    TranslatablePipe,
+    UploadConfirmComponent,
+    UploadElementComponent,
+    UploadValidationDirective,
+    ValidateCustomDirective,
+    ValidateJsonRuleDirective,
+    WysiwygElementComponent
 ];
 
 export const importsList = [
-  CommonModule,
-  ReactiveFormsModule,
-  MaterialImportsModule,
-  FormsModule,
-  HttpClientModule,
-  TranslateModule.forRoot({
-    loader: {
-      provide: TranslateLoader,
-      useFactory: HttpLoaderFactory,
-      deps: [HttpClient]
-    }
-  })
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialImportsModule,
+    FormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+        }
+    })
 ];
 
 export const exportsList = [
-  AutocompleteElementComponent,
-  ButtonElementComponent,
-  CheckboxElementComponent,
-  ChipsElementComponent,
-  ComboElementComponent,
-  DateElementComponent,
-  DebugObjectComponent,
-  MrfFormComponent,
-  FormElementComponent,
-  HtmlElementComponent,
-  JsonRuleElementComponent,
-  JsonRulesListElementComponent,
-  MapElementComponent,
-  OnlyBooleanPipe,
-  RadioElementComponent,
-  ReadOnlyComponent,
-  ReadOnlyDateComponent,
-  ReadOnlyFileComponent,
-  ReadOnlyKeyvalueComponent,
-  ReadOnlyObjectlistComponent,
-  ReadOnlyTradComponent,
-  ReadOnlyWysiwygComponent,
-  RepeatableContainerComponent,
-  SelectBoxesComponent,
-  TextAreaElementComponent,
-  TextElementComponent,
-  TextMultilinguaComponent,
-  TooltipButtonComponent,
-  TranslatablePipe,
-  UploadConfirmComponent,
-  WysiwygElementComponent
+    AutocompleteElementComponent,
+    ButtonElementComponent,
+    CheckboxElementComponent,
+    ChipsElementComponent,
+    ComboElementComponent,
+    DateElementComponent,
+    DebugObjectComponent,
+    EngDynamicFormsComponent,
+    MrfFormComponent,
+    FormElementComponent,
+    HtmlElementComponent,
+    JsonRuleElementComponent,
+    JsonRulesListElementComponent,
+    MapElementComponent,
+    OnlyBooleanPipe,
+    RadioElementComponent,
+    ReadOnlyComponent,
+    ReadOnlyDateComponent,
+    ReadOnlyFileComponent,
+    ReadOnlyKeyvalueComponent,
+    ReadOnlyObjectlistComponent,
+    ReadOnlyTradComponent,
+    ReadOnlyWysiwygComponent,
+    RepeatableContainerComponent,
+    SelectBoxesComponent,
+    TextAreaElementComponent,
+    TextElementComponent,
+    TextMultilinguaComponent,
+    TooltipButtonComponent,
+    TranslatablePipe,
+    UploadConfirmComponent,
+    WysiwygElementComponent
 ];
 
 export const providersList = [
-  TranslatablePipe,
-  OnlyBooleanPipe,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: CacheRegistryInterceptor,
-    multi: true
-  },
-  {
-    provide: ComboElementComponent,
-    useValue: COMBO_ELEMENT_VALUE
-  },
-  {
-    provide: MAT_DATE_LOCALE,
-    useValue: 'it'
-  },
+    TranslatablePipe,
+    OnlyBooleanPipe,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: CacheRegistryInterceptor,
+        multi: true
+    },
+    {
+        provide: ComboElementComponent,
+        useValue: COMBO_ELEMENT_VALUE
+    },
+    {
+        provide: MAT_DATE_LOCALE,
+        useValue: 'it'
+    },
 ];
 
 export const entryComponentsList = [
-  /// MODALS
-  ListModalComponent,
-  SnackBarCustomComponent,
-  ObjectListSelectorModalComponent,
-  ObjectListModalComponent,
-  ObjRulesModalComponent,
-  UploadConfirmComponent,
-  /// LAYOUTS
-  LayoutColumnsComponent,
-  LayoutContainerComponent,
-  LayoutFieldsetComponent,
-  RepeatableContainerComponent,
-  LayoutTablesComponent,
-  LayoutTabsComponent,
-  LayoutContainerComponent,
-  /// FIELDS
-  AutocompleteElementComponent,
-  ButtonElementComponent,
-  CheckboxElementComponent,
-  ChipsElementComponent,
-  ComboElementComponent,
-  DateElementComponent,
-  JsonRuleElementComponent,
-  JsonRulesListElementComponent,
-  MapElementComponent,
-  ObjectListSelectorComponent,
-  ObjectListComponent,
-  RadioElementComponent,
-  SelectBoxesComponent,
-  TextAreaElementComponent,
-  TextElementComponent,
-  TextMultilinguaComponent,
-  UploadElementComponent,
-  /// READ ONLY
-  ReadOnlyComponent,
-  ReadOnlyKeyvalueComponent,
-  ReadOnlyTradComponent,
-  ReadOnlyFileComponent,
-  ReadOnlyDateComponent,
-  ReadOnlyObjectlistComponent,
-  ReadOnlyWysiwygComponent,
-  /// EXTRAS
-  HtmlBoxElementComponent,
-  HtmlElementComponent,
-  WysiwygElementComponent,
+    /// MODALS
+    ListModalComponent,
+    SnackBarCustomComponent,
+    ObjectListSelectorModalComponent,
+    ObjectListModalComponent,
+    ObjRulesModalComponent,
+    UploadConfirmComponent,
+    /// LAYOUTS
+    LayoutColumnsComponent,
+    LayoutContainerComponent,
+    LayoutFieldsetComponent,
+    RepeatableContainerComponent,
+    LayoutTablesComponent,
+    LayoutTabsComponent,
+    LayoutContainerComponent,
+    /// FIELDS
+    AutocompleteElementComponent,
+    ButtonElementComponent,
+    CheckboxElementComponent,
+    ChipsElementComponent,
+    ComboElementComponent,
+    DateElementComponent,
+    JsonRuleElementComponent,
+    JsonRulesListElementComponent,
+    MapElementComponent,
+    ObjectListSelectorComponent,
+    ObjectListComponent,
+    RadioElementComponent,
+    SelectBoxesComponent,
+    TextAreaElementComponent,
+    TextElementComponent,
+    TextMultilinguaComponent,
+    UploadElementComponent,
+    /// READ ONLY
+    ReadOnlyComponent,
+    ReadOnlyKeyvalueComponent,
+    ReadOnlyTradComponent,
+    ReadOnlyFileComponent,
+    ReadOnlyDateComponent,
+    ReadOnlyObjectlistComponent,
+    ReadOnlyWysiwygComponent,
+    /// EXTRAS
+    HtmlBoxElementComponent,
+    HtmlElementComponent,
+    WysiwygElementComponent,
 ];
 
 // TODO - check if we need to export all components or just MrfFormComponent
 @NgModule({
-  declarations: [
-    declarationList,
-    ElementWrapperComponent,
-    GenericButtonComponent,
-    DatetimeElementComponent
-  ],
-  imports: [
-    importsList,
-    RouterModule
-  ],
-  exports: exportsList,
-  providers: providersList,
-  entryComponents: entryComponentsList
+    declarations: [
+        declarationList,
+        ElementWrapperComponent,
+        GenericButtonComponent,
+        DatetimeElementComponent
+    ],
+    imports: [
+        importsList,
+        RouterModule
+    ],
+    exports: exportsList,
+    providers: providersList,
+    entryComponents: entryComponentsList
 })
 export class MrfFormModule {
 }
