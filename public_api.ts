@@ -1,6 +1,8 @@
 export * from './src/app/modules/mrf-form/mrf-form.module';
 // Form Elements
-export {MrfFormComponent, EngDynamicFormsComponent} from './src/app/modules/mrf-form/mrf-form.component';
+export {
+    MrfFormComponent, EngDynamicFormsComponent, FormContainerConfig, ButtonConfig
+} from './src/app/modules/mrf-form/mrf-form.component';
 export * from './src/app/modules/mrf-form/form-element/form-element.component';
 export * from './src/app/modules/mrf-form/form-element/tooltip-button/tooltip-button.component';
 export * from './src/app/modules/mrf-form/layout/repeatable-container/repeatable-container.component';
