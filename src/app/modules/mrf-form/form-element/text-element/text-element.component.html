@@ -18,6 +18,7 @@
       [required]="!!(field.input ? field.validate && field.validate.required : false)"
       [minlength]="field.validate.minLength"
       [maxlength]="field.validate.maxLength"
+      [validatePreset]="!!field.validate ? field.validate.preset : ''"
       [min]="field.validate.min"
       [max]="field.validate.max"
 
@@ -39,6 +40,7 @@
     <mat-error *ngIf="me.hasError('max')">{{'generic.labels.max' | translate}} {{me.getError('max')}}</mat-error>
     <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
     <mat-error *ngIf="me.hasError('pattern')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('validatePreset')">{{me.getError('validatePreset')}}</mat-error>
   </mat-form-field>
 
 </ng-container>

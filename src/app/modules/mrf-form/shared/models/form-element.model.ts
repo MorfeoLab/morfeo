@@ -105,10 +105,9 @@ export interface IFormElementValidation {
   integer?: string | boolean;
   json?: string;
   pattern?: string;
-  /** Non utilizzato */
+  preset?: 'codiceFiscale';
   max?: number | string;
   maxLength?: number | '';
-  /** Non utilizzato */
   min?: string | number;
   minLength?: number | '';
   /** Non utilizzato */

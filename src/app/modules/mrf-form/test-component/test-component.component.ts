@@ -135,66 +135,12 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     this.searchForm = {
       components: [
         {
-          type: 'select',
-          label: 'Esito Istruttoria',
-          key: 'esito',
-          dataSrc: 'values',
-          data: {
-            values: [
-              {
-                value: null,
-                label: ''
-              },
-              {
-                value: 'A',
-                label: 'Istruttoria con esito positivo'
-              },
-              {
-                value: 'I',
-                label: 'Richiesta di integrazioni'
-              },
-              {
-                value: 'R',
-                label: 'Istruttoria con esito negativo'
-              }
-            ]
-          },
+          type: 'textfield',
+          label: 'codice fiscale',
+          key: 'codice fiscale',
           validate: {
-            required: true
+            preset: 'codiceFiscale'
           }
-        },
-        {
-          type: 'textarea',
-          label: 'Note pubbliche',
-          key: 'notePubbliche',
-          validate: {
-            required:  '[{"!":[{"==":[{"var":"esito"},"A"]}]}]'
-          }
-        },
-        {
-          type: 'textarea',
-          label: 'Note interne',
-          key: 'notePrivate'
-        },
-        {
-          key: 'esitoPdf',
-          type: 'file',
-          label: 'Carica PDF firmato',
-          downloadFile: '#',
-          target: '/documento/esito/integrazioni/{idIstanza}',
-          deleteUrl: '',
-          hidden: '[{"and":[{"!=":[{"var":"esito"},"I"]},{"!=":[{"var":"esito"},"R"]}]}]',
-          singleUpload: true,
-          validate: {
-            required: true,
-            pattern: '.pdf',
-            custom: ''
-          },
-          suffix: '',
-          defaultValue: null,
-          input: true,
-          data: {},
-          disabled: false
         }
       ]
     }
