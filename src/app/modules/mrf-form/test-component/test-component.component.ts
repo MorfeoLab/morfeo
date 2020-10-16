@@ -120,6 +120,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.formContainer.formReadyEvent.subscribe(f => {
       this.formRef = f;
+      window['F'] = f;
     })
     this.changeDetectorRef.detectChanges();
   }
@@ -135,15 +136,27 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     this.searchForm = {
       components: [
         {
-          type: 'textfield',
-          label: 'codice fiscale',
-          key: 'codice fiscale',
+          key: 'pdf_firmato',
+          type: 'file',
+          label: 'Carica la domanda firmata',
+          target: '/gw/api/documenti/attachements/signed/MI/',
+          deleteUrl: '/gw/api/documenti/attachements/delete/MI/',
+          hidden: false,
+          singleUpload: true,
           validate: {
-            preset: 'codiceFiscale'
-          }
+            required: true,
+            pattern: '^[\\s\\S]+.pdf(.p7m)?$',
+            custom: ''
+          },
+          suffix: '',
+          defaultValue: null,
+          input: true,
+          data: {},
+          disabled: false
         }
       ]
     }
+
 
 
     // this.searchForm2 = {};

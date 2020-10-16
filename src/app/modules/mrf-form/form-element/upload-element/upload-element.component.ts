@@ -47,8 +47,8 @@ export class UploadElementComponent implements OnInit, AfterViewInit {
   private deleteUrl: string;
 
   /** Il campo HTMLFileInputElement che viene usato per aprire il file picker */
-  @ViewChild('fileUpload')
-  private fileUploadComponent: ElementRef;
+  @ViewChild('fileUpload') private fileUploadComponent: ElementRef;
+
   public fileUploadInput: HTMLInputElement;
 
   /**
@@ -355,12 +355,22 @@ export class UploadElementComponent implements OnInit, AfterViewInit {
                   size: item.data.size,
                   type: item.data.type,
                 } : {},
+                blob: null,
                 response: item.response,
                 inProgress: item.inProgress,
                 mandatoryChecked: item.mandatoryChecked,
                 progress: item.progress,
                 state: item.state
               };
+
+              /**
+               * Carica il blob del file e lo inserisce all'interno dell'oggetto
+               */
+              const fileReader: FileReader = new FileReader();
+              fileReader.onloadend = (x) => {
+                obj.blob = fileReader.result;
+              }
+              fileReader.readAsText(item.data);
               return obj;
             }
           )
