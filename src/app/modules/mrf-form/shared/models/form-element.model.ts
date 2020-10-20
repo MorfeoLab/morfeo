@@ -399,6 +399,10 @@ export interface IFormElement {
   lockKey?: boolean;
   /** Non utilizzato */
   mask?: boolean;
+  /**
+   * Utilizzato per il left-menu
+   */
+  menu?: IFormMenu[];
 
   /**
    * Si trova su alcuni tabs per indicare che si tratta di un modulo tecnico
@@ -571,6 +575,11 @@ export interface IFormTableColumn {
   value: string;
   label: any;
   localized?: boolean;
+}
+
+export interface IFormMenu {
+  url: string;
+  label: any;
 }
 
 export const FORM: IForm = {

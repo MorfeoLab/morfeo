@@ -65,6 +65,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -252,7 +253,8 @@ export const entryComponentsList = [
         declarationList,
         ElementWrapperComponent,
         GenericButtonComponent,
-        DatetimeElementComponent
+        DatetimeElementComponent,
+        LeftMenuComponent
     ],
     imports: [
         importsList,
