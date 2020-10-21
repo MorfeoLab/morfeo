@@ -82,10 +82,12 @@ export const declarationList = [
     ComboElementComponent,
     DataTableComponent,
     DateElementComponent,
+    DatetimeElementComponent,
     DebugObjectComponent,
+    ElementWrapperComponent,
     EngDynamicFormsComponent,
-    MrfFormComponent,
     FormElementComponent,
+    GenericButtonComponent,
     HtmlBoxElementComponent,
     HtmlElementComponent,
     JsonRuleElementComponent,
@@ -95,9 +97,11 @@ export const declarationList = [
     LayoutFieldsetComponent,
     LayoutTablesComponent,
     LayoutTabsComponent,
+    LeftMenuComponent,
     ListModalComponent,
     MapElementComponent,
     ModalComponent,
+    MrfFormComponent,
     ObjectListComponent,
     ObjectListModalComponent,
     ObjectListSelectorComponent,
@@ -155,12 +159,13 @@ export const exportsList = [
     DateElementComponent,
     DebugObjectComponent,
     EngDynamicFormsComponent,
-    MrfFormComponent,
     FormElementComponent,
     HtmlElementComponent,
     JsonRuleElementComponent,
     JsonRulesListElementComponent,
+    LeftMenuComponent,
     MapElementComponent,
+    MrfFormComponent,
     OnlyBooleanPipe,
     RadioElementComponent,
     ReadOnlyComponent,
@@ -250,11 +255,7 @@ export const entryComponentsList = [
 // TODO - check if we need to export all components or just MrfFormComponent
 @NgModule({
     declarations: [
-        declarationList,
-        ElementWrapperComponent,
-        GenericButtonComponent,
-        DatetimeElementComponent,
-        LeftMenuComponent
+        declarationList
     ],
     imports: [
         importsList,
