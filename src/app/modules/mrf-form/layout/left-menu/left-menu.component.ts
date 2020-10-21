@@ -10,7 +10,7 @@ import {SideNavigationService} from "../../shared/services/side-navigation.servi
 })
 export class LeftMenuComponent implements OnInit, AfterViewInit {
   @ViewChild('sideNavigation', {static: true}) sn: MatSidenav;
-  @Input() field: IFormMenu[];
+  @Input() field: IFormMenu;
   public menu: any[];
 
   constructor(
@@ -19,7 +19,7 @@ export class LeftMenuComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.menu = this.field;
+    this.menu = this.field.menu;
   }
 
   ngAfterViewInit(): void {

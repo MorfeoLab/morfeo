@@ -1,0 +1,18 @@
+.container{
+  padding: 0;
+}
+mat-drawer-container {
+  display: flex;
+  flex: 1 1 auto;
+  background-color: inherit;
+
+  mat-drawer {
+    width: 80%;
+    max-width: 200px;
+  }
+  mat-drawer-content {
+    flex: 1 1 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}

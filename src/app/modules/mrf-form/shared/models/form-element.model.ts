@@ -578,8 +578,8 @@ export interface IFormTableColumn {
 }
 
 export interface IFormMenu {
-  url: string;
-  label: any;
+  mode: 'over' | 'push' | 'side';
+  menu: {url: string, label: string}[];
 }
 
 export const FORM: IForm = {
