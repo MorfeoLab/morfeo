@@ -8,6 +8,7 @@ import {IFormElement, IFormTableColumn} from '../../../shared/models/form-elemen
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {DialogData} from '../../object-list-selector/object-list-selector-modal/object-list-selector-modal.component';
 
 @Component({
   selector: 'mrf-object-list-modal',
