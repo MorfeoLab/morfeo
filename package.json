@@ -1,6 +1,6 @@
 {
   "name": "@eng/morfeo",
-  "version": "6.18.1",
+  "version": "6.19.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",

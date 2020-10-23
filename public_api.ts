@@ -37,6 +37,7 @@ export * from './src/app/modules/mrf-form/shared/services/combo-service/combo.se
 export * from './src/app/modules/mrf-form/shared/services/conditional/conditional.service';
 export * from './src/app/modules/mrf-form/shared/services/data-table-service/data-table.service';
 export * from './src/app/modules/mrf-form/shared/services/datepicker-service/datepicker.service';
+export * from './src/app/modules/mrf-form/shared/services/side-navigation.service';
 
 
 // Components
@@ -51,3 +52,7 @@ export * from './src/app/modules/mrf-form/shared/pipes/translatable/translatable
 
 // Directives
 export * from './src/app/modules/mrf-form/shared/directives/register-form-model/register-form-model.directive';
+
+// Layout components
+export * from './src/app/modules/mrf-form/layout/left-menu/left-menu.component';
+

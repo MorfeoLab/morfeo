@@ -46,3 +46,8 @@ mat-tab-group {
     }
   }
 }
+
+
+mrf-left-menu .active{
+    background-color: map_get($mat-dark-theme-background, selected-button)
+  }
