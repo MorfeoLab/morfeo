@@ -15,7 +15,7 @@ import {DataService} from '../../shared/services/data-service/data-service.servi
 import {ComboService} from '../../shared/services/combo-service/combo.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
 import {MatCheckbox} from '@angular/material/checkbox';
-import {ValueService} from "../../shared/services/value/value.service";
+import {ValueService} from '../../shared/services/value/value.service';
 
 @Component({
   selector: 'mrf-select-boxes',

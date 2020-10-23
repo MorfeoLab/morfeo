@@ -460,7 +460,7 @@ export interface IFormJsonRule {
 }
 
 export interface IFormConditionalRule {
-  externalData: { [key: string]: any };
+  externalData?: { [key: string]: any };
   form: NgForm;
   fields: IFormConditionalRuleField[];
 }

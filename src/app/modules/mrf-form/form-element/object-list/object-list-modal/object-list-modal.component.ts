@@ -9,11 +9,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
-export interface DialogData {
-  field: IFormElement;
-  selected: any[];
-}
-
 @Component({
   selector: 'mrf-object-list-modal',
   templateUrl: './object-list-modal.component.html',

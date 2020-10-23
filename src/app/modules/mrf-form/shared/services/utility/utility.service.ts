@@ -86,8 +86,6 @@ export class UtilityService {
 
   /**
    * Questo metodo recupera una porzione JSON che rappresenta un singolo campo in base a KEY
-   * @param form
-   * @param key
    */
   public getJsonElementByKey(form: IForm, key: string): IFormElement {
 
@@ -117,8 +115,6 @@ export class UtilityService {
 
   /**
    * Questo metodo recupera una porzione JSON che rappresenta un singolo campo in base a KEY
-   * @param form
-   * @param key
    */
   public getJsonElementByKey2(form: IForm, key: string): IFormElement {
 

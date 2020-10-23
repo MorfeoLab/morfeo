@@ -120,7 +120,6 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.formContainer.formReadyEvent.subscribe(f => {
       this.formRef = f;
-      window['F'] = f;
     })
     this.changeDetectorRef.detectChanges();
   }

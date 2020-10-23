@@ -29,7 +29,7 @@ export interface IFormTableColumn extends IFormOptions {
   sortable?: boolean;
   filterable?: boolean;
   dataType?: 'string' | 'number' | 'boolean';
-  renderer?: (any) => string;
+  renderer?: (a: any) => string;
   buttons?: IFormButton[];
   style?: IFormStyle;
   sortDefault?: boolean;
@@ -50,6 +50,12 @@ export interface IFormButton {
   action?: string;
   color?: 'none' | 'primary' | 'accent' | 'warn';
   style?: 'basic' | 'raised' | 'stroked' | 'flat' | 'icon';
+  content?: {
+    copy: {
+      from: string;
+      to: string;
+    }[]
+  }
 }
 
 
@@ -58,16 +64,18 @@ export interface IFormButton {
  */
 export interface IFormAjaxResponse<T> {
   records: T[];
-  pagination?: {
-    totalPages: number;
-    totalRecords: number;
-  }
+  pagination: IFormAjaxResponsePaginator
+}
+
+export interface IFormAjaxResponsePaginator {
+  totalPages: number;
+  totalRecords: number;
 }
 
 /**
  * Columns
  */
-export interface IFormColumns {
+export interface IFormColumn {
   components: IFormElement[];
   type?: 'column';
   width?: number | string;
@@ -216,7 +224,7 @@ export interface IFormElement {
   /**
    * Le colonne per il tipo di layout columns
    */
-  columns?: IFormColumns[];
+  columns?: IFormColumn[];
 
   /**
    * Solo per ObjectList

@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {IFormAjaxResponse} from '../../models/form-element.model';
 import {MrfFormComponent} from '../../../mrf-form.component';
+import {UtilityService} from '../utility/utility.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,9 @@ export class DataTableService {
     [key: string]: EventEmitter<any[]>
   }
 
-  constructor() {
+  constructor(
+      private utils: UtilityService
+  ) {
   }
 
   /**
@@ -71,17 +74,25 @@ export class DataTableService {
     return (res) => res.body;
   }
 
+  /**
+   * Genera la stringa con i parametri da inviare alla ricerca
+   */
   public getRequestFilter(filterFields: any): string {
     let response = '';
     for (const key in filterFields) {
       if (filterFields.hasOwnProperty(key)) {
-        if (null !== filterFields[key]) {
-          /// @todo: alcuni campi non hanno stringa come valore e qui scrive [Object object] (ad esempio Autocomplete)
-          response = `${response}${key}=${filterFields[key]}&`;
+        let value = filterFields[key];
+        if (this.utils.isNullOrUndefined(value)) {
+          /// Se il campo è null o non è definito usiamo stringa vuota
+          value = '';
+        } else if (!['string', 'number', 'boolean'].includes(typeof value)) {
+          /// Un oggetto deve essere trasformato prima
+          value = JSON.stringify(value);
         }
+        response = `${response}${key}=${value}&`;
       }
     }
-    return response;
+    return response.substring(0, response.length - 1);
   }
 
   public setFormRef(key: string, f: MrfFormComponent) {
