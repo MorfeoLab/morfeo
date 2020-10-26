@@ -20,5 +20,5 @@ Installare le dipendenze
 $ npm install --save @angular/cdk @angular/material json-logic-js moment @angular/material-moment-adapter @ngx-translate/core @ngx-translate/http-loader
 Inserire il form all'interno del template
 
-<app-eng-dynamic-form [form]="formJson"></app-eng-dynamic-form>
+<mrf-form [form]="formJson"></mrf-form>
 La variabile formJson deve essere pubblica e contenere un JSON descrittivo del form.
