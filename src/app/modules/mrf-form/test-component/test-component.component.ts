@@ -87,33 +87,39 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
         this.form = {
             components: [
                 {
-                    type: 'dataTable',
-                    key: 'table4',
-                    hideLoader: true,
-                    dataSrc: 'url',
-                    data: {
-                        url: 'https://pastebin.com/raw/RiYKY6q7?&$filter',
-                        filter: filterForm,
-                        values: [],
-                        pagination: {
-                            sizeOptions: [
-                                3,
-                                5,
-                                10,
-                                15
+                    type: 'textfield',
+                    label: 'Questo campo è nascosto',
+                    key: 'hidden1',
+                    hidden: true
+                },
+                {
+                    type: 'columns',
+                    columns: [
+                        {
+                            components: [
+                                {
+                                    type: 'textfield',
+                                    label: 'Questo campo è nascosto, e anche se si trova dentro una colonna non occupa spazio',
+                                    key: 'hidden2',
+                                    hidden: true
+                                },
+                                {
+                                    type: 'textfield',
+                                    label: 'Questo campo è visibile e dentro una colonna',
+                                    key: 'visible1'
+                                }
                             ]
                         },
-                        columns: [
-                            {
-                                value: 'city',
-                                label: 'Città'
-                            },
-                            {
-                                value: 'name',
-                                label: 'Nome'
-                            }
-                        ]
-                    }
+                        {
+                            components: [
+                                {
+                                    type: 'textfield',
+                                    label: 'Anche questo campo è visibile',
+                                    key: 'visible2'
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
@@ -173,8 +179,11 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     }
 
     callMeBaby() {
-        console.log(this.formRef.valid);
-        this.uploadService.setDownload('esitoPdf', 'http://www.google.com');
+        this.formRef.setValue({hiddenfield: 'valore'});
+
+        console.log(this.formRef.value);
+
+        // this.uploadService.setDownload('esitoPdf', 'http://www.google.com');
     }
 
     post1() {
