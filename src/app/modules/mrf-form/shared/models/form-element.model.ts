@@ -167,6 +167,7 @@ export interface IFormElement {
     | 'tabs'
     | 'textarea'
     | 'textfield'
+    | 'codeEditor'
     | 'well';
 
   /**
@@ -565,6 +566,14 @@ export interface IFormElement {
   // widget?: any;
 
   wsmData?: any[];
+
+  /** code-editor-element */
+  codeEditorOptions?: {
+    mode:  'csv' | 'html' | 'javascript' | 'json' | 'xml',
+    showLineNumbers?: boolean,
+    indentDefaultValue?: boolean,
+    indentSize?: number,
+  }
 }
 
 export interface IFormTableColumn {

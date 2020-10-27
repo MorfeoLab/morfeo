@@ -20,6 +20,7 @@ import {ComboElementComponent} from '../../form-element/combo-element/combo-elem
 import {SelectBoxesComponent} from '../../form-element/select-boxes/select-boxes.component';
 import {TextAreaElementComponent} from '../../form-element/text-area-element/text-area-element.component';
 import {TextElementComponent} from '../../form-element/text-element/text-element.component';
+import {CodeEditorElementComponent} from '../../form-element/code-editor-element/code-editor-element.component';
 import {HtmlElementComponent} from '../../form-element/html-element/html-element.component';
 import {WysiwygElementComponent} from '../../form-element/wysiwyg-element/wysiwyg-element.component';
 import {ReadOnlyKeyvalueComponent} from '../../form-element/read-only/read-only-keyvalue/read-only-keyvalue.component';
@@ -222,5 +223,9 @@ export const COMPONENT_RESOLVER: ComponentResolver = {
     // EXTRA: BLOCKQUOTE ELEMENT
     input: HtmlBoxElementComponent,
     output: HtmlBoxElementComponent,
+  },
+  codeEditor: {
+    input: CodeEditorElementComponent,
+    output: CodeEditorElementComponent,
   }
 };

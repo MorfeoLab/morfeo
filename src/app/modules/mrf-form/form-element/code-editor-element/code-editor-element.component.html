@@ -1,0 +1,65 @@
+<ng-container
+  #container
+  *ngIf="!!field"
+  (onfocusout)="onFocusOut()">
+  <div
+    class="container"
+    style="position:relative">
+    <legend *ngIf="!!displayLegend" class="select-boxes">{{ displayLegend | translate }}</legend>
+    <!--
+      Container del mat-form-field per simulare la floating-label di material. Usa un elemento input dummy
+      senza funzionalità ma necessario per poter visualizzare la floating-label.
+    -->
+    <div
+      #labelContainer>
+      <mat-form-field
+        id="codeEditorMatForm"
+        class="{{matFormClasses}}"
+      >
+        <input
+          id="codeEditorInput"
+          class="{{inputClasses}}"
+          matInput
+          placeholder="{{ displayLabel | translate }}"
+          [(ngModel)]="dummyContent"
+          #meTest="ngModel"
+          mrfRegisterForm
+          disabled="true"
+          [registerForm]="formRefTest"
+          [registerModel]="meTest"
+        />
+      </mat-form-field>
+    </div>
+    <div
+      #codeMirrorContainer
+      matInput
+      autofocus
+      (focusout)="onFocusOut()"
+      (click)="onCodeEditorClick()"
+      class="{{codeMirrorContainerClass}}"
+    >
+      <ngx-codemirror 
+        [name]="field.key + field.suffix"
+        [(ngModel)]="content"
+        [options]="codeMirrorOptions"
+        style="background-color: rgba(0,0,0,0) !important"
+        class="code-mirror"
+        #me="ngModel"
+        mrfRegisterForm
+        [registerForm]="formRef"
+        [registerModel]="me"
+      ></ngx-codemirror>
+    </div>
+    <mat-form-field
+      style="width:100%;margin-top:5px"
+      class={{dummyBorder}}>
+      <div #codeEditorDummyBorder></div>
+      <input
+        matInput
+        mrfRegisterForm
+        [registerForm]="formRefTest"
+        [registerModel]="meTest"
+      >
+    </mat-form-field>
+  </div>
+</ng-container>

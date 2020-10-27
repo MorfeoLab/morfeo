@@ -238,7 +238,8 @@ export class FormElementComponent implements OnInit {
       'select',
       'selectboxes',
       'textarea',
-      'textfield'
+      'textfield',
+      'codeEditor',
     ].includes(comp.type);
   }
 }

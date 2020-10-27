@@ -8,7 +8,8 @@ import {DataTableService} from '../shared/services/data-table-service/data-table
 import {DatepickerService} from '../shared/services/datepicker-service/datepicker.service';
 import {UploaderService} from '../shared/services/uploader.service';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-
+// import 'codemirror/mode/javascript/javascript';
+// import 'codemirror/mode/markdown/markdown';
 
 @Component({
   selector: 'mrf-test-component',
@@ -26,8 +27,36 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   @ViewChild('form1', {static: true}) public formContainer: MrfFormComponent;
   @ViewChild('form1', {static: true}) public asd: ElementRef;
   @ViewChild('form2') public formContainer2: MrfFormComponent;
+  counter = 0;
+  @ViewChild('codemirror') public codeMirrorRef;
+  @ViewChild('codeEditorCsvId') public codeEditorCsvRef: MrfFormComponent;
+  @ViewChild('codeEditorJsonId') public codeEditorJsonRef: MrfFormComponent;
+  @ViewChild('codeEditorXmlId') public codeEditorXmlRef: MrfFormComponent;
+  @ViewChild('inputId') public inputRef: MrfFormComponent;
+  @ViewChild('objectElementId') public objectElementRef: MrfFormComponent;
 
   public elementAvailable: IFormOptions[] = [];
+
+  // CODE EDITOR
+  public codeEditorCsv: IForm;
+  public codeEditorJson: IForm;
+  public codeEditorXml: IForm;
+  public input: IForm;
+  public select: IForm;
+  public objectElement: IForm;
+  public codeEditorCsvMrfRef: any;
+  public codeEditorJsonMrfRef: any;
+  public codeEditorXmlMrfRef: any;
+  public inputMrfRef: any;
+  public selectMrfRef: any;
+  public content: any;
+  public codeMirrorOptions: any;
+  private xmlString: string;
+  private jsonString: string;
+  private csvString: string;
+  public csvFormValue: any;
+  public jsonFormValue: any;
+  public xmlFormValue: any;
 
   constructor(
     private tabsService: TabsService,
@@ -99,7 +128,17 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     };
 
     this.setSearchForm();
+
+    this.setCodeEditorForm();
+
   }
+
+  // public updateCodeEditorFormsValues(): void {
+  //   this.codeEditorCsvMrfRef.setValue({codeEditorCsvKey: this.counter.toString()});
+  //   this.codeEditorJsonMrfRef.setValue({codeEditorJsonKey: this.counter.toString()});
+  //   this.codeEditorXmlMrfRef.setValue({codeEditorXmlKey: this.counter.toString()});
+  //   this.counter++;
+  // }
 
   ngOnInit() {
     // if (!!this.formContainer) {
@@ -109,7 +148,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     //   });
     // }
 
-    this.datepickerService.registerFilter('diVenereEDiMarte', this.filterDatePicker)
+    // this.datepickerService.registerFilter('diVenereEDiMarte', this.filterDatePicker)
   }
 
   public filterDatePicker(d: Date): boolean {
@@ -118,11 +157,28 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.formContainer.formReadyEvent.subscribe(f => {
-      this.formRef = f;
-      window['F'] = f;
+    // this.formContainer.formReadyEvent.subscribe(f => {
+    //   this.formRef = f;
+    //   window['F'] = f;
+    // })
+    // this.changeDetectorRef.detectChanges();
+
+    // CODE EDITOR
+    // this.codeEditorCsvRef.formReadyEvent.subscribe(f => {
+    //   this.codeEditorCsvMrfRef = f;
+    // })
+    this.codeEditorJsonRef.formReadyEvent.subscribe(f => {
+      this.codeEditorJsonMrfRef = f;
     })
-    this.changeDetectorRef.detectChanges();
+    this.codeEditorXmlRef.formReadyEvent.subscribe(f => {
+      this.codeEditorXmlMrfRef = f;
+    })
+    this.inputRef.formReadyEvent.subscribe(f => {
+      this.inputMrfRef = f;
+    })
+    // this.selectRef.formReadyEvent.subscribe(f => {
+    //   this.selectMrfRef = f;
+    // })
   }
 
   applyFilter() {
@@ -234,4 +290,116 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
       console.log(value)
     }))
   }
+
+  // CODE EDITOR
+  setCodeEditorForm() {
+    this.csvString = "test,test,test,' spazi ',test test,dd"
+    this.jsonString = "{\"glossary\":{\"title\":\"exampleglossary\",\"GlossDiv\":{\"title\":\"S\",\"GlossList\":{\"GlossEntry\":" +
+      "{\"ID\":\"SGML\",\"SortAs\":\"SGML\",\"GlossTerm\":\"StandardGeneralizedMarkupLanguage\",\"Acronym\":\"SGML\",\"Abbrev\":" +
+      "\"ISO8879:1986\",\"GlossDef\":{\"para\":\"Ameta-markuplanguage,usedtocreatemarkuplanguagessuchasDocBook.\",\"GlossSeeAlso" +
+      "\":[\"GML\",\"XML\"]},\"GlossSee\":\"markup\"}}}}}";
+    this.xmlString = "<?xmlversion='1.0'encoding='UTF-8'?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><bb>Don" +
+      "'t forget me this weekend!</bb></note>";
+
+    this.codeEditorCsv = {
+      components: [
+        {
+          key: "codeEditorCsvKey",
+          type: "codeEditor",
+          defaultValue: this.csvString,
+          label: 'label csv',
+          readOnly: false,
+          // label: 'Label text',
+          codeEditorOptions: {
+            mode: 'csv',
+            indentDefaultValue: true,
+            indentSize: 2,
+            showLineNumbers: false,
+          },
+        }
+      ]
+    };
+
+    this.codeEditorJson = {
+      components: [
+        {
+          key: "codeEditorJsonKey",
+          type: "codeEditor",
+          defaultValue: this.jsonString,
+          label: 'label json',
+          readOnly: false,
+          codeEditorOptions: {
+            mode: 'json',
+            indentDefaultValue: true,
+            indentSize: 2,
+            showLineNumbers: true,
+          },
+        }
+      ]
+    };
+
+    this.codeEditorXml = {
+      components: [
+        {
+          key: "codeEditorXmlKey",
+          type: "codeEditor",
+          defaultValue: this.xmlString,
+          readOnly: false,
+          label: 'label XML',
+          codeEditorOptions: {
+            mode: 'xml',
+            indentDefaultValue: true,
+            indentSize: 2,
+            showLineNumbers: false,
+          },
+        }
+      ]
+    };
+
+    this.input = {
+      components: [
+        {
+          key: "codeEditorXmlKey",
+          type: "textfield",
+          defaultValue: "provaDefaultValue",
+          readOnly: true,
+          label: "prova",
+        }
+      ]
+    };
+
+    this.objectElement = {
+      components:[
+        {
+          key:"objectList",
+          label:"Object element test",
+          type:"objectList2",
+          hidden:false,
+          domainUrl:"assets/data/movies.json",
+          columnsDefinition:[
+            {
+              value:"id",
+              label:"ID"
+            },
+            {
+              value:"title",
+              label:"Title"
+            },
+            {
+              value:"year",
+              label:"Year"
+            }
+          ],
+          suffix:"",
+          defaultValue:null,
+          validate:{
+            custom:""
+          },
+          input:true,
+          data:{}
+        }
+      ]
+    };
+  }
+
 }

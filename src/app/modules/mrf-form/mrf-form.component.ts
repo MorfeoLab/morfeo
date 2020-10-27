@@ -241,6 +241,11 @@ export class MrfFormComponent implements OnDestroy, OnInit {
           focusElement.focus();
         }
         break;
+      case 'codeEditor':
+        if (!!focusElement) {
+          focusElement.focus();
+        }
+        break;
       case 'autocomplete':
         if (!!focusElement) {
           focusElement.click();

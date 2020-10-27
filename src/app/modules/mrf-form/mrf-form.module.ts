@@ -55,9 +55,11 @@ import {CacheRegistryInterceptor} from './cache/cache-registry.interceptor';
 import {DataTableComponent} from './form-element/data-table/data-table.component';
 import {GenericButtonComponent} from './shared/components/generic-button/generic-button.component';
 import {TextElementComponent} from './form-element/text-element/text-element.component';
+import {CodeEditorElementComponent} from './form-element/code-editor-element/code-editor-element.component';
 import {DatetimeElementComponent} from './form-element/datetime-element/datetime-element.component';
 import {ValidateCustomDirective} from './shared/directives/validate-custom/validate-custom.directive';
 import {NgModule} from '@angular/core';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import {RouterModule} from '@angular/router';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
@@ -119,6 +121,7 @@ export const declarationList = [
     TestComponentComponent,
     TextAreaElementComponent,
     TextElementComponent,
+    CodeEditorElementComponent,
     TextMultilinguaComponent,
     TooltipButtonComponent,
     TranslatablePipe,
@@ -134,6 +137,7 @@ export const importsList = [
     CommonModule,
     ReactiveFormsModule,
     MaterialImportsModule,
+    CodemirrorModule,
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -173,6 +177,7 @@ export const exportsList = [
     SelectBoxesComponent,
     TextAreaElementComponent,
     TextElementComponent,
+    CodeEditorElementComponent,
     TextMultilinguaComponent,
     TooltipButtonComponent,
     TranslatablePipe,
@@ -230,6 +235,7 @@ export const entryComponentsList = [
     SelectBoxesComponent,
     TextAreaElementComponent,
     TextElementComponent,
+    CodeEditorElementComponent,
     TextMultilinguaComponent,
     UploadElementComponent,
     /// READ ONLY

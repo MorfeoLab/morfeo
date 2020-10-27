@@ -44,6 +44,7 @@ export class TabsService {
       case 'select':
       case 'selectboxes':
       case 'textarea':
+      case 'codeEditor':
       case 'textfield':
         /// Salva o aggiorna
         if (Array.isArray(tabsNames) && tabsNames.length > 0) {

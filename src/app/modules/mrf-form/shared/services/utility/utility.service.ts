@@ -198,7 +198,8 @@ export class UtilityService {
             'select',
             'selectboxes',
             'textarea',
-            'textfield'
+            'textfield',
+            'codeEditor',
           ];
           if (inputTypes.includes(component.type)) {
             result.push(component.key);

@@ -1,5 +1,6 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/theming';
 
 @font-face {
   font-family: 'Material Icons';
@@ -44,5 +45,24 @@ mat-tab-group {
       height: 28px;
       padding: 0 10px;
     }
+  }
+}
+
+/** 
+ * CODE-EDITOR
+*/
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/material';
+.CodeMirror {
+  height: 100%;
+  background-color: rgba(0,0,0,0);
+}
+#codeEditorMatForm .mat-form-field-wrapper {
+  height: 5px;
+  div div {
+    padding-bottom: 0px;
+  }
+  .mat-form-field-underline {
+    display: none !important;
   }
 }
