@@ -4,6 +4,9 @@ import { IFormElement } from '../../shared/models/form-element.model';
 import * as beautify from 'js-beautify';
 import { TranslatablePipe } from '../../shared/pipes/translatable/translatable.pipe';
 import * as _ from 'lodash';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/markdown/markdown';
+
 @Component({
   selector: 'mrf-code-editor-element',
   templateUrl: './code-editor-element.component.html',
