@@ -1,13 +1,13 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {IForm, IFormAjaxResponse, IFormOptions} from '../shared/models/form-element.model';
-import {TabsService} from '../shared/services/tabs/tabs.service';
-import {MrfFormComponent, FormContainerConfig} from '../mrf-form.component';
-import {DataService} from '../shared/services/data-service/data-service.service';
-import {DataTableService} from '../shared/services/data-table-service/data-table.service';
-import {DatepickerService} from '../shared/services/datepicker-service/datepicker.service';
-import {UploaderService} from '../shared/services/uploader.service';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { IForm, IFormAjaxResponse, IFormOptions } from '../shared/models/form-element.model';
+import { TabsService } from '../shared/services/tabs/tabs.service';
+import { MrfFormComponent, FormContainerConfig } from '../mrf-form.component';
+import { DataService } from '../shared/services/data-service/data-service.service';
+import { DataTableService } from '../shared/services/data-table-service/data-table.service';
+import { DatepickerService } from '../shared/services/datepicker-service/datepicker.service';
+import { UploaderService } from '../shared/services/uploader.service';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 // import 'codemirror/mode/javascript/javascript';
 // import 'codemirror/mode/markdown/markdown';
 
@@ -24,8 +24,8 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   public searchForm: IForm;
   public searchForm2: IForm;
   public formRef: NgForm;
-  @ViewChild('form1', {static: true}) public formContainer: MrfFormComponent;
-  @ViewChild('form1', {static: true}) public asd: ElementRef;
+  @ViewChild('form1', { static: true }) public formContainer: MrfFormComponent;
+  @ViewChild('form1', { static: true }) public asd: ElementRef;
   @ViewChild('form2') public formContainer2: MrfFormComponent;
   counter = 0;
   @ViewChild('codemirror') public codeMirrorRef;
@@ -34,6 +34,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   @ViewChild('codeEditorXmlId') public codeEditorXmlRef: MrfFormComponent;
   @ViewChild('inputId') public inputRef: MrfFormComponent;
   @ViewChild('objectElementId') public objectElementRef: MrfFormComponent;
+  @ViewChild('repeatableId') public repeatableRef: MrfFormComponent;
 
   public elementAvailable: IFormOptions[] = [];
 
@@ -57,6 +58,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
   public csvFormValue: any;
   public jsonFormValue: any;
   public xmlFormValue: any;
+  public repeatable: IForm;
 
   constructor(
     private tabsService: TabsService,
@@ -127,9 +129,64 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
       }
     };
 
-    this.setSearchForm();
+    // this.setSearchForm();
 
-    this.setCodeEditorForm();
+    // this.setCodeEditorForm();
+
+    this.setRepeatableForm();
+
+  }
+
+  public setRepeatableForm(): void {
+
+    this.repeatable = {
+      components: [
+        {
+          key: "repeatableKey",
+          type: "repeatable",
+          data: { values: [
+            {
+              campo1: 'hello',
+              campo2: 'pizza'
+            },
+            {
+              campo1: 'hello2',
+              campo2: 'pizza2'
+            },
+          ]},
+          readOnly: false,
+          components: [
+        {
+          key: "columns",
+          type: "columns",
+          columns: [
+            {
+              components: [
+                {
+                  label: "Campo 1",
+                  key: "campo1",
+                  type: "textfield",
+                  suffix: ""
+                }
+              ]
+            },
+            {
+              components: [
+                {
+                  label: "Campo 2",
+                  key: "campo2",
+                  type: "textfield",
+                  suffix: ""
+                }
+              ]
+            }
+          ],
+          suffix: ""
+        }
+      ],
+        }
+      ]
+    };
 
   }
 
@@ -167,18 +224,55 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     // this.codeEditorCsvRef.formReadyEvent.subscribe(f => {
     //   this.codeEditorCsvMrfRef = f;
     // })
-    this.codeEditorJsonRef.formReadyEvent.subscribe(f => {
-      this.codeEditorJsonMrfRef = f;
-    })
-    this.codeEditorXmlRef.formReadyEvent.subscribe(f => {
-      this.codeEditorXmlMrfRef = f;
-    })
-    this.inputRef.formReadyEvent.subscribe(f => {
-      this.inputMrfRef = f;
-    })
+    // this.codeEditorJsonRef.formReadyEvent.subscribe(f => {
+    //   this.codeEditorJsonMrfRef = f;
+    // })
+    // this.codeEditorXmlRef.formReadyEvent.subscribe(f => {
+    //   this.codeEditorXmlMrfRef = f;
+    // })
+    // this.inputRef.formReadyEvent.subscribe(f => {
+    //   this.inputMrfRef = f;
+    // })
     // this.selectRef.formReadyEvent.subscribe(f => {
     //   this.selectMrfRef = f;
     // })
+
+
+    this.repeatableRef.formReadyEvent.subscribe(f => {
+
+      const data = {
+        values: [
+          {
+            campo1: 'helloss',
+            campo2: 'pizza'
+          },
+          {
+            dd: 'hello2',
+            campo2: 'pizza2'
+          },
+        ]
+      };
+
+      const attachments = this.generateUniqueAttachmentObject(data.values);
+      // f.setValue(attachments);
+    });
+
+  }
+
+  private generateUniqueAttachmentObject(attachments: any[]): object {
+    const uniqueObject = {};
+    // const attachments = this.attachments;
+    if (!attachments) {
+      return {};
+    }
+    let counter = 1;
+    attachments.forEach(a => {
+      Object.keys(a).forEach(key => {
+        uniqueObject[key + ':' + counter] = a[key];
+      });
+      counter++;
+    });
+    return uniqueObject;
   }
 
   applyFilter() {
@@ -307,7 +401,6 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           key: "codeEditorCsvKey",
           type: "codeEditor",
           defaultValue: this.csvString,
-          label: 'label csv',
           readOnly: false,
           // label: 'Label text',
           codeEditorOptions: {
@@ -326,7 +419,6 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           key: "codeEditorJsonKey",
           type: "codeEditor",
           defaultValue: this.jsonString,
-          label: 'label json',
           readOnly: false,
           codeEditorOptions: {
             mode: 'json',
@@ -344,7 +436,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           key: "codeEditorXmlKey",
           type: "codeEditor",
           defaultValue: this.xmlString,
-          readOnly: false,
+          readOnly: true,
           label: 'label XML',
           codeEditorOptions: {
             mode: 'xml',
@@ -369,34 +461,34 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     };
 
     this.objectElement = {
-      components:[
+      components: [
         {
-          key:"objectList",
-          label:"Object element test",
-          type:"objectList2",
-          hidden:false,
-          domainUrl:"assets/data/movies.json",
-          columnsDefinition:[
+          key: "objectList",
+          label: "Object element test",
+          type: "objectList2",
+          hidden: false,
+          domainUrl: "assets/data/movies.json",
+          columnsDefinition: [
             {
-              value:"id",
-              label:"ID"
+              value: "id",
+              label: "ID"
             },
             {
-              value:"title",
-              label:"Title"
+              value: "title",
+              label: "Title"
             },
             {
-              value:"year",
-              label:"Year"
+              value: "year",
+              label: "Year"
             }
           ],
-          suffix:"",
-          defaultValue:null,
-          validate:{
-            custom:""
+          suffix: "",
+          defaultValue: null,
+          validate: {
+            custom: ""
           },
-          input:true,
-          data:{}
+          input: true,
+          data: {}
         }
       ]
     };

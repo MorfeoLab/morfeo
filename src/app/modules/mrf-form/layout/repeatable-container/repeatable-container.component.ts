@@ -53,6 +53,17 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
     for (const key of childrenKeys) {
       this.repeatableService.add(key, this);
     }
+
+    if (
+      this.field.data &&
+      this.field.data.values
+    ) {
+      const values = this.generateUniqueValues(this.field.data.values);
+      setTimeout(() => {
+        this.formRef.setValue(values);
+      }, 0);
+    }
+
     this.noEmptyRepeatable();
   }
 
@@ -108,5 +119,20 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
       }
     }
     return op;
+  }
+
+  private generateUniqueValues(values: any[]): object {
+    const uniqueValues = {};
+    if (!values) {
+      return {};
+    }
+    let counter = 1;
+    values.forEach(a => {
+      Object.keys(a).forEach(key => {
+        uniqueValues[key + ':' + counter] = a[key];
+      });
+      counter++;
+    });
+    return uniqueValues;
   }
 }
