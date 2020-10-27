@@ -1,0 +1,13 @@
+<div class="container-fluid">
+
+    <mat-drawer-container class="sidenav-container">
+        <mat-drawer #sideNavigation [mode]="!!this.field.mode ? this.field.mode : 'push'">
+            <mat-nav-list *ngFor="let item of menu">
+                <a mat-list-item [routerLink]="item.url" (click)="sideNavigation.toggle()" routerLinkActive="active"><span>{{item.label}}</span></a>
+            </mat-nav-list>
+        </mat-drawer>
+        <mat-drawer-content>
+            <ng-content></ng-content>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

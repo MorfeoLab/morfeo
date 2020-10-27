@@ -12,380 +12,215 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 // import 'codemirror/mode/markdown/markdown';
 
 @Component({
-  selector: 'mrf-test-component',
-  templateUrl: './test-component.component.html',
-  styleUrls: ['./test-component.component.scss']
+    selector: 'mrf-test-component',
+    templateUrl: './test-component.component.html',
+    styleUrls: ['./test-component.component.scss']
 })
 // Component used to test and develop the library
 export class TestComponentComponent implements OnInit, AfterViewInit {
-  title = 'morfeo';
+    title = 'morfeo';
 
-  public searchFormConfig: FormContainerConfig;
-  public searchForm: IForm;
-  public searchForm2: IForm;
-  public formRef: NgForm;
-  @ViewChild('form1', { static: true }) public formContainer: MrfFormComponent;
-  @ViewChild('form1', { static: true }) public asd: ElementRef;
-  @ViewChild('form2') public formContainer2: MrfFormComponent;
-  counter = 0;
-  @ViewChild('codemirror') public codeMirrorRef;
-  @ViewChild('codeEditorCsvId') public codeEditorCsvRef: MrfFormComponent;
-  @ViewChild('codeEditorJsonId') public codeEditorJsonRef: MrfFormComponent;
-  @ViewChild('codeEditorXmlId') public codeEditorXmlRef: MrfFormComponent;
-  @ViewChild('inputId') public inputRef: MrfFormComponent;
-  @ViewChild('objectElementId') public objectElementRef: MrfFormComponent;
-  @ViewChild('repeatableId') public repeatableRef: MrfFormComponent;
+    public searchFormConfig: FormContainerConfig;
+    public form: IForm;
+    public searchForm2: IForm;
+    public formRef: NgForm;
+    @ViewChild('form1', {static: true}) public formContainer: MrfFormComponent;
+    @ViewChild('form1', {static: true}) public asd: ElementRef;
+    @ViewChild('form2') public formContainer2: MrfFormComponent;
 
-  public elementAvailable: IFormOptions[] = [];
+    public elementAvailable: IFormOptions[] = [];
+    csvString: string;
+    jsonString: string;
+    xmlString: string;
+    codeEditorCsv: IForm;
+    codeEditorJson: IForm;
+    codeEditorXml: IForm;
+    input: IForm;
+    objectElement: IForm;
+    repeatable: IForm;
 
-  // CODE EDITOR
-  public codeEditorCsv: IForm;
-  public codeEditorJson: IForm;
-  public codeEditorXml: IForm;
-  public input: IForm;
-  public select: IForm;
-  public objectElement: IForm;
-  public codeEditorCsvMrfRef: any;
-  public codeEditorJsonMrfRef: any;
-  public codeEditorXmlMrfRef: any;
-  public inputMrfRef: any;
-  public selectMrfRef: any;
-  public content: any;
-  public codeMirrorOptions: any;
-  private xmlString: string;
-  private jsonString: string;
-  private csvString: string;
-  public csvFormValue: any;
-  public jsonFormValue: any;
-  public xmlFormValue: any;
-  public repeatable: IForm;
-
-  constructor(
-    private tabsService: TabsService,
-    private data: DataService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private httpClient: HttpClient,
-    public dataTableService: DataTableService,
-    public datepickerService: DatepickerService,
-    public uploadService: UploaderService
-  ) {
-    this.searchFormConfig = {
-      showReset: true,
-      resetIcon: 'delete',
-      resetLabel: 'Reset',
-      resetCallback: (f: NgForm) => {
-        this.applyFilter();
-        this.dataTableService.setData('table1', [
-          {
-            id: 3,
-            first_name: 'Morvo',
-            last_name: 'Fennelly',
-            email: 'efennelly2@ucoz.com'
-          },
-          {
-            id: 4,
-            first_name: 'Brontolo',
-            last_name: 'Tuting',
-            email: 'dtuting0@dropbox.com'
-          },
-          {
-            id: 5,
-            first_name: 'Pisolo',
-            last_name: 'Egger',
-            email: 'hegger1@soup.io'
-          },
-          {
-            id: 6,
-            first_name: 'Eolo',
-            last_name: 'Fennelly',
-            email: 'efennelly2@ucoz.com'
-          },
-          {
-            id: 7,
-            first_name: 'Mammolo',
-            last_name: 'Tuting',
-            email: 'dtuting0@dropbox.com'
-          },
-          {
-            id: 8,
-            first_name: 'Cucciolo',
-            last_name: 'Egger',
-            email: 'hegger1@soup.io'
-          },
-          {
-            id: 9,
-            first_name: 'Dotto',
-            last_name: 'Fennelly',
-            email: 'efennelly2@ucoz.com'
-          }
-        ])
-      },
-      showSubmit: true,
-      submitIcon: 'search',
-      submitLabel: 'Submit',
-      submitCallback: (f: NgForm) => {
-        alert('Submit!');
-        this.applyFilter();
-      }
-    };
-
-    // this.setSearchForm();
-
-    // this.setCodeEditorForm();
-
-    this.setRepeatableForm();
-
-  }
-
-  public setRepeatableForm(): void {
-
-    this.repeatable = {
-      components: [
-        {
-          key: "repeatableKey",
-          type: "repeatable",
-          data: { values: [
-            {
-              campo1: 'hello',
-              campo2: 'pizza'
-            },
-            {
-              campo1: 'hello2',
-              campo2: 'pizza2'
-            },
-          ]},
-          readOnly: false,
-          components: [
-        {
-          key: "columns",
-          type: "columns",
-          columns: [
-            {
-              components: [
-                {
-                  label: "Campo 1",
-                  key: "campo1",
-                  type: "textfield",
-                  suffix: ""
-                }
-              ]
-            },
-            {
-              components: [
-                {
-                  label: "Campo 2",
-                  key: "campo2",
-                  type: "textfield",
-                  suffix: ""
-                }
-              ]
+    constructor(
+        private tabsService: TabsService,
+        private data: DataService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private httpClient: HttpClient,
+        public dataTableService: DataTableService,
+        public datepickerService: DatepickerService,
+        public uploadService: UploaderService
+    ) {
+        this.dataTableService.setResponseHandler('table4', res => {
+            return {
+                pagination: {
+                    totalPages: 1,
+                    totalRecords: res.body.length
+                },
+                records: res.body
             }
-          ],
-          suffix: ""
+        });
+
+        this.setFormJson();
+
+        this.setCodeEditorForm();
+
+        this.setRepeatableForm();
+
+    }
+
+    ngOnInit() {
+    }
+
+    ngAfterViewInit(): void {
+        this.formContainer.formReadyEvent.subscribe(f => {
+            this.formRef = f;
+        })
+        this.changeDetectorRef.detectChanges();
+    }
+
+    applyFilter() {
+    }
+
+    setFormJson() {
+        const filterForm: IForm = {
+            components: [
+                {
+                    key: 'autocomplete',
+                    type: 'autocomplete',
+                    label: 'Completamento automatico',
+                    placeholder: 'Inserisci almeno due caratteri',
+                    labelProperty: 'city',
+                    valueProperty: 'name',
+                    dataSrc: 'url',
+                    data: {
+                        url: 'https://pastebin.com/raw/RiYKY6q7?code=',
+                        autocompleteType: 'server',
+                        values: []
+                    },
+                }
+            ]
+        };
+
+        this.form = {
+            components: [
+                {
+                    type: 'textfield',
+                    label: 'Questo campo è nascosto',
+                    key: 'hidden1',
+                    hidden: true
+                },
+                {
+                    type: 'columns',
+                    columns: [
+                        {
+                            components: [
+                                {
+                                    type: 'textfield',
+                                    label: 'Questo campo è nascosto, e anche se si trova dentro una colonna non occupa spazio',
+                                    key: 'hidden2',
+                                    hidden: true
+                                },
+                                {
+                                    type: 'textfield',
+                                    label: 'Questo campo è visibile e dentro una colonna',
+                                    key: 'visible1'
+                                }
+                            ]
+                        },
+                        {
+                            components: [
+                                {
+                                    type: 'textfield',
+                                    label: 'Anche questo campo è visibile',
+                                    key: 'visible2'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
-      ],
+
+
+        // this.searchForm2 = {};
+
+    }
+
+    public handleResponse(res: HttpResponse<any>): IFormAjaxResponse<any> {
+        return {
+            pagination: {
+                totalPages: +res.headers.get('x-wp-totalpages'),
+                totalRecords: +res.headers.get('x-wp-total')
+            },
+            // records: res.body
+            records: []
         }
-      ]
-    };
+    }
 
-  }
+    public getSubProperty(val: any) {
+        if (val.hasOwnProperty('rendered')) {
+            return val.rendered;
+        }
+        return val;
+    }
 
-  // public updateCodeEditorFormsValues(): void {
-  //   this.codeEditorCsvMrfRef.setValue({codeEditorCsvKey: this.counter.toString()});
-  //   this.codeEditorJsonMrfRef.setValue({codeEditorJsonKey: this.counter.toString()});
-  //   this.codeEditorXmlMrfRef.setValue({codeEditorXmlKey: this.counter.toString()});
-  //   this.counter++;
-  // }
+    public dateRenderer(val: any) {
+        const date = new Date(val);
+        return date.toDateString();
+    }
 
-  ngOnInit() {
-    // if (!!this.formContainer) {
-    //   this.formContainer.formReadyEvent.subscribe(f => {
-    //     this.formRef = f;
-    //     f.setValue({patatefritte: '1593100365196'});
-    //   });
-    // }
+    public qualcosa(row) {
+        console.log('qualcosa');
+        console.log(row);
+        alert('qualcosa');
+    }
 
-    // this.datepickerService.registerFilter('diVenereEDiMarte', this.filterDatePicker)
-  }
+    public qualcosAltro(row) {
+        console.log('qualcosAltro');
+        console.log(row);
+        alert('qualcosAltro');
+    }
 
-  public filterDatePicker(d: Date): boolean {
-    const day = d.getDay();
-    return day !== 2 && day !== 5;
-  }
+    nextTab() {
+        this.tabsService.$eventHandler.next({
+            callback: 'nextTab'
+        });
+    }
 
-  ngAfterViewInit(): void {
-    // this.formContainer.formReadyEvent.subscribe(f => {
-    //   this.formRef = f;
-    //   window['F'] = f;
-    // })
-    // this.changeDetectorRef.detectChanges();
+    tellMeTabs() {
+        // this.elementAvailable = this.formRef.value.quadri.map(e => ({value: e.codice , label: e.id}));
+        this.formContainer.setListaAutocompleteObjList(this.elementAvailable);
+    }
 
+    setFocus() {
+    }
+
+    callMeBaby() {
+        this.formRef.setValue({hiddenfield: 'valore'});
+
+        console.log(this.formRef.value);
+
+        // this.uploadService.setDownload('esitoPdf', 'http://www.google.com');
+    }
+
+    post1() {
+        this.httpClient.post('https://reqres.in/api/users', {
+            name: 'morpheus',
+            job: 'leader'
+        }).subscribe((value => {
+            console.log(value)
+        }))
+    }
+
+    post2() {
+        this.httpClient.post('https://reqres.in/api/users', {
+            name: 'tamatrz',
+            job: 'tm3'
+        }).subscribe((value => {
+            console.log(value)
+        }))
+    }
+
+    // Code editor component
     // CODE EDITOR
-    // this.codeEditorCsvRef.formReadyEvent.subscribe(f => {
-    //   this.codeEditorCsvMrfRef = f;
-    // })
-    // this.codeEditorJsonRef.formReadyEvent.subscribe(f => {
-    //   this.codeEditorJsonMrfRef = f;
-    // })
-    // this.codeEditorXmlRef.formReadyEvent.subscribe(f => {
-    //   this.codeEditorXmlMrfRef = f;
-    // })
-    // this.inputRef.formReadyEvent.subscribe(f => {
-    //   this.inputMrfRef = f;
-    // })
-    // this.selectRef.formReadyEvent.subscribe(f => {
-    //   this.selectMrfRef = f;
-    // })
-
-
-    this.repeatableRef.formReadyEvent.subscribe(f => {
-
-      const data = {
-        values: [
-          {
-            campo1: 'helloss',
-            campo2: 'pizza'
-          },
-          {
-            dd: 'hello2',
-            campo2: 'pizza2'
-          },
-        ]
-      };
-
-      const attachments = this.generateUniqueAttachmentObject(data.values);
-      // f.setValue(attachments);
-    });
-
-  }
-
-  private generateUniqueAttachmentObject(attachments: any[]): object {
-    const uniqueObject = {};
-    // const attachments = this.attachments;
-    if (!attachments) {
-      return {};
-    }
-    let counter = 1;
-    attachments.forEach(a => {
-      Object.keys(a).forEach(key => {
-        uniqueObject[key + ':' + counter] = a[key];
-      });
-      counter++;
-    });
-    return uniqueObject;
-  }
-
-  applyFilter() {
-  }
-
-  resetFormValue() {
-    this.formRef.reset({});
-  }
-
-  setSearchForm() {
-    this.searchForm = {
-      components: [
-        {
-          key: 'pdf_firmato',
-          type: 'file',
-          label: 'Carica la domanda firmata',
-          target: '/gw/api/documenti/attachements/signed/MI/',
-          deleteUrl: '/gw/api/documenti/attachements/delete/MI/',
-          hidden: false,
-          singleUpload: true,
-          validate: {
-            required: true,
-            pattern: '^[\\s\\S]+.pdf(.p7m)?$',
-            custom: ''
-          },
-          suffix: '',
-          defaultValue: null,
-          input: true,
-          data: {},
-          disabled: false
-        }
-      ]
-    }
-
-
-
-    // this.searchForm2 = {};
-
-  }
-
-  public handleResponse(res: HttpResponse<any>): IFormAjaxResponse<any> {
-    return {
-      pagination: {
-        totalPages: +res.headers.get('x-wp-totalpages'),
-        totalRecords: +res.headers.get('x-wp-total')
-      },
-      // records: res.body
-      records: []
-    }
-  }
-
-  public getSubProperty(val: any) {
-    if (val.hasOwnProperty('rendered')) {
-      return val.rendered;
-    }
-    return val;
-  }
-
-  public dateRenderer(val: any) {
-    const date = new Date(val);
-    return date.toDateString();
-  }
-
-  public qualcosa(row) {
-    console.log('qualcosa');
-    console.log(row);
-    alert('qualcosa');
-  }
-
-  public qualcosAltro(row) {
-    console.log('qualcosAltro');
-    console.log(row);
-    alert('qualcosAltro');
-  }
-
-  nextTab() {
-    this.tabsService.$eventHandler.next({
-      callback: 'nextTab'
-    });
-  }
-
-  tellMeTabs() {
-    // this.elementAvailable = this.formRef.value.quadri.map(e => ({value: e.codice , label: e.id}));
-    this.formContainer.setListaAutocompleteObjList(this.elementAvailable);
-  }
-
-  setFocus() {
-  }
-
-  callMeBaby() {
-    console.log(this.formRef.valid);
-    this.uploadService.setDownload('esitoPdf', 'http://www.google.com');
-  }
-
-  post1() {
-    this.httpClient.post('https://reqres.in/api/users', {
-      name: 'morpheus',
-      job: 'leader'
-    }).subscribe((value => {
-      console.log(value)
-    }))
-  }
-
-  post2() {
-    this.httpClient.post('https://reqres.in/api/users', {
-      name: 'tamatrz',
-      job: 'tm3'
-    }).subscribe((value => {
-      console.log(value)
-    }))
-  }
-
-  // CODE EDITOR
   setCodeEditorForm() {
     this.csvString = "test,test,test,' spazi ',test test,dd"
     this.jsonString = "{\"glossary\":{\"title\":\"exampleglossary\",\"GlossDiv\":{\"title\":\"S\",\"GlossList\":{\"GlossEntry\":" +
@@ -402,7 +237,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           type: "codeEditor",
           defaultValue: this.csvString,
           readOnly: false,
-          // label: 'Label text',
+          label: 'Label text',
           codeEditorOptions: {
             mode: 'csv',
             indentDefaultValue: true,
@@ -436,7 +271,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           key: "codeEditorXmlKey",
           type: "codeEditor",
           defaultValue: this.xmlString,
-          readOnly: true,
+          readOnly: false,
           label: 'label XML',
           codeEditorOptions: {
             mode: 'xml',
@@ -460,38 +295,59 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
       ]
     };
 
-    this.objectElement = {
-      components: [
-        {
-          key: "objectList",
-          label: "Object element test",
-          type: "objectList2",
-          hidden: false,
-          domainUrl: "assets/data/movies.json",
-          columnsDefinition: [
-            {
-              value: "id",
-              label: "ID"
-            },
-            {
-              value: "title",
-              label: "Title"
-            },
-            {
-              value: "year",
-              label: "Year"
-            }
-          ],
-          suffix: "",
-          defaultValue: null,
-          validate: {
-            custom: ""
-          },
-          input: true,
-          data: {}
-        }
-      ]
-    };
   }
 
+    // Repeatable initial values
+    public setRepeatableForm(): void {
+
+      this.repeatable = {
+        components: [
+          {
+            key: "repeatableKey",
+            type: "repeatable",
+            data: { values: [
+              {
+                campo1: 'hello',
+                campo2: 'pizza'
+              },
+              {
+                campo1: 'hello2',
+                campo2: 'pizza2'
+              },
+            ]},
+            readOnly: false,
+            components: [
+              {
+                key: "columns",
+                type: "columns",
+                columns: [
+                  {
+                    components: [
+                      {
+                        label: "Campo 1",
+                        key: "campo1",
+                        type: "textfield",
+                        suffix: ""
+                      }
+                    ]
+                  },
+                  {
+                    components: [
+                      {
+                        label: "Campo 2",
+                        key: "campo2",
+                        type: "textfield",
+                        suffix: ""
+                      }
+                    ]
+                  }
+                ],
+                suffix: ""
+              }
+            ],
+          }
+        ]
+      };
+
+    }
 }

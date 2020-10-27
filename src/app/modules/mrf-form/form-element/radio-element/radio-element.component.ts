@@ -3,7 +3,7 @@ import {NgForm, NgModel} from '@angular/forms';
 import {IFormElement} from '../../shared/models/form-element.model';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {MatRadioGroup} from '@angular/material/radio';
-import {ValueService} from "../../shared/services/value/value.service";
+import {ValueService} from '../../shared/services/value/value.service';
 
 @Component({
   selector: 'mrf-radio-element',

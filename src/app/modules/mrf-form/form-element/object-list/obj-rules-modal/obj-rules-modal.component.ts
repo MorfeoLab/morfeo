@@ -21,7 +21,7 @@ export class ObjRulesModalComponent implements AfterViewInit {
   private formRef: NgForm;
   private idProgettoCambiamento: string;
   private filteredOptions: any[];
-  public defaultValueRadioButton = "true";
+  public defaultValueRadioButton = 'true';
 
   @ViewChild (MrfFormComponent, {static: false}) private formContainer: MrfFormComponent;
 

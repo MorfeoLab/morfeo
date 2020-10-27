@@ -2,7 +2,7 @@ import {AfterContentChecked, Component, Input, OnInit} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IFormElement } from '../../shared/models/form-element.model';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
-import {ValueService} from "../../shared/services/value/value.service";
+import {ValueService} from '../../shared/services/value/value.service';
 
 @Component({
   selector: 'mrf-text-area-element',

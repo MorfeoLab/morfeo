@@ -67,6 +67,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -83,10 +84,12 @@ export const declarationList = [
     ComboElementComponent,
     DataTableComponent,
     DateElementComponent,
+    DatetimeElementComponent,
     DebugObjectComponent,
+    ElementWrapperComponent,
     EngDynamicFormsComponent,
-    MrfFormComponent,
     FormElementComponent,
+    GenericButtonComponent,
     HtmlBoxElementComponent,
     HtmlElementComponent,
     JsonRuleElementComponent,
@@ -96,9 +99,11 @@ export const declarationList = [
     LayoutFieldsetComponent,
     LayoutTablesComponent,
     LayoutTabsComponent,
+    LeftMenuComponent,
     ListModalComponent,
     MapElementComponent,
     ModalComponent,
+    MrfFormComponent,
     ObjectListComponent,
     ObjectListModalComponent,
     ObjectListSelectorComponent,
@@ -158,12 +163,13 @@ export const exportsList = [
     DateElementComponent,
     DebugObjectComponent,
     EngDynamicFormsComponent,
-    MrfFormComponent,
     FormElementComponent,
     HtmlElementComponent,
     JsonRuleElementComponent,
     JsonRulesListElementComponent,
+    LeftMenuComponent,
     MapElementComponent,
+    MrfFormComponent,
     OnlyBooleanPipe,
     RadioElementComponent,
     ReadOnlyComponent,
@@ -255,10 +261,7 @@ export const entryComponentsList = [
 // TODO - check if we need to export all components or just MrfFormComponent
 @NgModule({
     declarations: [
-        declarationList,
-        ElementWrapperComponent,
-        GenericButtonComponent,
-        DatetimeElementComponent
+        declarationList
     ],
     imports: [
         importsList,
