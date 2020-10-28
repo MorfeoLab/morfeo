@@ -1,7 +1,7 @@
-import {EventEmitter, Injectable} from '@angular/core';
 import {IFormAjaxResponse} from '../../models/form-element.model';
 import {MrfFormComponent} from '../../../mrf-form.component';
 import {UtilityService} from '../utility/utility.service';
+import {EventEmitter, Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -82,14 +82,19 @@ export class DataTableService {
     for (const key in filterFields) {
       if (filterFields.hasOwnProperty(key)) {
         let value = filterFields[key];
-        if (this.utils.isNullOrUndefined(value)) {
-          /// Se il campo è null o non è definito usiamo stringa vuota
-          value = '';
-        } else if (!['string', 'number', 'boolean'].includes(typeof value)) {
-          /// Un oggetto deve essere trasformato prima
-          value = JSON.stringify(value);
+        if (!this.utils.isNullOrUndefined(value)) {
+          /// Se il campo è null o non è definito non ha senso mandarlo al be
+          if (!['string', 'number', 'boolean'].includes(typeof value)) {
+            /// Un oggetto deve essere trasformato prima
+            if (!!value.toJSON) {
+              /// Se entra qui è stanza di Date o di Moment
+              value = value.toJSON();
+            } else {
+              value = JSON.stringify(value);
+            }
+          }
+          response = `${response}${key}=${value}&`;
         }
-        response = `${response}${key}=${value}&`;
       }
     }
     return response.substring(0, response.length - 1);

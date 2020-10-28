@@ -85,44 +85,124 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
         };
 
         this.form = {
-            components: [
+            "components": [
                 {
-                    type: 'textfield',
-                    label: 'Questo campo è nascosto',
-                    key: 'hidden1',
-                    hidden: true
-                },
-                {
-                    type: 'columns',
-                    columns: [
-                        {
-                            components: [
+                    "type": "dataTable",
+                    "key": "autorizzazioniTable",
+                    "hideLoader": true,
+                    "dataSrc": "url",
+                    "data": {
+                        "url": "/gw/api/cpistruttoria/istanze/domande/$filter",
+                        "values": [],
+                        "pagination": {
+                            "sizeOptions": [
+                                5,
+                                10,
+                                15
+                            ]
+                        },
+                        "filter": {
+                            "components": [
                                 {
-                                    type: 'textfield',
-                                    label: 'Questo campo è nascosto, e anche se si trova dentro una colonna non occupa spazio',
-                                    key: 'hidden2',
-                                    hidden: true
-                                },
-                                {
-                                    type: 'textfield',
-                                    label: 'Questo campo è visibile e dentro una colonna',
-                                    key: 'visible1'
+                                    "label": "Data",
+                                    "key": "date",
+                                    "type": "datetime",
+                                    "validate": {
+                                        "required": false
+                                    }
                                 }
                             ]
                         },
-                        {
-                            components: [
-                                {
-                                    type: 'textfield',
-                                    label: 'Anche questo campo è visibile',
-                                    key: 'visible2'
-                                }
-                            ]
-                        }
-                    ]
+                        "columns": [
+                            {
+                                "value": "codice",
+                                "label": "Codice"
+                            },
+                            {
+                                "value": "area",
+                                "label": "Area",
+                                "sortable": true
+                            },
+                            {
+                                "value": "ambito",
+                                "label": "Ambito"
+                            },
+                            {
+                                "value": "sede",
+                                "label": "Sede",
+                                "sortable": true
+                            },
+                            {
+                                "value": "tipoProcedimento",
+                                "label": "Tipo Procedimento"
+                            },
+                            {
+                                "value": "dataPresentazione",
+                                "label": "Data Presentazione",
+                                "sortable": true
+                            },
+                            {
+                                "value": "numeroProtocollo",
+                                "label": "Numero Protocollo"
+                            },
+                            {
+                                "value": "dataProtocollo",
+                                "label": "Data Protocollo",
+                                "sortable": true
+                            },
+                            {
+                                "value": "statoIstanza",
+                                "label": "Stato",
+                                "sortable": true
+                            },
+                            {
+                                "value": "cognomeRichiedente",
+                                "label": "Cognome"
+                            },
+                            {
+                                "value": "nomeRichiedente",
+                                "label": "Nome",
+                                "sortable": true
+                            },
+                            {
+                                "value": "dataNascitaRichiedente",
+                                "label": "Data Nascita"
+                            },
+                            {
+                                "value": "codiceFiscaleRichiedente",
+                                "label": "Codice Fiscale",
+                                "sortable": true
+                            },
+                            {
+                                "value": "tools",
+                                "label": "",
+                                "renderer": "showButtonsByStatus",
+                                "style": {
+                                    "align": "right"
+                                },
+                                "buttons": [
+                                    {
+                                        "label": "Modifica",
+                                        "icon": "edit",
+                                        "action": "edit",
+                                        "color": "primary",
+                                        "style": "icon"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "suffix": "",
+                    "hidden": false,
+                    "defaultValue": null,
+                    "validate": {
+                        "custom": ""
+                    },
+                    "input": true
                 }
             ]
         }
+
 
 
         // this.searchForm2 = {};
