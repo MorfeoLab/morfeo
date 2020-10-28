@@ -219,6 +219,7 @@ export class FormElementComponent implements OnInit {
   isInput(comp: IFormElement) {
     return [
       'autocomplete',
+      'button',
       'checkbox',
       'chips',
       'datetime',
