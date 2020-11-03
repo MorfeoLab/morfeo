@@ -7,7 +7,6 @@ import {Subscription} from 'rxjs';
 import {ElementWrapperComponent} from '../../../form-element/element-wrapper/element-wrapper.component';
 
 const SCOPED_SUFFIX = ':++';
-const DOT_REPLACEMENT = '##';
 
 /**
  * Questo servizio deve occuparsi di gestire le condizioni
@@ -325,14 +324,8 @@ export class ConditionalService {
     /**
      * Sostituisce tutti i puntini con un altro separatore su tutti i valori del form
      */
-    const formValue = JSON.parse(
-      JSON.stringify(rule.form.value || {})
-        .split('.').join(DOT_REPLACEMENT)
-    );
-    const formExternalValue = JSON.parse(
-      JSON.stringify(rule.form.externalData || {})
-        .split('.').join(DOT_REPLACEMENT)
-    );
+    const formValue = JSON.parse(JSON.stringify(rule.form.value || {}));
+    const formExternalValue = JSON.parse(JSON.stringify(rule.form.externalData || {}));
     for (const r of rule.rules) {
       /**
        * Se suffix è undefined lo valorizziamo con stringa vuota.
@@ -390,23 +383,11 @@ export class ConditionalService {
           /**
            * Sostituisce tutti i puntini con un altro separatore su tutti i valori esterni
            */
-          const externalData = JSON.parse(
-            JSON.stringify(r.externalData || {})
-              .split('.').join(DOT_REPLACEMENT)
-          );
+          const externalData = JSON.parse(JSON.stringify(r.externalData || {}));
           if (typeof r.jsonRule === 'string') {
-            r.jsonRule = JSON.parse(
-              r.jsonRule
-                .split('.').join(DOT_REPLACEMENT)
-                .split(SCOPED_SUFFIX).join(r.element.suffix)
-            );
-
+            r.jsonRule = JSON.parse(r.jsonRule.split(SCOPED_SUFFIX).join(r.element.suffix));
           } else {
-            r.jsonRule = JSON.parse(
-              JSON.stringify(r.jsonRule)
-                .split('.').join(DOT_REPLACEMENT)
-                .split(SCOPED_SUFFIX).join(r.element.suffix)
-            );
+            r.jsonRule = JSON.parse(JSON.stringify(r.jsonRule).split(SCOPED_SUFFIX).join(r.element.suffix));
           }
           /**
            * I valori letterali salvati da BDM sono sempre lowercase, per questo modifichiamo i valori del form perché siano anche loro lowercase

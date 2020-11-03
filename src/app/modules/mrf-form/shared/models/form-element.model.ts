@@ -1,6 +1,8 @@
 /**
  * Main form object
  */
+import {JsonLogicNode} from '../../form-element/json-rule-element/json-rule-element.component';
+
 export interface IForm {
   components: IFormElement[];
 
@@ -106,7 +108,7 @@ export interface IFormElementAttributes {
 }
 
 export interface IFormElementValidation {
-  custom?: string;
+  custom?: string | JsonLogicNode[]  ;
   customMessage?: string;
   customPrivate?: boolean;
   /** Non utilizzato */
