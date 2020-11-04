@@ -72,6 +72,14 @@ export class CodeEditorElementComponent {
    */
   public dummyContent: any;
 
+	/**
+   *
+   *
+   * @type {NgForm}
+   * @memberof CodeEditorElementComponent
+   */
+  public dummyFormRef: NgForm;
+
   /**
    * Classi necessarie per simulare la floating-label nel ngx-codemirror element
    *
