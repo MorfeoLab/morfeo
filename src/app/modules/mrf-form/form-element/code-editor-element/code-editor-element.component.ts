@@ -78,7 +78,7 @@ export class CodeEditorElementComponent {
    */
   public dummyContent: any;
 
-  /**
+	/**
    *
    *
    * @type {NgForm}

@@ -59,6 +59,7 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
       this.field.data.values
     ) {
       const values = this.generateUniqueValues(this.field.data.values);
+      this.addElement();
       setTimeout(() => {
         this.formRef.setValue(values);
       }, 0);
