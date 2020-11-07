@@ -19,6 +19,9 @@ export class CodeEditorElementComponent {
   @ViewChild('codeEditorDummyBorder') public codeEditorDummyBorderRef: ElementRef;
   @ViewChild('codeMirrorContainer') public codeMirrorContainerRef: ElementRef;
 
+
+  public dummyMe:any;
+
   /**
    *  Linguaggi/formatti gestiti dall'editor (es. csv, json, xml...)
    *

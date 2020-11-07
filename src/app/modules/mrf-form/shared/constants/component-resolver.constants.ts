@@ -213,6 +213,11 @@ export const COMPONENT_RESOLVER: ComponentResolver = {
     input: TextElementComponent,
     output: ReadOnlyComponent,
   },
+  image: {
+    // FIELD: TEXT
+    input: TextElementComponent,
+    output: ReadOnlyComponent,
+  },
   // EXTRAS
   htmlelement: {
     // EXTRA: HTML ELEMENT

@@ -38,6 +38,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
     input: IForm;
     objectElement: IForm;
     repeatable: IForm;
+    textFieldTest: IForm;
 
     constructor(
         private tabsService: TabsService,
@@ -64,16 +65,34 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
 
         this.setRepeatableForm();
 
+        this.setTextFieldTest();
+
+        this.setInputFieldTest();
+
+    }
+
+    public setInputFieldTest()  {
+      this.input = {
+        components: [
+          {
+            key: "codeEditorXmlKey",
+            type: "image",
+            defaultValue: "https://media.newyorker.com/photos/5d0be56fe140839b70c68120/master/pass/Phillips-Neon-Genesis-Evangelion.jpg",
+            readOnly: false,
+            label: "prova",
+          }
+        ]
+      };
     }
 
     ngOnInit() {
     }
 
     ngAfterViewInit(): void {
-        this.formContainer.formReadyEvent.subscribe(f => {
-            this.formRef = f;
-        })
-        this.changeDetectorRef.detectChanges();
+        // this.formContainer.formReadyEvent.subscribe(f => {
+        //     this.formRef = f;
+        // })
+        // this.changeDetectorRef.detectChanges();
     }
 
     applyFilter() {
@@ -363,17 +382,7 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
       ]
     };
 
-    this.input = {
-      components: [
-        {
-          key: "codeEditorXmlKey",
-          type: "textfield",
-          defaultValue: "provaDefaultValue",
-          readOnly: true,
-          label: "prova",
-        }
-      ]
-    };
+
 
   }
 
@@ -385,17 +394,9 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           {
             key: "repeatableKey",
             type: "repeatable",
-            data: { values: [
-              {
-                campo1: 'hello',
-                campo2: 'pizza'
-              },
-              {
-                campo1: 'hello2',
-                campo2: 'pizza2'
-              },
-            ]},
+            data: { values: [] },
             readOnly: false,
+            emptyRepeatable: true,
             components: [
               {
                 key: "columns",
@@ -428,6 +429,100 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
           }
         ]
       };
+      // this.repeatable = {
+      //   components: [
+      //     {
+      //       key: "repeatableKey",
+      //       type: "repeatable",
+      //       data: { values: [
+      //         {
+      //           campo1: 'hello',
+      //           campo2: 'pizza'
+      //         },
+      //         {
+      //           campo1: 'hello2',
+      //           campo2: 'pizza2'
+      //         },
+      //       ]},
+      //       readOnly: false,
+      //       components: [
+      //         {
+      //           key: "columns",
+      //           type: "columns",
+      //           columns: [
+      //             {
+      //               components: [
+      //                 {
+      //                   label: "Campo 1",
+      //                   key: "campo1",
+      //                   type: "textfield",
+      //                   suffix: ""
+      //                 }
+      //               ]
+      //             },
+      //             {
+      //               components: [
+      //                 {
+      //                   label: "Campo 2",
+      //                   key: "campo2",
+      //                   type: "textfield",
+      //                   suffix: ""
+      //                 }
+      //               ]
+      //             }
+      //           ],
+      //           suffix: ""
+      //         }
+      //       ],
+      //     }
+      //   ]
+      // };
 
     }
+
+    public setTextFieldTest(): void {
+      this.textFieldTest = {
+        "components": [
+          {
+            "key": "text1",
+            "type": "textfield",
+            "label": "Campo di testo",
+            "placeholder": "Inserisci un testo",
+            "hidden": false,
+            "defaultValue": "Valore di default1",
+            "disabled": true,
+            "readOnly": false,
+            "validate": {
+              "required": false,
+              "minLength": "",
+              "maxLength": "",
+              "custom": ""
+            },
+            "suffix": "",
+            "input": true,
+            "data": {}
+          },
+          {
+            "key": "text2",
+            "type": "textfield",
+            "label": "Campo di testo",
+            "placeholder": "Inserisci un testo",
+            "hidden": false,
+            "defaultValue": "Valore di default2",
+            "disabled": false,
+            "readOnly": false,
+            "validate": {
+              "required": false,
+              "minLength": "",
+              "maxLength": "",
+              "custom": ""
+            },
+            "suffix": "",
+            "input": true,
+            "data": {}
+          }
+        ]
+      }
+    }
+
 }

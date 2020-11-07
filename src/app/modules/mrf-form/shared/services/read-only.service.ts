@@ -26,6 +26,7 @@ export class ReadOnlyService {
       if ([
         'textarea',
         'textfield',
+        'image',
         'codeEditor',
         'select',
         'autocomplete',

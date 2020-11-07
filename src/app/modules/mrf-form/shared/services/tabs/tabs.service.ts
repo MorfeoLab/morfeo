@@ -46,6 +46,7 @@ export class TabsService {
       case 'textarea':
       case 'codeEditor':
       case 'textfield':
+      case 'image':
         /// Salva o aggiorna
         if (Array.isArray(tabsNames) && tabsNames.length > 0) {
           this.jsonField[json.key] = {tabs: [...tabsNames], label: json.label};

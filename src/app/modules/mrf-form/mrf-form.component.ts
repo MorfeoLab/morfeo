@@ -237,6 +237,7 @@ export class MrfFormComponent implements OnDestroy, OnInit {
       case 'phoneNumber':
       case 'textarea':
       case 'textfield':
+      case 'image':
         if (!!focusElement) {
           focusElement.focus();
         }

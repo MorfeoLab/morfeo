@@ -22,7 +22,7 @@
         </div>
       </ng-container>
     </ng-container>
-    <a mat-button (click)="addElement()" *ngIf="!!fields && !!fields.length && field.displayMode !== 'output' && !readOnly">
+    <a mat-button (click)="addElement()" *ngIf="!!fields && fields.length >= 0 && field.displayMode !== 'output' && !readOnly">
       <mat-icon>add</mat-icon>
       {{ field.label | translate }}
     </a>

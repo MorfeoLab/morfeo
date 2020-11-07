@@ -195,6 +195,7 @@ export class UtilityService {
             'selectboxes',
             'textarea',
             'textfield',
+            'image',
             'codeEditor',
           ];
           if (inputTypes.includes(component.type)) {

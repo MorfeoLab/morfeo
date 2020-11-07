@@ -7,7 +7,10 @@
       "dot-object/dist/dot-object": "dotObject",
       "@ngx-translate/core": "ngxTranslate",
       "util": "morfeoUtil",
-      "@ngx-translate/http-loader": "httpLoader"
+      "@ngx-translate/http-loader": "httpLoader",
+      "@ctrl/ngx-codemirror": "ngxCodemirror",
+      "codemirror": "codemirror",
+      "js-beautify": "jsBeautify"
     }
   }
 }

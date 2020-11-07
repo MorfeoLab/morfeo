@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {RepeatableService} from './repeatable.service';
-import {IFormElement} from '../../shared/models/form-element.model';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { RepeatableService } from './repeatable.service';
+import { IFormElement } from '../../shared/models/form-element.model';
 import * as cloneDeep_ from 'lodash/cloneDeep';
 const cloneDeep = cloneDeep_;
 
@@ -63,8 +63,8 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
         this.formRef.setValue(values);
       }, 0);
     }
-
-    this.noEmptyRepeatable();
+    if (!this.field.emptyRepeatable)
+      this.noEmptyRepeatable();
   }
 
   noEmptyRepeatable(): void {
@@ -85,7 +85,7 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
 
   addElement(n: number = 0) {
     n = n || ++this.count;
-    const newField: IFormElement =  cloneDeep(this.field.components[0]);
+    const newField: IFormElement = cloneDeep(this.field.components[0]);
     newField.suffix = newField.suffix || this.field.suffix;
     newField.suffix = newField.suffix + ':' + n;
     this.fields[n] = newField;
@@ -97,7 +97,8 @@ export class RepeatableContainerComponent implements OnInit, OnDestroy {
     if (index >= 0) {
       this.fields.splice(index, 1);
     }
-    this.noEmptyRepeatable();
+    if (!this.field.emptyRepeatable)
+      this.noEmptyRepeatable();
   }
 
   getAllChildrenKeys(f: IFormElement, includeRepeatables = false): string[] {

@@ -178,7 +178,8 @@ export interface IFormElement {
     | 'textarea'
     | 'textfield'
     | 'codeEditor'
-    | 'well';
+    | 'well'
+    | 'image';
 
   /**
    * Tipi di file accettabili, come attributo 'accept' di <input type="file" />.
@@ -297,6 +298,8 @@ export interface IFormElement {
    * Utilizzato da ObjectListModal è la URL del servizio da chiamare per i dati in tabella
    */
   domainUrl?: string;
+  /* Nasconde prima riga del repeatable */
+  emptyRepeatable?: boolean;
   /** Non utilizzato */
   enableDate?: boolean;
   /** Non utilizzato */
