@@ -60,8 +60,8 @@ export class ConditionalService {
        * tutte in UPPERCASE (per esempio la regexp dei codici fiscali)
        */
       a = new RegExp(a, 'i');
-      if (!a || !b) {
-        return true;
+      if (this.utils.isNullOrUndefined(a) || this.utils.isNullOrUndefined(b)) {
+        return false;
       }
       return b.match(a);
     };
