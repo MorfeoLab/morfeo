@@ -169,7 +169,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
             $filter: this.getRequestFilter()
         };
 
-        url = url.replace(/\$pageNum|\$pageSize|\$sortField|\$sortDirection|\$filter/gi, (matched) => paginationOptions[matched]);
+        url = url.replace(/\$pageNum|\$pageSize|\$sortField|\$sortDirection|\$filter/gi, (matched) => encodeURI(paginationOptions[matched]));
 
         this.http.get(url, {observe: 'response'}).subscribe(
             (data: any) => {
