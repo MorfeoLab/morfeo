@@ -1,6 +1,6 @@
 {
   "name": "@eng/morfeo",
-  "version": "6.21.3-samatera",
+  "version": "6.21.4",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",
