@@ -19,8 +19,8 @@
       [jsonRule]="field.input ? field.validate.custom : ''"
     ></textarea>
     <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
-    <mat-error *ngIf="me.hasError('minlength')">{{'generic.labels.minLeght' | translate}}</mat-error>
-    <mat-error *ngIf="me.hasError('maxlength')">{{'generic.labels.maxLeght' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('minlength')">{{'generic.labels.minLength' | translate}}</mat-error>
+    <mat-error *ngIf="me.hasError('maxlength')">{{'generic.labels.maxLength' | translate}}</mat-error>
     <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
   </mat-form-field>
 </ng-container>
