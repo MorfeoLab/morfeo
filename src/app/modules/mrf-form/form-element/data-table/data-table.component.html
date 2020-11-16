@@ -34,9 +34,8 @@
         <ng-container *ngIf="!!col.value">
           {{render(row, col)}}
         </ng-container>
-        <ng-container *ngIf="!!col.buttons">
+        <ng-container *ngIf="!!col.buttons && !field.readOnly">
           <ng-container *ngFor="let button of col.buttons">
-
           <mrf-generic-button
             [button]="button"
             (click)="buttonAction([col.value, button.action], row)"

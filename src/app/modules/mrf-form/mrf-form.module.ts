@@ -58,16 +58,16 @@ import {TextElementComponent} from './form-element/text-element/text-element.com
 import {CodeEditorElementComponent} from './form-element/code-editor-element/code-editor-element.component';
 import {DatetimeElementComponent} from './form-element/datetime-element/datetime-element.component';
 import {ValidateCustomDirective} from './shared/directives/validate-custom/validate-custom.directive';
-import {NgModule} from '@angular/core';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import {RouterModule} from '@angular/router';
-import {MAT_DATE_LOCALE} from '@angular/material/core';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CodemirrorModule} from '@ctrl/ngx-codemirror';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
+import {RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -231,6 +231,7 @@ export const entryComponentsList = [
     CheckboxElementComponent,
     ChipsElementComponent,
     ComboElementComponent,
+    DataTableComponent,
     DateElementComponent,
     JsonRuleElementComponent,
     JsonRulesListElementComponent,

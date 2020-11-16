@@ -32,7 +32,7 @@
     </div>
     <mat-checkbox
       [ngClass]="'mrf-selectboxes-' + field.key"
-      [disabled]="field.input && field.disabled"
+      [disabled]="(!!field.input && !!field.disabled) || readOnly"
       [required]="!!(field.input ? field.validate && field.validate.required : false)"
       class="option"
       *ngFor="let value of field.values"

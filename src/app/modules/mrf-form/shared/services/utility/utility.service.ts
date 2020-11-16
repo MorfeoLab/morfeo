@@ -75,6 +75,9 @@ export class UtilityService {
     if (!item) {
       return false;
     }
+    if (Array.isArray(item)) {
+      return false;
+    }
     if (typeof item === 'string' && item.match(/[{\[]{1}([,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]|".*?")+[}\]]{1}/)) {
       return true;
     }
