@@ -59,6 +59,12 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
                 records: res.body
             }
         });
+        this.dataTableService.setTooltipFactory('unNomeAPiacere', (row) => {
+            return {
+                text: row.first_name + ' è memorizzato sul db con ID = ' + row.id,
+                position: 'right'
+            }
+        });
 
         this.setFormJson();
 
@@ -76,10 +82,17 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
         this.input = {
             components: [
                 {
+                    type: 'textfield',
+                    label: 'Qui c\'è un tooltip',
+                    key: 'tooltipme',
+                    tooltip: {
+                        text: 'Questo è un tooltip su componente'
+                    }
+                },
+                {
                     type: 'dataTable',
                     key: 'table5',
                     dataSrc: 'values',
-                    readOnly: true,
                     data: {
                         filter: {
                             components: [
@@ -188,7 +201,8 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
                         columns: [
                             {
                                 value: 'id',
-                                label: 'ID'
+                                label: 'ID',
+                                cellTooltip: 'unNomeAPiacere'
                             },
                             {
                                 value: 'first_name',
@@ -207,10 +221,17 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
                             {
                                 value: 'tools',
                                 label: 'Strumenti',
+                                tooltip: {
+                                    text: 'Questo è un tooltip su colonna'
+                                },
                                 buttons: [
                                     {
                                         label: 'Modifica',
                                         icon: 'edit',
+                                        tooltip: {
+                                            text: 'Questo è un tooltip sul pulsante',
+                                            position: 'right'
+                                        },
                                         action: 'edit',
                                         color: 'primary',
                                         style: 'icon'
@@ -226,6 +247,9 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
                                 15
                             ]
                         }
+                    },
+                    tooltip: {
+                        text: 'Questo è un tooltip su componente'
                     },
                     suffix: '',
                     hidden: false,

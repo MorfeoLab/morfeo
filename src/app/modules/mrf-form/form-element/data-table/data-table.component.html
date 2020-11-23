@@ -28,9 +28,20 @@
   <table mat-table matSort [dataSource]="dataSource">
 
     <ng-container *ngFor="let col of columns" matColumnDef="{{col.value}}">
-      <mat-header-cell mat-sort-header [disabled]="!col.sortable" *matHeaderCellDef>{{col.label}}</mat-header-cell>
-      <mat-cell [attr.data-label]="col.label" *matCellDef="let row"
-                class="align-{{col.style?.align}} vertical-align-{{col.style?.verticalAlign}}">
+      <mat-header-cell
+              [matTooltip]="col.tooltip?.text"
+              [matTooltipPosition]="field.tooltip?.position || 'below'"
+              mat-sort-header
+              [disabled]="!col.sortable"
+              *matHeaderCellDef>
+        {{col.label}}
+      </mat-header-cell>
+      <mat-cell
+              [matTooltip]="getCellTooltip(row, col)?.text"
+              [matTooltipPosition]="getCellTooltip(row, col)?.position || 'below'"
+              [attr.data-label]="col.label"
+              *matCellDef="let row"
+              class="align-{{col.style?.align}} vertical-align-{{col.style?.verticalAlign}}">
         <ng-container *ngIf="!!col.value">
           {{render(row, col)}}
         </ng-container>

@@ -1,11 +1,11 @@
 <ng-container [ngSwitch]="button.style">
-  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'raised'"
+  <button [matTooltip]="button.tooltip?.text" [matTooltipPosition]="button.tooltip?.position || 'below'" type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'raised'"
           [disabled]="!!button.disabled" mat-raised-button>{{button.label}}</button>
-  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'stroked'"
+  <button [matTooltip]="button.tooltip?.text" [matTooltipPosition]="button.tooltip?.position || 'below'" type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'stroked'"
           [disabled]="!!button.disabled" mat-stroked-button>{{button.label}}</button>
-  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'flat'"
+  <button [matTooltip]="button.tooltip?.text" [matTooltipPosition]="button.tooltip?.position || 'below'" type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'flat'"
           [disabled]="!!button.disabled" mat-flat-button>{{button.label}}</button>
-  <button type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'icon'"
+  <button [matTooltip]="button.tooltip?.text" [matTooltipPosition]="button.tooltip?.position || 'below'" type="button" (click)="clicked($event)" [color]="button.color" *ngSwitchCase="'icon'"
           [disabled]="!!button.disabled" mat-icon-button>
     <mat-icon [attr.aria-label]="button.label" [color]="button.color">{{button.icon}}</mat-icon>
   </button>

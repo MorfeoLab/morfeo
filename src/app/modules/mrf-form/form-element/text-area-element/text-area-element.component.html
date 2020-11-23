@@ -1,5 +1,9 @@
 <ng-container *ngIf="!!field">
-  <mat-form-field class="field full-width">
+  <mat-form-field
+          class="field full-width"
+          [matTooltip]="(field.tooltip?.text || '') | translate"
+          [matTooltipPosition]="field.tooltip?.position || 'below'"
+  >
     <textarea
       matInput
       placeholder="{{ displayLabel | translate }}"

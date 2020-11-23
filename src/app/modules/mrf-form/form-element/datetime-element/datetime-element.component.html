@@ -3,7 +3,8 @@
   <mat-form-field
     [floatLabel]="!!displayLegend ? 'never' : 'auto'"
     class="field full-width"
-    [matTooltip]="(field.tooltip || '') | translate"
+    [matTooltip]="(field.tooltip?.text || '') | translate"
+    [matTooltipPosition]="field.tooltip?.position || 'below'"
   >
     <input
       matInput

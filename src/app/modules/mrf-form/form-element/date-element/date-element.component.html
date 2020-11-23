@@ -1,7 +1,8 @@
 <ng-container *ngIf="!!field">
   <mat-form-field
     class="field full-width"
-    [hintLabel]="(field.tooltip || '') | translate">
+    [matTooltip]="(field.tooltip?.text || '') | translate"
+    [matTooltipPosition]="field.tooltip?.position || 'below'">
     <input
       (click)="picker.open()"
       (dateChange)="picker.close()"

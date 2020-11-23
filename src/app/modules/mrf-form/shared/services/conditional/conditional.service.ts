@@ -308,6 +308,7 @@ export class ConditionalService {
       }
       this.changeTimeout = setTimeout(() => {
         if (!this.utils.areObjectsEquivalent(v, this.previousValue)) {
+          /// @todo: cambiando i valori di ExternalValue qui non entra mai
           this.applyJsonRules(rule);
           this.previousValue = JSON.parse(JSON.stringify(v || {}));
         }
