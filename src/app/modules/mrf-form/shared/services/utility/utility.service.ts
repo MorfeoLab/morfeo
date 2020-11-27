@@ -11,7 +11,7 @@ export class UtilityService {
   /**
    * Questa funzione confronta due oggetti per determinare se sono equivalenti
    */
-  areObjectsEquivalent(a, b) {
+  public areObjectsEquivalent(a, b) {
     const typeA = typeof a;
     const typeB = typeof b;
     if (typeA !== typeB) {
@@ -43,7 +43,7 @@ export class UtilityService {
     return true;
   }
 
-  areEquivalent(obj1: any, obj2: any, idProperty?: string): boolean {
+  public areEquivalent(obj1: any, obj2: any, idProperty?: string): boolean {
     if (!!idProperty) {
       return (
         obj1.hasOwnProperty(idProperty)
