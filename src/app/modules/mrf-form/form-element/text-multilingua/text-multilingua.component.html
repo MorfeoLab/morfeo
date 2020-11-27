@@ -1,7 +1,11 @@
 <ng-container *ngIf="!!field">
   <div class="flex-container">
     <div class="flex-small">
-      <mat-form-field class="full-width">
+      <mat-form-field
+              class="full-width"
+              [matTooltip]="(field.tooltip?.text || '') | translate"
+              [matTooltipPosition]="field.tooltip?.position || 'below'"
+      >
         <mat-select
           [(ngModel)]="defaultComboValue"
           placeholder="Lingua"
@@ -25,7 +29,8 @@
     <div class="flex-large">
       <mat-form-field
         class="full-width"
-        [hintLabel]="field.tooltip || '' | translate"
+        [matTooltip]="(field.tooltip?.text || '') | translate"
+        [matTooltipPosition]="field.tooltip?.position || 'below'"
       >
         <textarea
           matInput

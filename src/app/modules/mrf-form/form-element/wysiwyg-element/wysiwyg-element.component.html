@@ -2,7 +2,11 @@
   <div class="flex-container">
     <!-- SELECT ELEMENT TO CHOSE LANGUAGE -->
     <div class="flex-small">
-      <mat-form-field class="full-width wysiwyg-select-language">
+      <mat-form-field
+              class="full-width wysiwyg-select-language"
+              [matTooltip]="(field.tooltip?.text || '') | translate"
+              [matTooltipPosition]="field.tooltip?.position || 'below'"
+      >
         <mat-select
           [(ngModel)]="defaultComboValue"
           placeholder="Lingua"

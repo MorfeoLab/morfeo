@@ -3,7 +3,8 @@
   <mat-form-field
     [floatLabel]="!!displayLegend ? 'never' : 'auto'"
     class="field full-width"
-    [hintLabel]="(field.tooltip || '') | translate">
+    [matTooltip]="(field.tooltip?.text || '') | translate"
+    [matTooltipPosition]="field.tooltip?.position || 'below'">
     <mat-select
       placeholder="{{ displayLabel | translate }}"
       [required]="!!(field.input ? field.validate && field.validate.required : false)"

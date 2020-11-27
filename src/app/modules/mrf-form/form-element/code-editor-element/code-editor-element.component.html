@@ -15,6 +15,8 @@
       <mat-form-field
         id="codeEditorMatForm"
         class="{{matFormClasses}}"
+        [matTooltip]="(field.tooltip?.text || '') | translate"
+        [matTooltipPosition]="field.tooltip?.position || 'below'"
       >
         <input
           id="codeEditorInput"
@@ -52,7 +54,9 @@
     </div>
     <mat-form-field
       style="width:100%;margin-top:5px"
-      class={{dummyBorder}}>
+      class={{dummyBorder}}
+      [matTooltip]="(field.tooltip?.text || '') | translate"
+      [matTooltipPosition]="field.tooltip?.position || 'below'">
       <div #codeEditorDummyBorder></div>
       <input
         matInput

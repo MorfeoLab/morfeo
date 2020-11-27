@@ -1,6 +1,12 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {IForm, IFormAjaxResponse, IFormElement, IFormTableColumn} from '../../shared/models/form-element.model';
+import {
+    IForm,
+    IFormAjaxResponse,
+    IFormElement,
+    IFormTableColumn,
+    IFormTooltip
+} from '../../shared/models/form-element.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {FormContainerConfig, MrfFormComponent} from '../../mrf-form.component';
@@ -144,6 +150,16 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
     public buttonAction(action: string[], row: any) {
         this.dataTableService.getCallback([this.field.key, ...action])(row);
+    }
+
+    public getCellTooltip(row, col): IFormTooltip {
+        if (col.hasOwnProperty('cellTooltip')) {
+            const tooltip = this.dataTableService.getTooltipFactory(col.cellTooltip);
+            return tooltip(row);
+        }
+        return {
+            text: ''
+        };
     }
 
     public render(row, col) {

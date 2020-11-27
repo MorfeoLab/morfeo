@@ -1,3 +1,6 @@
-<button mat-icon-button [matTooltip]="field.tooltip">
+<button
+        mat-icon-button
+        [matTooltip]="field.tooltip?.text"
+        [matTooltipPosition]="field.tooltip?.position || 'below'">
   <mat-icon inline="true">info</mat-icon>
 </button>

@@ -1,4 +1,4 @@
-import {IFormAjaxResponse} from '../../models/form-element.model';
+import {IFormAjaxResponse, IFormTooltip} from '../../models/form-element.model';
 import {MrfFormComponent} from '../../../mrf-form.component';
 import {UtilityService} from '../utility/utility.service';
 import {EventEmitter, Injectable} from '@angular/core';
@@ -10,6 +10,7 @@ export class DataTableService {
   private callbackList: any = {};
   private rendererList: any = {};
   private responseList: any = {};
+  private tooltipList: {[key: string]: (row: any) => IFormTooltip} = {};
   private buttonVisibilityList: any = {};
   private searchFormRef: { [key: string]: MrfFormComponent } = {}
 
@@ -72,6 +73,16 @@ export class DataTableService {
       return this.responseList[key];
     }
     return (res) => res.body;
+  }
+
+  public setTooltipFactory(id: string, callback: (a) => IFormTooltip): void {
+    this.tooltipList[id] = callback;
+  }
+  public getTooltipFactory(key: string) {
+    if (this.tooltipList.hasOwnProperty(key)) {
+      return this.tooltipList[key];
+    }
+    return () => { return { text: ''}};
   }
 
   /**

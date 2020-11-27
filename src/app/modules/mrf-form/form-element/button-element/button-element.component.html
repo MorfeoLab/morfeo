@@ -2,7 +2,8 @@
   <button
     type="button"
     mat-button
-    [matTooltip]="(field.tooltip || '') | translate"
+    [matTooltip]="(field.tooltip?.text || '') | translate"
+    [matTooltipPosition]="field.tooltip?.position || 'below'"
     (click)="execute()"
     [disabled]="(!!field.input && !!field.disabled) || readOnly"
     [name]="field.key + field.suffix"
