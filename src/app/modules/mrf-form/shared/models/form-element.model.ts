@@ -39,7 +39,7 @@ export interface IFormTableColumn extends IFormOptions {
   renderer?: (a: any) => string;
   buttons?: IFormButton[];
   style?: IFormStyle;
-  tooltip?: IFormTooltip;
+  tooltip?: IFormTooltip | string;
   sortDefault?: boolean;
   sortDirectionDefault?: 'asc' | 'desc';
 }
@@ -56,7 +56,7 @@ export interface IFormButton {
   label?: string;
   icon?: string;
   action?: string;
-  tooltip?: IFormTooltip;
+  tooltip?: IFormTooltip | string;
   color?: 'none' | 'primary' | 'accent' | 'warn';
   style?: 'basic' | 'raised' | 'stroked' | 'flat' | 'icon';
   content?: {
@@ -573,7 +573,7 @@ export interface IFormElement {
   /**
    * Testo per il tooltip
    */
-  tooltip?: IFormTooltip;
+  tooltip?: IFormTooltip | string;
   /** Non utilizzato */
   timePicker?: any;
   /** Non utilizzato */

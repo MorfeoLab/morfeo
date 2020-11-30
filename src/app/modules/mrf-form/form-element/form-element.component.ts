@@ -50,6 +50,19 @@ export class FormElementComponent implements OnInit {
         this.component.validate = this.component.validate || {};
         this.component.validate.custom = this.component.validate.custom === '[]' ? '' : this.component.validate.custom || '';
         this.component.input = true;
+
+        /// In alcuni form è stata usata una stringa al posto di IFormTooltip
+        if (typeof this.component.tooltip === 'string') {
+            if (!!this.component.tooltip) {
+                this.component.tooltip = {
+                    text: this.component.tooltip
+                }
+            } else {
+                /// String vuota
+                delete this.component.tooltip;
+            }
+        }
+
         if (this.utility.isNullOrUndefined(this.formRef)) {
             /**
              * in questo punto sono certo che questo componente è orfano
@@ -257,9 +270,9 @@ export class FormElementComponent implements OnInit {
             'select',
             'selectboxes',
             'textarea',
-      'textfield',
-      'image',
-      'codeEditor',
+            'textfield',
+            'image',
+            'codeEditor',
         ].includes(comp.type);
     }
 }
