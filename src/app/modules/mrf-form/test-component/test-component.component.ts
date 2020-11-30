@@ -14,7 +14,7 @@ export class TestComponentComponent implements AfterViewInit {
 
     public mainFormObj: NgForm;
     @ViewChild('mainForm', {static: true}) public mainFormContainer: MrfFormComponent;
-    private mainFormJson: IForm;
+    public mainFormJson: IForm;
 
     constructor() {
         this.mainFormJson = TEST_FORM;
