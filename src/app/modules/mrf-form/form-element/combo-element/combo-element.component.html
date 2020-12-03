@@ -9,7 +9,6 @@
       placeholder="{{ displayLabel | translate }}"
       [required]="!!(field.input ? field.validate && field.validate.required : false)"
       [disabled]="!!(field.input && field.disabled) || !!readOnly"
-      [value]="field.defaultValue ? field.defaultValue : ''"
       [(ngModel)]="formRef.form.value[field.key + field.suffix]"
       [name]="field.key + field.suffix"
       #me="ngModel"

@@ -52,7 +52,8 @@ export class ValidateJsonRuleDirective implements Validator, AfterViewInit {
                 this.jsonRule = JSON.parse(this.jsonRule);
             }
 
-            const formValue = JSON.parse(JSON.stringify(this.registerForm.form.getRawValue()));
+            // const formValue = JSON.parse(JSON.stringify(this.registerForm.form.getRawValue()));
+            const formValue = JSON.parse(JSON.stringify(this.registerForm.value));
             let externalData = this.externalData;
             const lowerCaseValues = {};
 
