@@ -160,7 +160,7 @@ export class CodeEditorElementComponent {
     this.matFormClasses = ['full-width'];
     this.inputClasses = ['code-editor-input'];
     if (this.field.codeEditorOptions.indentDefaultValue === undefined || !!this.field.codeEditorOptions.indentDefaultValue) {
-      this.content = this.indent(this.field.defaultValue);
+      this.content = this.indent(String(this.field.defaultValue));
     } else {
       this.content = this.field.defaultValue;
     }
@@ -209,11 +209,11 @@ export class CodeEditorElementComponent {
    *  Applica l'indentazione della stringa ricevuta come defaultValue
    *
    * @private
-   * @param {(string | boolean)} defaultValue
+   * @param {(string)} defaultValue
    * @returns {string}
    * @memberof CodeEditorElementComponent
    */
-  private indent(defaultValue: string | boolean): string {
+  private indent(defaultValue: string): string {
     const size = this.field.codeEditorOptions.indentSize;
     const params = [defaultValue, { indent_size: !!size ? size : 2 }];
     switch (this.field.codeEditorOptions.mode) {

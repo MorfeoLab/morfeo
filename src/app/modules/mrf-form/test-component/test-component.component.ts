@@ -20,6 +20,16 @@ export class TestComponentComponent implements AfterViewInit {
         this.mainFormJson = TEST_FORM;
     }
 
+    public clickMe() {
+        console.log(TEST_VALUE);
+        console.log(this.mainFormContainer.f.value);
+        this.mainFormContainer.f.resetForm({...this.mainFormContainer.f.value, ...TEST_VALUE});
+    }
+
+    public clickMe2() {
+        this.mainFormContainer.f.setValue(TEST_VALUE);
+    }
+
     ngAfterViewInit() {
         // this.mainFormContainer.formReadyEvent.subscribe(f => {
         //     this.mainFormObj = f;
@@ -39,13 +49,39 @@ export class TestComponentComponent implements AfterViewInit {
 const TEST_FORM: IForm = {
     components: [
         {
-            key: 'oraEmissioneMarca',
-            label: 'Ora emissione Marca (hh:mm:ss)',
-            type: 'textfield',
-            validate: {
-                custom: '[{"regex":["^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$",{"var":"oraEmissioneMarca"}]}]',
-                required: true
-            }
+            type: 'select',
+            label: 'Uno (url)',
+            key: 'uno',
+            dataSrc: 'url',
+            data: {
+                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts',
+                values: []
+            },
+            valueProperty: 'id',
+            labelProperty: 'slug',
+            defaultValue: 3326
+        },
+        {
+            type: 'select',
+            label: 'Due (values)',
+            key: 'due',
+            dataSrc: 'values',
+            data: {
+                values: [
+                    {
+                        value: 'jay',
+                        label: 'Will Smith'
+                    },
+                    {
+                        value: 'kay',
+                        label: 'Tommy Lee Jones'
+                    }
+                ]
+            },
+            defaultValue: 'kay'
         }
     ]
 }
+
+
+const TEST_VALUE = {};

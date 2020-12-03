@@ -284,7 +284,7 @@ export interface IFormElement {
   /**
    * Utilizzato sulla select
    */
-  defaultValue?: string | boolean;
+  defaultValue?: string | number | boolean;
 
 
   /** Non utilizzato */
