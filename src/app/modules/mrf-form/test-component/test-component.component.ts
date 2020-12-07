@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 import {IForm} from '../shared/models/form-element.model';
 import {MrfFormComponent} from '../mrf-form.component';
 import {DataTableService} from '../shared/services/data-table-service/data-table.service';
+import {UploaderService} from "../shared/services/uploader.service";
 
 @Component({
     selector: 'mrf-test-component',
@@ -18,7 +19,8 @@ export class TestComponentComponent implements AfterViewInit {
     public mainFormJson: IForm;
 
     constructor(
-        private datatableService: DataTableService
+        private datatableService: DataTableService,
+        public uploadService: UploaderService
     ) {
 
 
@@ -42,8 +44,6 @@ export class TestComponentComponent implements AfterViewInit {
     }
 
     public clickMe() {
-        console.log(TEST_VALUE);
-        console.log(this.mainFormContainer.f.value);
         this.mainFormContainer.f.resetForm({...this.mainFormContainer.f.value, ...TEST_VALUE});
     }
 
@@ -52,8 +52,11 @@ export class TestComponentComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // this.mainFormContainer.formReadyEvent.subscribe(f => {
-        //     this.mainFormObj = f;
+        this.mainFormContainer.formReadyEvent.subscribe(f => {
+            this.mainFormObj = f;
+            this.mainFormObj.controls.autocomplete.valueChanges.subscribe(v => {
+                console.log(v);
+            })
         //     let lastValue = f.controls.oraEmissioneMarca.value;
         //     setInterval(() => {
         //         const currentValue = f.controls.oraEmissioneMarca.value;
@@ -62,13 +65,31 @@ export class TestComponentComponent implements AfterViewInit {
         //             lastValue = currentValue;
         //         }
         //     })
-        // })
+        })
     }
 
 }
 
 const TEST_FORM: IForm = {
     components: [
+        {
+            label: 'Upload file',
+            key: 'upload',
+            type: 'file',
+        },
+        {
+            type: 'autocomplete',
+            label: 'Autocomplete',
+            key: 'autocomplete',
+            dataSrc: 'url',
+            data: {
+                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts?search=',
+                autocompleteType: 'server',
+                method: 'GET'
+            },
+            valueProperty: 'id',
+            labelProperty: 'slug'
+        },
         {
             type: 'dataTable',
             key: 'tabellaDati',

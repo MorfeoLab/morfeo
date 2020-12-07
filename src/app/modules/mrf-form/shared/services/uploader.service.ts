@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {UploadElementComponent} from '../../form-element/upload-element/upload-element.component';
+import {UtilityService} from "./utility/utility.service";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class UploaderService {
   /**
    * Un elenco di tutti i componenti upload
    */
-  private uploadElements: UploadElementComponent[] = [];
+  uploadElements: UploadElementComponent[] = [];
 
   /**
    * Una mappa di url per upload
@@ -32,7 +33,9 @@ export class UploaderService {
 
   private actionTrigger: EventEmitter<string> = new EventEmitter();
 
-  constructor() {
+  constructor(
+      private utils: UtilityService
+  ) {
   }
 
   public get ready(): boolean {
@@ -58,6 +61,12 @@ export class UploaderService {
 
   public registerControl(e: UploadElementComponent) {
     this.uploadElements.push(e);
+  }
+
+  public unregisterControl(e: UploadElementComponent) {
+    this.uploadElements.filter((el: UploadElementComponent) => {
+      return e.field.key !== el.field.key;
+    })
   }
 
   /**

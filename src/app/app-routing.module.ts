@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {TestComponentComponent} from './modules/mrf-form/test-component/test-component.component';
 import {MrfFormModule} from './modules/mrf-form/mrf-form.module';
 import {TranslatablePipe} from './modules/mrf-form/shared/pipes/translatable/translatable.pipe';
+import {TestPageComponent} from './modules/mrf-form/test-page/test-page.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,10 @@ export const routes: Routes = [
   {
     path: 'test',
     component: TestComponentComponent
+  },
+  {
+    path: 'test2',
+    component: TestPageComponent
   }
 ];
 
