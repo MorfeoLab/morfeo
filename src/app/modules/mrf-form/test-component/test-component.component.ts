@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {IForm} from '../shared/models/form-element.model';
 import {MrfFormComponent} from '../mrf-form.component';
+import {DataTableService} from '../shared/services/data-table-service/data-table.service';
 
 @Component({
     selector: 'mrf-test-component',
@@ -16,7 +17,27 @@ export class TestComponentComponent implements AfterViewInit {
     @ViewChild('mainForm', {static: true}) public mainFormContainer: MrfFormComponent;
     public mainFormJson: IForm;
 
-    constructor() {
+    constructor(
+        private datatableService: DataTableService
+    ) {
+
+
+        this.datatableService.setResponseHandler('tabellaDati', (res) => {
+            return {
+                pagination: {
+                    totalPages: 1,
+                    totalRecords: res.body.length
+                },
+                records: res.body
+            }
+        });
+        this.datatableService.setRenderer('title', val => {
+            return val.rendered;
+        });
+        this.datatableService.setRenderer('date', val => {
+            return new Date(val).toLocaleDateString();
+        })
+
         this.mainFormJson = TEST_FORM;
     }
 
@@ -49,36 +70,81 @@ export class TestComponentComponent implements AfterViewInit {
 const TEST_FORM: IForm = {
     components: [
         {
-            type: 'select',
-            label: 'Uno (url)',
-            key: 'uno',
+            type: 'dataTable',
+            key: 'tabellaDati',
+            label: '',
             dataSrc: 'url',
             data: {
-                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts',
-                values: []
-            },
-            valueProperty: 'id',
-            labelProperty: 'slug',
-            defaultValue: 3326
-        },
-        {
-            type: 'select',
-            label: 'Due (values)',
-            key: 'due',
-            dataSrc: 'values',
-            data: {
-                values: [
+                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts?$filter',
+                filter: {
+                    components: [
+                        {
+                            type: 'select',
+                            label: 'Uno (url)',
+                            key: 'uno',
+                            dataSrc: 'url',
+                            data: {
+                                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts',
+                                values: []
+                            },
+                            valueProperty: 'id',
+                            labelProperty: 'slug',
+                            defaultValue: 3326
+                        },
+                        {
+                            type: 'select',
+                            label: 'Due (values)',
+                            key: 'due',
+                            dataSrc: 'values',
+                            data: {
+                                values: [
+                                    {
+                                        value: 'jay',
+                                        label: 'Will Smith'
+                                    },
+                                    {
+                                        value: 'kay',
+                                        label: 'Tommy Lee Jones'
+                                    }
+                                ]
+                            },
+                            defaultValue: 'kay'
+                        }
+                    ]
+                },
+                columns: [
                     {
-                        value: 'jay',
-                        label: 'Will Smith'
+                        value: 'id',
+                        label: 'ID'
                     },
                     {
-                        value: 'kay',
-                        label: 'Tommy Lee Jones'
+                        value: 'date',
+                        label: 'Date',
+                        renderer: 'date',
+                        style: {
+                            align: 'center'
+                        }
+                    },
+                    {
+                        value: 'status',
+                        label: 'Status',
+                        renderer: 'status'
+                    },
+                    {
+                        value: 'title',
+                        label: 'Titolo',
+                        renderer: 'title'
                     }
-                ]
-            },
-            defaultValue: 'kay'
+                ],
+                pagination: {
+                    sizeOptions: [
+                        3,
+                        5,
+                        10,
+                        15
+                    ]
+                }
+            }
         }
     ]
 }
