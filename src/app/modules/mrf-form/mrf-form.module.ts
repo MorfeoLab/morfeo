@@ -26,6 +26,7 @@ import {LayoutTabsComponent} from './layout/layout-tabs/layout-tabs.component';
 import {LayoutFieldsetComponent} from './layout/layout-fieldset/layout-fieldset.component';
 import {ListModalComponent} from './shared/components/list-modal/list-modal.component';
 import {TestComponentComponent} from './test-component/test-component.component';
+import {TestPageComponent} from './test-page/test-page.component';
 import {ObjectListSelectorComponent} from './form-element/object-list-selector/object-list-selector.component';
 import {ObjectListSelectorModalComponent} from './form-element/object-list-selector/object-list-selector-modal/object-list-selector-modal.component';
 import {BytesPipe} from './shared/pipes/bytes/bytes.pipe';
@@ -124,6 +125,7 @@ export const declarationList = [
     SnackBarCustomComponent,
     StringToHtmlPipe,
     TestComponentComponent,
+    TestPageComponent,
     TextAreaElementComponent,
     TextElementComponent,
     CodeEditorElementComponent,

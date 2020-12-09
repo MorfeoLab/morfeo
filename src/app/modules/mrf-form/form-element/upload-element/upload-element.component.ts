@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
     HttpClient,
     HttpErrorResponse,
@@ -22,7 +22,7 @@ import {ValueService} from '../../shared/services/value/value.service';
     templateUrl: './upload-element.component.html',
     styleUrls: ['./upload-element.component.scss']
 })
-export class UploadElementComponent implements OnInit, AfterViewInit {
+export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy {
 
     /** Riferimento al form di cui questo controllo fa parte */
     @Input() formRef: NgForm;
@@ -119,6 +119,10 @@ export class UploadElementComponent implements OnInit, AfterViewInit {
 
         this.param = this.field.fieldName || 'data';
 
+    }
+
+    ngOnDestroy() {
+        this.uploaderService.unregisterControl(this);
     }
 
     ngAfterViewInit(): void {

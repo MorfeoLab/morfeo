@@ -76,7 +76,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
             });
 
         } else if (this.field.dataSrc === 'url') {
-            this.loadDataFromUrl(this.field.data.url);
+            if (!this.filterFormJson) {
+                /// Non ho filtri, carico subito i dati
+                this.loadDataFromUrl(this.field.data.url);
+            }
         }
     }
 
@@ -85,6 +88,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
             this.dataTableService.setFormRef(this.field.key + this.field.suffix, this.filterFormRef);
             this.filterFormRef.formReadyEvent.subscribe(f => {
                 this.filterForm = f;
+                if (this.field.dataSrc === 'url') {
+                    /// Se ho il filtro non ho ancora caricato
+                    this.loadDataFromUrl(this.field.data.url);
+                }
             })
         }
         if (!!this.field.data.pagination) {
