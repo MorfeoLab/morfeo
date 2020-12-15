@@ -49,6 +49,17 @@ export class TestComponentComponent implements AfterViewInit {
 const TEST_FORM: IForm = {
     components: [
         {
+            type: 'textfield',
+            key: 'validateme',
+            label: 'Validatemi',
+            validate: {
+                custom: '[{"==":[{"var":"uno"},3326]}]',
+                messages: {
+                    custom: 'Occorre selezionare 3326 alla seguente SELECT'
+                }
+            }
+        },
+        {
             type: 'select',
             label: 'Uno (url)',
             key: 'uno',
@@ -58,7 +69,7 @@ const TEST_FORM: IForm = {
                 values: []
             },
             valueProperty: 'id',
-            labelProperty: 'slug',
+            labelProperty: 'id',
             defaultValue: 3326
         },
         {

@@ -68,8 +68,5 @@
   type="hidden"
 />
 <ng-container *ngIf="hiddenElement.touched">
-  <mat-error
-    *ngIf="hiddenElement.hasError('uploadRequired')">{{'generic.labels.fileObbligatorio' | translate}}</mat-error>
-  <mat-error
-    *ngIf="hiddenElement.hasError('patternWrong')">{{'generic.labels.filePatternWrong' | translate}}</mat-error>
+  <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
 </ng-container>
