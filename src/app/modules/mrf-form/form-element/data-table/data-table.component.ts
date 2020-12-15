@@ -87,10 +87,13 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         if (!!this.filterFormRef) {
             this.dataTableService.setFormRef(this.field.key + this.field.suffix, this.filterFormRef);
             this.filterFormRef.formReadyEvent.subscribe(f => {
+                console.log('Il form di filtro della tabella è pronto adesso');
                 this.filterForm = f;
                 if (this.field.dataSrc === 'url') {
                     /// Se ho il filtro non ho ancora caricato
-                    this.loadDataFromUrl(this.field.data.url);
+                    setTimeout(() => {
+                        this.loadDataFromUrl(this.field.data.url);
+                    }, 60); /// Dentro ComboElementComponent.setComboElements c'è un ritardo di 50ms, questo deve essere superiore
                 }
             })
         }

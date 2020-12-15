@@ -162,10 +162,10 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
                     });
                     this.setComboElements(dataOptions);
                     this.options = data;
-                    this.comboService.unregisterComboWithRemoteData(this.field.key);
+                    this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
                 },
                 () => {
-                    this.comboService.unregisterComboWithRemoteData(this.field.key);
+                    this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
                 }
             );
     }
