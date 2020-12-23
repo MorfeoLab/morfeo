@@ -3,5 +3,6 @@
     #mainForm
     [form]="mainFormJson"
 ></mrf-form>
+{{mainForm.value | json}}
 <button mat-button (click)="clickMe()">Click me</button>
 <button mat-button (click)="clickMe2()">Click me 2</button>

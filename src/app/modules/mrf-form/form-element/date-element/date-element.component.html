@@ -6,14 +6,16 @@
     <input
       (click)="picker.open()"
       (dateChange)="picker.close()"
+      #inputElement
       matInput
       [matDatepicker]="picker"
       [matDatepickerFilter]="myFilter"
-      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+      [(ngModel)]="inputElementModel"
       placeholder="{{ displayLabel | translate }}"
       [disabled]="(!!field.input && !!field.disabled) || readOnly"
       [required]="!!(field.input ? field.validate && field.validate.required : false)"
       [name]="field.key + field.suffix"
+      type="text"
       #me="ngModel"
       mrfRegisterForm
       [registerForm]="formRef"

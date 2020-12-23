@@ -165,7 +165,6 @@ export interface IFormElement {
     | 'container'
     | 'dataTable'
     | 'datetime'
-    | 'datetime2'
     | 'email'
     | 'fieldset'
     | 'file'

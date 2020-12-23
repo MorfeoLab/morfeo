@@ -27,7 +27,7 @@ export class TestComponentComponent implements AfterViewInit {
     }
 
     public clickMe2() {
-        this.mainFormContainer.f.setValue(TEST_VALUE);
+        this.mainFormContainer.f.setValue(TEST_VALUE_2);
     }
 
     ngAfterViewInit() {
@@ -48,6 +48,12 @@ export class TestComponentComponent implements AfterViewInit {
 
 const TEST_FORM: IForm = {
     components: [
+        {
+            type: 'datetime',
+            key: 'datetime',
+            label: 'Date',
+            defaultValue: '03/12/2020'
+        },
         {
             type: 'textfield',
             key: 'validateme',
@@ -95,4 +101,14 @@ const TEST_FORM: IForm = {
 }
 
 
-const TEST_VALUE = {};
+const TEST_VALUE = {
+    datetime: '1980-11-30T23:00:00.000Z',
+    uno: 3326,
+    due: 'jay'
+};
+
+const TEST_VALUE_2 = {
+    datetime: '1970-01-01T23:00:00.000Z',
+    uno: 3326,
+    due: 'kay'
+};
