@@ -93,7 +93,9 @@ export class DateElementComponent implements OnInit, AfterContentChecked, AfterV
     }
 
     ngAfterViewInit() {
-        this.inputElementModel = new Date();
+        if (!!this.field.defaultValue) {
+            this.inputElementModel = new Date(String(this.field.defaultValue)) || null;
+        }
         if ((!!this.field.input && !!this.field.disabled) || this.readOnly) {
             this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(e => {
                 if (this.utils.isNullOrUndefined(e)) {

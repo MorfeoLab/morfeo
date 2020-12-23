@@ -52,7 +52,7 @@ const TEST_FORM: IForm = {
             type: 'datetime',
             key: 'datetime',
             label: 'Date',
-            defaultValue: '03/12/2020'
+            defaultValue: '2018-03-25T00:00:00.000Z'
         },
         {
             type: 'textfield',
