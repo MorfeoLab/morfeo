@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {IFormMenu} from '../../shared/models/form-element.model';
 import {MatSidenav} from '@angular/material/sidenav';
-import {SideNavigationService} from "../../shared/services/side-navigation.service";
+import {SideNavigationService} from '../../shared/services/side-navigation.service';
 
 @Component({
   selector: 'mrf-left-menu',

@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {UploadElementComponent} from '../../form-element/upload-element/upload-element.component';
-import {UtilityService} from "./utility/utility.service";
+import {UtilityService} from './utility/utility.service';
 
 @Injectable({
   providedIn: 'root'

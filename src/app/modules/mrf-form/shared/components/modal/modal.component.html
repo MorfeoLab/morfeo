@@ -4,6 +4,6 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">{{data.labels? data.labels.cancelButton : 'Annulla'}}</button>
-  <button mat-button [mat-dialog-close]="data.item" cdkFocusInitial>{{data.labels? data.labels.confirmButton : 'Sì'}}</button>
-  <button mat-button *ngIf="!!data.labels.actionButton" [mat-dialog-close]="'action'" cdkFocusInitial>{{data.labels.actionButton}}</button>
+  <button mat-button [mat-dialog-close]="data.item">{{data.labels? data.labels.confirmButton : 'Sì'}}</button>
+  <button mat-button *ngIf="!!data.labels.actionButton" [mat-dialog-close]="'action'">{{data.labels.actionButton}}</button>
 </div>

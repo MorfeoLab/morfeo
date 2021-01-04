@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IFormElement, IFormElementValidationMessages} from '../../models/form-element.model';
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, NgModel} from '@angular/forms';
 
 @Component({
   selector: '[mrfErrorMessages]',
@@ -8,7 +8,7 @@ import {AbstractControl} from '@angular/forms';
   styleUrls: ['./error-messages.component.scss']
 })
 export class ErrorMessagesComponent implements OnInit {
-  @Input('me') public me: AbstractControl;
+  @Input('me') public me: AbstractControl | NgModel;
   @Input('field') public field: IFormElement;
 
   public messages: IFormElementValidationMessages;

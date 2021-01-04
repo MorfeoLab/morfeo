@@ -50,6 +50,5 @@
 
 <div mat-dialog-actions>
   <button mat-button *ngIf="!!data.labels.cancelButton" (click)="onNoClick()">{{data.labels.cancelButton}}</button>
-  <button mat-button *ngIf="!!data.labels.confirmButton" [mat-dialog-close]="data.item"
-          cdkFocusInitial>{{data.labels.confirmButton}}</button>
+  <button mat-button *ngIf="!!data.labels.confirmButton" [mat-dialog-close]="data.item">{{data.labels.confirmButton}}</button>
 </div>

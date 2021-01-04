@@ -100,15 +100,8 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
          * Imposto il campo accept se non definito
          */
         this.accept = this.field.accept || '*/*';
-        /**
-         * Imposto la variabile singleUpload che
-         * se impostata a true consente il caricamento
-         * di un solo componente
-         */
-        this.singleUpload = true;
-        if (this.field.singleUpload === false || !!this.field.allowMultiValue) {
-            this.singleUpload = false;
-        }
+
+        this.singleUpload = !(this.field.singleUpload === false || !!this.field.allowMultiValue);
         /**
          * Registro lo mia presenza sul servizio
          * degli upload per gestire l'invio

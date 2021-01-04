@@ -7,7 +7,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {ValueService} from '../../shared/services/value/value.service';
 import {Moment} from 'moment';
 import {DatepickerService} from '../../shared/services/datepicker-service/datepicker.service';
-import {UtilityService} from "../../shared/services/utility/utility.service";
+import {UtilityService} from '../../shared/services/utility/utility.service';
 
 
 @Component({
@@ -106,7 +106,7 @@ export class DateElementComponent implements OnInit, AfterContentChecked, AfterV
         }
     }
 
-    myFilter = (d: Moment | Date): boolean => {
+    myFilter = (d: any): boolean => {
         if (!d) {
             return true;
         }

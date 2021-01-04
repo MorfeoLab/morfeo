@@ -16,7 +16,7 @@ export class UploadValidationDirective implements Validator,OnInit, AfterViewIni
   @Input() public registerForm: NgForm;
   @Input() public registerModel: NgModel;
   @Input() readOnly: boolean;
-  @Input('uploadPattern') pattern: RegExp;
+  @Input('uploadPattern') pattern: RegExp | string;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
   }

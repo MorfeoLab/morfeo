@@ -12,7 +12,6 @@ export class MapToService {
   /**
    * Funzionalita che permette di settare i valori definiti nelle key dell'oggetto mapFieldToFormKey
    * come valore degli idSemantici
-   * @param data è l'oggetto selezionato
    */
   public optionSelectedEvent(field: IFormElement, selectedValue: any, formRef: NgForm, options: any[]) {
     if (!field.data) {

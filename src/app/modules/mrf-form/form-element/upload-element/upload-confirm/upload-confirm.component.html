@@ -9,6 +9,6 @@
   <h1 mat-dialog-title>Sei sicuro di voler sostituire il file<br/> {{file.data.name}} ?</h1>
   <div class="action">
     <button mat-button [matTooltip]="'chiudi'" (click)="onNoClick()">Chiudi</button>
-    <button mat-button [matTooltip]="'Sostituisci'" [mat-dialog-close]="data" cdkfocusinitial>Sostituisci</button>
+    <button mat-button [matTooltip]="'Sostituisci'" [mat-dialog-close]="data">Sostituisci</button>
   </div>
 </div>

@@ -32,7 +32,7 @@
       <div
         ondrop="return false;"
         #richTextArea
-        attr.data-placeholder="{{ field.label | translate }}"
+        [attr.data-placeholder]="field.label | translate"
         [attr.contenteditable]="!field.disabled"
         class="editor"
         [ngClass]="{ 'contenteditable-disabled': field.disabled }"

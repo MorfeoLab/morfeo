@@ -29,7 +29,6 @@ export class RepeatableService {
   /**
    * Restituisce true se l'id è già registrato
    * Utilizzato da RegisterFormModelDirective
-   * @param key: string L'id del campo
    */
   public has(form: NgForm, key: string): boolean {
     const formList: RepeatableElements = this.getList(form);

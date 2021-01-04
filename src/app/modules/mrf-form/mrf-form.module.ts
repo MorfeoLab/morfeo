@@ -68,7 +68,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {ErrorMessagesComponent} from "./shared/components/error-messages/error-messages.component";
+import {ErrorMessagesComponent} from './shared/components/error-messages/error-messages.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');

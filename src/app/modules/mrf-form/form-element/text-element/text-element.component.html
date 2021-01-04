@@ -37,5 +37,5 @@
     />
     <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
   </mat-form-field>
-  <img *ngIf="inputType === 'image' && (formRef.form.value[field.key + field.suffix]||field.defaultValue || valueNgModel)" [src]="formRef.form.value[field.key + field.suffix] || field.defaultValue || valueNgModel" height="150px" (error)="errorHandler($event)"/>
+  <img alt="Image preview" *ngIf="inputType === 'image' && (formRef.form.value[field.key + field.suffix]||field.defaultValue || valueNgModel)" [src]="formRef.form.value[field.key + field.suffix] || field.defaultValue || valueNgModel" height="150px" (error)="errorHandler($event)"/>
 </ng-container>

@@ -19,7 +19,7 @@ export class ValidateCustomDirective implements Validator {
     @Input() min: number;
     @Input() max: number;
     @Input() type: string;
-    @Input() validatePreset: 'codiceFiscale';
+    @Input() validatePreset: 'codiceFiscale' | '';
 
     constructor(
         private utils: UtilityService

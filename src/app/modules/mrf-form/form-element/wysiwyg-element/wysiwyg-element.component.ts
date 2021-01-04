@@ -125,8 +125,9 @@ export class WysiwygElementComponent implements OnInit, AfterViewInit {
    */
   contentChanged() {
     const selectedLanguage = this.valueSelect.value;
-    const contentText = this.richTextArea.nativeElement.innerHTML;
-    this.hiddenControlVal[selectedLanguage] = contentText;
+    // const contentText = this.richTextArea.nativeElement.innerHTML;
+    // this.hiddenControlVal[selectedLanguage] = contentText;
+    this.hiddenControlVal[selectedLanguage] = this.richTextArea.nativeElement.innerHTML;
     this.outputEvent.emit(this.hiddenControlVal);
   }
 
@@ -141,7 +142,6 @@ export class WysiwygElementComponent implements OnInit, AfterViewInit {
   /**
    * @method editText
    * @description Centralize text action's to modify text style
-   * @param string command The code to execute right document's command
    */
   editText(command: string) {
     let options = null;

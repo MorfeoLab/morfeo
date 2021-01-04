@@ -16,6 +16,6 @@ export class HtmlElementComponent {
     }
     this.field.tag = this.field.tag || 'p';
     s = s.replace(/%(?![a-f0-9]{2})/gi, '%25');
-    return `<${this.field.tag}>${decodeURI(s)}</${this.field.tag}>`;
+    return '<' + this.field.tag + '>' + decodeURI(s) + '</' + this.field.tag + '>';
   }
 }
