@@ -47,7 +47,7 @@
           mrfValidateJsonRule
           [jsonRule]="field.input ? field.validate.custom : ''"
         />
-        <mat-error *ngIf="comboElement.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
+        <mat-error mrfErrorMessages [me]="comboElement" [field]="field"></mat-error>
       </mat-form-field>
     </div>
   </div>

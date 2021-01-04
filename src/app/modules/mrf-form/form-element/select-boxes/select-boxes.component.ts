@@ -305,10 +305,10 @@ export class SelectBoxesComponent implements OnInit, AfterViewInit, AfterContent
             };
           });
           this.redraw();
-          this.comboService.unregisterComboWithRemoteData(this.field.key);
+          this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
         },
         () => {
-          this.comboService.unregisterComboWithRemoteData(this.field.key);
+          this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
         }
       );
   }

@@ -2,8 +2,6 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {IForm} from '../shared/models/form-element.model';
 import {MrfFormComponent} from '../mrf-form.component';
-import {DataTableService} from '../shared/services/data-table-service/data-table.service';
-import {UploaderService} from "../shared/services/uploader.service";
 
 @Component({
     selector: 'mrf-test-component',
@@ -18,45 +16,23 @@ export class TestComponentComponent implements AfterViewInit {
     @ViewChild('mainForm', {static: true}) public mainFormContainer: MrfFormComponent;
     public mainFormJson: IForm;
 
-    constructor(
-        private datatableService: DataTableService,
-        public uploadService: UploaderService
-    ) {
-
-
-        this.datatableService.setResponseHandler('tabellaDati', (res) => {
-            return {
-                pagination: {
-                    totalPages: 1,
-                    totalRecords: res.body.length
-                },
-                records: res.body
-            }
-        });
-        this.datatableService.setRenderer('title', val => {
-            return val.rendered;
-        });
-        this.datatableService.setRenderer('date', val => {
-            return new Date(val).toLocaleDateString();
-        })
-
+    constructor() {
         this.mainFormJson = TEST_FORM;
     }
 
     public clickMe() {
+        console.log(TEST_VALUE);
+        console.log(this.mainFormContainer.f.value);
         this.mainFormContainer.f.resetForm({...this.mainFormContainer.f.value, ...TEST_VALUE});
     }
 
     public clickMe2() {
-        this.mainFormContainer.f.setValue(TEST_VALUE);
+        this.mainFormContainer.f.setValue(TEST_VALUE_2);
     }
 
     ngAfterViewInit() {
-        this.mainFormContainer.formReadyEvent.subscribe(f => {
-            this.mainFormObj = f;
-            this.mainFormObj.controls.autocomplete.valueChanges.subscribe(v => {
-                console.log(v);
-            })
+        // this.mainFormContainer.formReadyEvent.subscribe(f => {
+        //     this.mainFormObj = f;
         //     let lastValue = f.controls.oraEmissioneMarca.value;
         //     setInterval(() => {
         //         const currentValue = f.controls.oraEmissioneMarca.value;
@@ -65,7 +41,7 @@ export class TestComponentComponent implements AfterViewInit {
         //             lastValue = currentValue;
         //         }
         //     })
-        })
+        // })
     }
 
 }
@@ -73,102 +49,66 @@ export class TestComponentComponent implements AfterViewInit {
 const TEST_FORM: IForm = {
     components: [
         {
-            label: 'Upload file',
-            key: 'upload',
-            type: 'file',
+            type: 'datetime',
+            key: 'datetime',
+            label: 'Date',
+            defaultValue: '2018-03-25T00:00:00.000Z'
         },
         {
-            type: 'autocomplete',
-            label: 'Autocomplete',
-            key: 'autocomplete',
-            dataSrc: 'url',
-            data: {
-                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts?search=',
-                autocompleteType: 'server',
-                method: 'GET'
-            },
-            valueProperty: 'id',
-            labelProperty: 'slug'
-        },
-        {
-            type: 'dataTable',
-            key: 'tabellaDati',
-            label: '',
-            dataSrc: 'url',
-            data: {
-                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts?$filter',
-                filter: {
-                    components: [
-                        {
-                            type: 'select',
-                            label: 'Uno (url)',
-                            key: 'uno',
-                            dataSrc: 'url',
-                            data: {
-                                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts',
-                                values: []
-                            },
-                            valueProperty: 'id',
-                            labelProperty: 'slug',
-                            defaultValue: 3326
-                        },
-                        {
-                            type: 'select',
-                            label: 'Due (values)',
-                            key: 'due',
-                            dataSrc: 'values',
-                            data: {
-                                values: [
-                                    {
-                                        value: 'jay',
-                                        label: 'Will Smith'
-                                    },
-                                    {
-                                        value: 'kay',
-                                        label: 'Tommy Lee Jones'
-                                    }
-                                ]
-                            },
-                            defaultValue: 'kay'
-                        }
-                    ]
-                },
-                columns: [
-                    {
-                        value: 'id',
-                        label: 'ID'
-                    },
-                    {
-                        value: 'date',
-                        label: 'Date',
-                        renderer: 'date',
-                        style: {
-                            align: 'center'
-                        }
-                    },
-                    {
-                        value: 'status',
-                        label: 'Status',
-                        renderer: 'status'
-                    },
-                    {
-                        value: 'title',
-                        label: 'Titolo',
-                        renderer: 'title'
-                    }
-                ],
-                pagination: {
-                    sizeOptions: [
-                        3,
-                        5,
-                        10,
-                        15
-                    ]
+            type: 'textfield',
+            key: 'validateme',
+            label: 'Validatemi',
+            validate: {
+                custom: '[{"==":[{"var":"uno"},3326]}]',
+                messages: {
+                    custom: 'Occorre selezionare 3326 alla seguente SELECT'
                 }
             }
+        },
+        {
+            type: 'select',
+            label: 'Uno (url)',
+            key: 'uno',
+            dataSrc: 'url',
+            data: {
+                url: 'https://www.danielealessandra.com/wp-json/wp/v2/posts',
+                values: []
+            },
+            valueProperty: 'id',
+            labelProperty: 'id',
+            defaultValue: 3326
+        },
+        {
+            type: 'select',
+            label: 'Due (values)',
+            key: 'due',
+            dataSrc: 'values',
+            data: {
+                values: [
+                    {
+                        value: 'jay',
+                        label: 'Will Smith'
+                    },
+                    {
+                        value: 'kay',
+                        label: 'Tommy Lee Jones'
+                    }
+                ]
+            },
+            defaultValue: 'kay'
         }
     ]
 }
 
 
-const TEST_VALUE = {};
+const TEST_VALUE = {
+    datetime: '1980-11-30T23:00:00.000Z',
+    uno: 3326,
+    due: 'jay'
+};
+
+const TEST_VALUE_2 = {
+    datetime: '1970-01-01T23:00:00.000Z',
+    uno: 3326,
+    due: 'kay'
+};

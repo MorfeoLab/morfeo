@@ -35,7 +35,6 @@ import {ObjectListComponent} from '../../form-element/object-list/object-list.co
 import {ReadOnlyWysiwygComponent} from '../../form-element/read-only/read-only-wysiwyg/read-only-wysiwyg.component';
 import {HtmlBoxElementComponent} from '../../form-element/html-box-element/html-box-element.component';
 import {DataTableComponent} from '../../form-element/data-table/data-table.component';
-import {DatetimeElementComponent} from '../../form-element/datetime-element/datetime-element.component';
 
 export interface ComponentBase {
   externalData: {[key: string]: any};
@@ -122,11 +121,6 @@ export const COMPONENT_RESOLVER: ComponentResolver = {
   datetime: {
     // FIELD: DATE
     input: DateElementComponent,
-    output: ReadOnlyDateComponent,
-  },
-  datetime2: {
-    // FIELD: DATE
-    input: DatetimeElementComponent,
     output: ReadOnlyDateComponent,
   },
   email: {

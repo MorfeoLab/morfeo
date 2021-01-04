@@ -44,7 +44,6 @@
     >
       {{ value.label  | translate}}
     </mat-checkbox>
-    <mat-error *ngIf="hasRequiredError(hiddenElement)">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
-    <mat-error *ngIf="hiddenElement.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+    <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
   </div>
 </fieldset>

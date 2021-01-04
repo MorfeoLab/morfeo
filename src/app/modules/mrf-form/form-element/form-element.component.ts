@@ -95,7 +95,7 @@ export class FormElementComponent implements OnInit {
             if (['select', 'selectboxes'].includes(this.component.type)) {
                 if (this.displayMode === 'input') {
                     if (!!this.component.data && this.component.data.url && typeof this.component.data.url === 'string') {
-                        this.comboService.registerComboWithRemoteData(this.component.key);
+                        this.comboService.registerComboWithRemoteData(this.component.key + this.component.suffix);
                     }
                 }
             }

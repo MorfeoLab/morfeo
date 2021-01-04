@@ -33,7 +33,6 @@
     >
       <div class="radio-label">{{ val.label | translate }}</div>
     </mat-radio-button>
-    <mat-error *ngIf="hasRequiredError(hiddenElement)">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
-    <mat-error *ngIf="hiddenElement.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+    <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
   </mat-radio-group>
 </fieldset>

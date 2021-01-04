@@ -23,7 +23,7 @@ export class MrfFormComponent implements OnDestroy, OnInit {
   /**
    * La definizione JSON del form da costruire
    */
-  private formJson;
+  private formJson: IForm;
 
   /**
    * Un flag booleano che stabilisce se possiamo emettere l'evento

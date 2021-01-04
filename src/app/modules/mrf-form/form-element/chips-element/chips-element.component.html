@@ -61,7 +61,6 @@
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
     </mat-chip-list>
-    <mat-error *ngIf="me.hasError('required')">{{'generic.labels.campoObbligatorio' | translate}}</mat-error>
-    <mat-error *ngIf="me.hasError('validateJsonRule')">{{'generic.labels.jsonValidationError' | translate}}</mat-error>
+    <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
   </mat-form-field>
 </ng-container>

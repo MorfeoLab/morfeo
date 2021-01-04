@@ -33,15 +33,16 @@ export interface IFormTooltip {
  * DataTable Column
  */
 export interface IFormTableColumn extends IFormOptions {
-  sortable?: boolean;
-  filterable?: boolean;
-  dataType?: 'string' | 'number' | 'boolean';
-  renderer?: (a: any) => string;
   buttons?: IFormButton[];
-  style?: IFormStyle;
-  tooltip?: IFormTooltip;
+  dataType?: 'string' | 'number' | 'boolean';
+  filterable?: boolean;
+  localized?: boolean;
+  renderer?: (a: any) => string;
+  sortable?: boolean;
   sortDefault?: boolean;
   sortDirectionDefault?: 'asc' | 'desc';
+  style?: IFormStyle;
+  tooltip?: IFormTooltip;
 }
 
 export interface IFormStyle {
@@ -118,21 +119,28 @@ export interface IFormElementValidation {
   custom?: string | JsonLogicNode[]  ;
   customMessage?: string;
   customPrivate?: boolean;
-  /** Non utilizzato */
-  integer?: string | boolean;
   json?: string;
   pattern?: string;
   preset?: 'codiceFiscale';
   max?: number | string;
   maxLength?: number | '';
+  messages?: IFormElementValidationMessages;
   min?: string | number;
   minLength?: number | '';
-  /** Non utilizzato */
-  multiple?: boolean | string;
   required?: boolean | string;
   service?: any;
-  /** Non utilizzato */
-  step?: any;
+}
+
+export interface IFormElementValidationMessages {
+  custom?: string;
+  filePatternWrong?: string;
+  pattern?: string;
+  max?: string;
+  maxLength?: string;
+  min?: string;
+  minLength?: string;
+  uploadRequired?: string;
+  required?: string;
 }
 
 /**
@@ -157,7 +165,6 @@ export interface IFormElement {
     | 'container'
     | 'dataTable'
     | 'datetime'
-    | 'datetime2'
     | 'email'
     | 'fieldset'
     | 'file'
