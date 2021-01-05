@@ -33,7 +33,7 @@
     "core-js": "^3.6.5",
     "dot-object": "^2.1.2",
     "js-beautify": "^1.13.0",
-    "json-logic-js": "^1.2.2",
+    "json-logic-js": "^2.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "rxjs": "^6.6.3",

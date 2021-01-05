@@ -49,7 +49,7 @@ export class TestComponentComponent implements AfterViewInit {
 const TEST_FORM: IForm = {
     components: [
         {
-            type: 'textfield',
+            type: 'image',
             key: 'textfield',
             label: 'Text Field'
         }
