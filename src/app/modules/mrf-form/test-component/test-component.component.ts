@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {IForm} from '../shared/models/form-element.model';
 import {MrfFormComponent} from '../mrf-form.component';
+import {TEST_FORM} from "./test-form.constants";
 
 @Component({
     selector: 'mrf-test-component',
@@ -46,15 +47,6 @@ export class TestComponentComponent implements AfterViewInit {
 
 }
 
-const TEST_FORM: IForm = {
-    components: [
-        {
-            type: 'image',
-            key: 'textfield',
-            label: 'Text Field'
-        }
-    ]
-}
 
 
 const TEST_VALUE = {
