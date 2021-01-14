@@ -64,9 +64,9 @@ export class UploaderService {
   }
 
   public unregisterControl(e: UploadElementComponent) {
-    this.uploadElements.filter((el: UploadElementComponent) => {
+    this.uploadElements = this.uploadElements.filter((el: UploadElementComponent) => {
       return e.field.key !== el.field.key;
-    })
+    });
   }
 
   /**

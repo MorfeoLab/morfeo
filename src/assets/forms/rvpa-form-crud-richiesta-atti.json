@@ -1,0 +1,599 @@
+{
+  "components": [
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "htmlelement",
+              "html": "<h3>Dati Richiedente</h3>"
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "id",
+              "label": "id",
+              "hidden": true,
+              "readOnly": true
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "idStato",
+              "label": "id Stato Richiesta",
+              "hidden": true,
+              "readOnly": false
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "datetime",
+              "key": "dataOra",
+              "label": "Data Inserimento",
+              "hidden": true,
+              "readOnly": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "ricNome",
+              "label": "Nome",
+              "readOnly": true
+            },
+            {
+              "type": "textfield",
+              "key": "ricComuneNascita",
+              "label": "Luogo di Nascita",
+              "readOnly": true
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "ricCognome",
+              "label": "Cognome",
+              "readOnly": true
+            },
+            {
+              "type": "datetime",
+              "key": "ricDataNascita",
+              "label": "Data di Nascita",
+              "readOnly": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "ricCodiceFiscale",
+              "label": "Codice Fiscale",
+              "readOnly": false,
+              "validate": { "required": true, "maxLength": "16"}
+            },
+            {
+              "type": "textfield",
+              "key": "ricLuogoRes",
+              "label": "luogo della sede/residenza/studio",
+              "readOnly": false,
+              "validate": { "required": true, "maxLength": "256" }
+            },
+            {
+              "type": "textfield",
+              "key": "ricTelefono",
+              "label": "Telefono",
+              "readOnly": false,
+              "validate": { "required": true, "maxLength": "32" }
+            },
+            {
+              "type": "email",
+              "key": "ricMail",
+              "label": "Email",
+              "readOnly": false,
+              "validate": { "required": false, "maxLength": "32" }
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "username",
+              "label": "Username",
+              "readOnly": true
+            },
+            {
+              "type": "textfield",
+              "key": "ricForo",
+              "label": "Foro di Appartenenza",
+              "readOnly": false,
+              "validate": { "required": false, "maxLength": "256" }
+            },
+            {
+              "type": "textfield",
+              "key": "ricCellulare",
+              "label": "Cellulare",
+              "readOnly": false,
+              "validate": { "required": true, "maxLength": "32" }
+            },
+            {
+              "type": "email",
+              "key": "ricPec",
+              "label": "PEC",
+              "readOnly": false,
+              "validate": { "required": false, "maxLength": "32" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "radio",
+              "key": "inQualitaDi",
+              "label": "In qualità di",
+              "values": [
+                {
+                  "label": "Diretto Interessato",
+                  "value": "1"
+                },
+                {
+                  "label": "Per conto di",
+                  "value": "2"
+                }
+              ],
+              "readOnly": false,
+              "hidden": false,
+              "validate": { "required": true },
+              "valueProperty": "value",
+              "inputType": "checkbox",
+              "suffix": "",
+              "defaultValue": "1",
+              "data": {},
+              "hideSelectAll": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_comment": "dati delegante",
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]",
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "htmlelement",
+              "html": "<h3>Dati Delegante</h3>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "delNome",
+              "label": "Nome",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "64" }
+            },
+            {
+              "type": "textfield",
+              "key": "delComuneNascita",
+              "label": "Luogo di Nascita",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "64" }
+            },
+            {
+              "type": "textfield",
+              "key": "delLuogoRes",
+              "label": "Luogo residenza ",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "256" }
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "delCognome",
+              "label": "Cognome ",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "64" }
+            },
+            {
+              "type": "datetime",
+              "key": "delDataNascita",
+              "label": "Data di Nascita",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "64" }
+            },
+            {
+              "type": "textfield",
+              "key": "delCodiceFiscale",
+              "label": "Codice Fiscale",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"inQualitaDi\"},\"2\"]}]}]", "maxLength": "16" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_comment": "dati richiesta",
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "htmlelement",
+              "html": "<h3>Dati Richiesta</h3>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "key": "idMotivazione",
+              "type": "select",
+              "label": "Motivazione",
+              "dataSrc": "url",
+              "validate": { "required": true },
+              "data": {
+                "url": "http://www.collaudo.cliclavoroveneto.it/accessoatti/api/accessoatti/richieste-atti/ricerca-motivazione",
+                "values": []
+              },
+              "valueProperty": "id",
+              "labelProperty": "descrizione"
+
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "key": "idTipoRichiesta",
+              "type": "select",
+              "label": "Tipo Richiesta",
+              "dataSrc": "url",
+              "validate": { "required": true },
+              "data": {
+                "url": "http://www.collaudo.cliclavoroveneto.it/accessoatti/api/accessoatti/richieste-atti/ricerca-tipo-richiesta",
+                "values": []
+              },
+              "valueProperty": "id",
+              "labelProperty": "descrizione"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},1]}]}]",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "lavCodiceFiscale",
+              "label": "CF Lavoratore Riferimento",
+              "readOnly": false,
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},1]}]}]", "maxLength": "16" }
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "lavNome",
+              "label": "Nome Lavoratore Riferimento",
+              "readOnly": false,
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},1]}]}]", "maxLength": "64" }
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "lavCognome",
+              "label": "Cognome Lavoratore Riferimento",
+              "readOnly": false,
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},1]}]}]", "maxLength": "64" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},2]}]}]",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "codiceFiscaleAz",
+              "label": "CF Azienda di riferimento",
+              "readOnly": false,
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},2]}]}]", "maxLength": "16" }
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "ragioneSociale",
+              "label": "Ragione Sociale Azienda di riferimento",
+              "readOnly": false,
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},2]}]}]", "maxLength": "128" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},3]}]}]",
+      "columns": [
+        {
+          "components": [
+            {
+              "key": "quesitoGen",
+              "type": "textarea",
+              "label": "Quesito generico",
+              "validate": { "required": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},3]}]}]", "maxLength": "3000" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "key": "note",
+              "type": "textarea",
+              "label": "Note",
+              "validate": { "maxLength": "3000" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "datetime",
+              "key": "dataInizio",
+              "label": "Data Inizio",
+              "validate": { "required": true },
+              "readOnly": false
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "datetime",
+              "key": "dataFine",
+              "label": "Data Fine",
+              "readOnly": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "key": "uploadFile",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "htmlelement",
+              "html": "<h4>Allegati Dichiarazione</h4>"
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "htmlelement",
+              "html": "<h4>Allegati Personali</h4>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "radio",
+              "key": "dichiarazione",
+              "label": "Dichiarazione",
+              "values": [
+                {
+                  "label": "essere consapevole della responsabilità derivante dall’uso delle informazioni assunte qualora arrechino nocumento a terzi e che l’utilizzo delle stesse dovrà rispettare i principi in tema di riservatezza in conformità al Codice in materia di protezione dei dati personali Reg UE 2016/679",
+                  "value": "essere consapevole della responsabilità derivante dall’uso delle informazioni assunte qualora arrechino nocumento a terzi e che l’utilizzo delle stesse dovrà rispettare i principi in tema di riservatezza in conformità al Codice in materia di protezione dei dati personali Reg UE 2016/679"
+                },
+                {
+                  "label": "le informazioni contenute nella presente richiesta provengono da conoscenza personale e diretta e sono state accuratamente riscontrate",
+                  "value": "le informazioni contenute nella presente richiesta provengono da conoscenza personale e diretta e sono state accuratamente riscontrate"
+                }
+              ],
+              "readOnly": false,
+              "hidden": false,
+              "validate": { "required": true },
+              "valueProperty": "value",
+              "inputType": "checkbox",
+              "suffix": "",
+              "defaultValue": null,
+              "data": {},
+              "hideSelectAll": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "dataRichiesta",
+              "label": "Data Richiesta",
+              "readOnly": true
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "stato",
+              "label": "Stato Richiesta",
+              "readOnly": true
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "datetime",
+              "key": "dataScadenza",
+              "label": "Data Scadenza",
+              "readOnly": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_comment": "pulsanti",
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "type": "button",
+              "key": "bottoneSalvaInvia",
+              "label": "Salva e Invia",
+              "action": "callback",
+              "suffix": "",
+              "hidden": "[{\"!!\":[{\"and\":[{\">=\":[{\"var\":\"idStato\"},2]},{\"!=\":[{\"var\":\"idStato\"},5]}]}]}]",
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "button",
+              "key": "bottoneSalva",
+              "label": "Salva",
+              "action": "callback",
+              "suffix": "",
+              "hidden": "[{\"!!\":[{\"and\":[{\">=\":[{\"var\":\"idStato\"},2]},{\"!=\":[{\"var\":\"idStato\"},5]}]}]}]",
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "button",
+              "key": "bottoneEsci",
+              "label": "Esci",
+              "action": "callback",
+              "suffix": "",
+              "hidden": false,
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "button",
+              "key": "bottoneScaricaRihiestaPdf",
+              "label": "Scarica Richiesta",
+              "action": "callback",
+              "suffix": "",
+              "hidden": "[{\"!\":[{\"var\":\"idStato\"}]}]",
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

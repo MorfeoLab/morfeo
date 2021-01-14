@@ -23,7 +23,11 @@ export class ButtonService {
 
   public commonFunction(functionName: string, buttonElement: IFormElement, form: NgForm) {
     if (functionName === 'callback'){
-      this.callbackList[buttonElement.key + buttonElement.suffix]();
+      if (this.callbackList.hasOwnProperty(buttonElement.key + buttonElement.suffix)) {
+        this.callbackList[buttonElement.key + buttonElement.suffix]();
+      } else {
+        console.warn(`No action registered for ${buttonElement.key + buttonElement.suffix} button`);
+      }
     }
     if (functionName === 'copy') {
       /**
