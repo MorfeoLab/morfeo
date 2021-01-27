@@ -32,7 +32,7 @@ export class CodiceFiscale {
      * rejected.
      */
     private static validate_regular(cf: string): string | null {
-        if (!new RegExp('/^[0-9A-Z]{16}$/').test(cf)) {
+        if (!new RegExp('^[0-9A-Z]{16}$').test(cf)) {
             return 'Invalid characters.';
         }
         let s = 0;
@@ -63,7 +63,7 @@ export class CodiceFiscale {
      * rejected.
      */
     private static validate_temporary(cf: string): string | null {
-        if (!new RegExp('/^[0-9]{11}$/').test(cf)) {
+        if (!new RegExp('^[0-9]{11}$').test(cf)) {
             return 'Invalid characters.';
         }
         let s = 0;
