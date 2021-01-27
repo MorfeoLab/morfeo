@@ -90,7 +90,7 @@ export class CodiceFiscale {
      * rejected.
      */
     public static validate(cf: string): string | null {
-        if (!new RegExp('/^[0-9A-Z]+$/').test(cf.toUpperCase())) {
+        if (!new RegExp('^[0-9A-Z]+$').test(cf.toUpperCase())) {
             return 'Invalid characters.';
         }
         cf = CodiceFiscale.normalize(cf);
