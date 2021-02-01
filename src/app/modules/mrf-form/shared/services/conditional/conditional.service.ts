@@ -325,7 +325,8 @@ export class ConditionalService {
     /**
      * Sostituisce tutti i puntini con un altro separatore su tutti i valori del form
      */
-    const formValue = JSON.parse(JSON.stringify(rule.form.value || {}));
+    // const formValue = JSON.parse(JSON.stringify(rule.form.value || {}));
+    const formValue = JSON.parse(JSON.stringify(rule.form.form.getRawValue() || {}));
     const formExternalValue = JSON.parse(JSON.stringify(rule.form.externalData || {}));
     for (const r of rule.rules) {
       /**
