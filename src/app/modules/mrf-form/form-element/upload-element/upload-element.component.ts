@@ -457,14 +457,14 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
         ).subscribe(
             (event: any) => {
                 if (typeof (event) === 'object') {
+                    file.canDownload = true;
+                    file.canCheck = false;
                     file.response = event.body;
                     this.updateValue();
                     /// @TODO: Sarebbe comodo aggiungere l'id del campo
                     this.uploaderService.uploadCompleted(file.response);
                 }
                 this.sequentiallyUpload(++index)
-                file.canDownload = true;
-                file.canCheck = false;
             }
         );
     }
