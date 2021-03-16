@@ -457,6 +457,7 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
         ).subscribe(
             (event: any) => {
                 if (typeof (event) === 'object') {
+                    file.inProgress = false;
                     file.canDownload = true;
                     file.canCheck = false;
                     file.response = event.body;
