@@ -85,7 +85,6 @@ export class UploaderService {
             const progressFiles = [];
             for (const el of this.uploadElements) {
                 for (const currentFile of el.files) {
-                    console.log(currentFile);
                     if (currentFile.inProgress) {
                         progressFiles.push(currentFile);
                     } else {
@@ -95,13 +94,8 @@ export class UploaderService {
                     }
                 }
             }
-            console.log('progress')
-            console.log(progressFiles)
             if (progressFiles.length === 0) {
-                console.log('error')
-                console.log(errorFiles)
                 if (errorFiles.length === 0) {
-                    console.log('allUploaded')
                     this.allUploadElementEvent.emit('allUploaded');
                 }
                 uploadSubscription.unsubscribe();
