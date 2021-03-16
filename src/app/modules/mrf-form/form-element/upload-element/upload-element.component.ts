@@ -325,19 +325,26 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
     public uploadFiles() {
         this.fileUploadInput.value = '';
 
-        this.files.forEach(file => {
-            if (
-                !file.inProgress
-                &&
-                (file.progress === 0 || file.canRetry)
-                &&
-                file.progress !== 100
-            ) {
-                this.uploadFile(file);
-            } else if (!file.inProgress && file.progress === 100) {
-                file.canDownload = true;
-            }
-        });
+        this.sequentiallyUpload();
+    }
+
+    private sequentiallyUpload(index = 0) {
+        if (this.files.length < index + 1) {
+            return;
+        }
+        const file = this.files[index]
+        if (
+            !file.inProgress
+            &&
+            (file.progress === 0 || file.canRetry)
+            &&
+            file.progress !== 100
+        ) {
+            this.uploadFile(file, index);
+        } else if (!file.inProgress && file.progress === 100) {
+            file.canDownload = true;
+            this.sequentiallyUpload(++index);
+        }
     }
 
     private updateValue() {
@@ -393,7 +400,7 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
             );
     }
 
-    private uploadFile(file: FileUploadModel) {
+    private uploadFile(file: FileUploadModel, index: number) {
         const fd = new FormData();
         fd.append(this.param, file.data);
 
@@ -455,6 +462,7 @@ export class UploadElementComponent implements OnInit, AfterViewInit, OnDestroy 
                     /// @TODO: Sarebbe comodo aggiungere l'id del campo
                     this.uploaderService.uploadCompleted(file.response);
                 }
+                this.sequentiallyUpload(++index)
                 file.canDownload = true;
                 file.canCheck = false;
             }
