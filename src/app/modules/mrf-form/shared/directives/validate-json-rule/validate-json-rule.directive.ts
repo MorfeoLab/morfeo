@@ -34,7 +34,7 @@ export class ValidateJsonRuleDirective implements Validator, AfterViewInit {
             return;
         }
         this.registerForm.valueChanges.subscribe(() => {
-            this.registerModel.control.updateValueAndValidity({onlySelf: true, emitEvent: false});
+            this.registerModel.control.updateValueAndValidity({onlySelf: false, emitEvent: false});
         });
         if (!!this.jsonRule) {
             this.validRule = !this.utility.isNullOrUndefined(this.jsonRule) && this.utility.isJSON(this.jsonRule);
