@@ -25,6 +25,8 @@ export class ReadOnlyComponent implements OnInit, AfterViewInit {
     this.field.suffix = this.field.suffix || '';
     this.valueField = this.field.valueProperty || this.valueField;
     this.labelField = this.field.labelProperty || this.labelField;
+    this.field.valueProperty = this.valueField;
+    this.field.labelProperty = this.labelField;
   }
 
   registerHiddenFieldListener() {

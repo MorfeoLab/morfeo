@@ -85,6 +85,8 @@ export class SelectBoxesComponent implements OnInit, AfterViewInit, AfterContent
   ngOnInit() {
     this.valueField = this.field.valueProperty || this.valueField;
     this.labelField = this.field.labelProperty || this.labelField;
+    this.field.valueProperty = this.valueField;
+    this.field.labelProperty = this.labelField;
     this.field.suffix = this.field.suffix || '';
     this.field.hideSelectAll = this.field.hideSelectAll || false;
 

@@ -3,9 +3,5 @@
     #mainForm
     [form]="mainFormJson"
 ></mrf-form>
-<ul>
-    <li>Form: {{mainForm.f?.valid | json}}</li>
-    <li>Field: {{mainForm.f?.controls.pec.valid | json}}</li>
-</ul>
 <button mat-button (click)="clickMe()">Click me</button>
 <button mat-button (click)="clickMe2()">Click me 2</button>
