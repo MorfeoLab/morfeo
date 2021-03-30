@@ -13,7 +13,7 @@ export const TEST_FORM: IForm = {
         {
             key: 'comuneResidenza',
             label: 'Comune di residenza',
-            type: 'autocomplete',
+            type: 'select',
             data: {
                 params: { codice: '' },
                 mapFieldToFormKey: {

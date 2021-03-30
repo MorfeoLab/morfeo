@@ -184,6 +184,7 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
                 this.field.dataSrc = 'values';
             }
         } else {
+            this.options = [...this.field.data.values];
             this.setComboElements(
                 this.field.data.values.map(item => {
                     return {
