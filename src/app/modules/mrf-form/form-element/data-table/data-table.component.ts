@@ -71,6 +71,17 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         if (this.field.dataSrc === 'values') {
             this.dataSource = new MatTableDataSource<any>(this.field.data.values);
 
+            /**
+             * Per permettere l'ordinamento di valori con funzioni personalizzate
+             */
+            this.dataSource.sortingDataAccessor = (item, property) => {
+                const sortingFunction = this.dataTableService.getSortingFunction([this.field.key, property]);
+                if (!!sortingFunction) {
+                    return sortingFunction(item, property);
+                }
+                return item[property];
+            };
+
             this.dataTableService.getDataEmitter(this.field.key + this.field.suffix).subscribe((data: any[]) => {
                 this.dataSource.data = data;
             });

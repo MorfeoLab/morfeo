@@ -1,11 +1,10 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {IForm, IFormElement} from '../shared/models/form-element.model';
+import {IForm} from '../shared/models/form-element.model';
 import {MrfFormComponent} from '../mrf-form.component';
 import {HttpClient} from '@angular/common/http';
 import {DataTableService} from '../shared/services/data-table-service/data-table.service';
 import {UploaderService} from '../shared/services/uploader.service';
-import {TEST_FORM} from "./test-form.constants";
 
 @Component({
     selector: 'mrf-test-component',
@@ -13,7 +12,7 @@ import {TEST_FORM} from "./test-form.constants";
     styleUrls: ['./test-component.component.scss']
 })
 // Component used to test and develop the library
-export class TestComponentComponent implements AfterViewInit {
+export class TestComponentComponent implements OnInit, AfterViewInit {
     title = 'morfeo';
 
     public mainFormObj: NgForm;
@@ -25,7 +24,31 @@ export class TestComponentComponent implements AfterViewInit {
         private dataTableService: DataTableService,
         private uploaderService: UploaderService
     ) {
-        this.mainFormJson = TEST_FORM;
+        // this.mainFormJson = TEST_FORM;
+    }
+
+    ngOnInit() {
+        const dateSortingFunction = (item, property) => {
+            const dateString = item[property];
+            const dateParts = dateString.split('-');
+            return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        }
+        this.dataTableService
+            .setSortingFunction(['risultatiRicercaSingola', 'dataRichiesta'], dateSortingFunction);
+        this.dataTableService
+            .setSortingFunction(['risultatiRicercaSingola', 'dataChiusura'], dateSortingFunction);
+        this.dataTableService
+            .setSortingFunction(['risultatiRicercaSingola', 'dataInizio'], dateSortingFunction);
+        this.dataTableService
+            .setSortingFunction(['risultatiRicercaSingola', 'dataFine'], dateSortingFunction);
+
+
+        this.http.get('assets/forms/rvpa-form-ricerca-richieste-atti.json').subscribe((loadedForm: IForm) => {
+            this.mainFormJson = loadedForm;
+            this.http.get('assets/data/rvpa-risultati-ricerca-richieste-atti.json').subscribe((loadedData: any[]) => {
+                this.dataTableService.setData('risultatiRicercaSingola', loadedData);
+            })
+        });
     }
 
     public clickMe() {

@@ -10,6 +10,7 @@ export class DataTableService {
   private callbackList: any = {};
   private rendererList: any = {};
   private responseList: any = {};
+  private sortingList: any = {};
   private tooltipList: {[key: string]: (row: any) => IFormTooltip} = {};
   private buttonVisibilityList: any = {};
   private searchFormRef: { [key: string]: MrfFormComponent } = {}
@@ -144,6 +145,18 @@ export class DataTableService {
       return this.buttonVisibilityList[callbackId];
     }
     return () => true;
+  }
+
+  public setSortingFunction(path: string[], callback: (item?: any[], property?: string) => any): void {
+    this.sortingList[path.join('.')] = callback;
+  }
+
+  public getSortingFunction(path: string[]): (item: any[], property: string) => any {
+    const callbackId = path.join('.');
+    if (this.sortingList.hasOwnProperty(callbackId)) {
+      return this.sortingList[callbackId];
+    }
+    return null;
   }
 
 

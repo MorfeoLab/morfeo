@@ -1,0 +1,122 @@
+[
+  {
+    "idRichiesta": 1,
+    "tipoRichiesta": "Tipo richiesta 1",
+    "motivazione": "Motivazione 1",
+    "macroStato":  "Macro stato 1",
+    "stato":  "Stato 1",
+    "cfAzienda":  "11111111111",
+    "dataRichiesta": "01-03-2021",
+    "dataChiusura":  "01-03-2021",
+    "dataInizio": "01-03-2021",
+    "dataFine":  "01-03-2021"
+  },
+  {
+    "idRichiesta": 6,
+    "tipoRichiesta": "Tipo richiesta 6",
+    "motivazione": "Motivazione 6",
+    "macroStato":  "Macro stato 6",
+    "stato":  "Stato 6",
+    "cfAzienda":  "66666666666",
+    "dataRichiesta": "06-10-2020",
+    "dataChiusura":  "06-10-2020",
+    "dataInizio": "06-10-2020",
+    "dataFine":  "06-10-2020"
+  },
+  {
+    "idRichiesta": 2,
+    "tipoRichiesta": "Tipo richiesta 2",
+    "motivazione": "Motivazione 2",
+    "macroStato":  "Macro stato 2",
+    "stato":  "Stato 2",
+    "cfAzienda":  "22222222222",
+    "dataRichiesta": "02-02-2021",
+    "dataChiusura":  "02-02-2021",
+    "dataInizio": "02-02-2021",
+    "dataFine":  "02-02-2021"
+  },
+  {
+    "idRichiesta": 10,
+    "tipoRichiesta": "Tipo richiesta 10",
+    "motivazione": "Motivazione 10",
+    "macroStato":  "Macro stato 10",
+    "stato":  "Stato 10",
+    "cfAzienda":  "00000000000",
+    "dataRichiesta": "10-10-2020",
+    "dataChiusura":  "10-10-2020",
+    "dataInizio": "10-10-2020",
+    "dataFine":  "10-10-2020"
+  },
+  {
+    "idRichiesta": 3,
+    "tipoRichiesta": "Tipo richiesta 3",
+    "motivazione": "Motivazione 3",
+    "macroStato":  "Macro stato 3",
+    "stato":  "Stato 3",
+    "cfAzienda":  "33333333333",
+    "dataRichiesta": "03-01-2021",
+    "dataChiusura":  "03-01-2021",
+    "dataInizio": "03-01-2021",
+    "dataFine":  "03-01-2021"
+  },
+  {
+    "idRichiesta": 7,
+    "tipoRichiesta": "Tipo richiesta 7",
+    "motivazione": "Motivazione 7",
+    "macroStato":  "Macro stato 7",
+    "stato":  "Stato 7",
+    "cfAzienda":  "77777777777",
+    "dataRichiesta": "07-09-2020",
+    "dataChiusura":  "07-09-2020",
+    "dataInizio": "07-09-2020",
+    "dataFine":  "07-09-2020"
+  },
+  {
+    "idRichiesta": 4,
+    "tipoRichiesta": "Tipo richiesta 4",
+    "motivazione": "Motivazione 4",
+    "macroStato":  "Macro stato 4",
+    "stato":  "Stato 4",
+    "cfAzienda":  "44444444444",
+    "dataRichiesta": "04-12-2020",
+    "dataChiusura":  "04-12-2020",
+    "dataInizio": "04-12-2020",
+    "dataFine":  "04-12-2020"
+  },
+  {
+    "idRichiesta": 9,
+    "tipoRichiesta": "Tipo richiesta 9",
+    "motivazione": "Motivazione 9",
+    "macroStato":  "Macro stato 9",
+    "stato":  "Stato 9",
+    "cfAzienda":  "99999999999",
+    "dataRichiesta": "09-07-2020",
+    "dataChiusura":  "09-07-2020",
+    "dataInizio": "09-07-2020",
+    "dataFine":  "09-07-2020"
+  },
+  {
+    "idRichiesta": 5,
+    "tipoRichiesta": "Tipo richiesta 5",
+    "motivazione": "Motivazione 5",
+    "macroStato":  "Macro stato 5",
+    "stato":  "Stato 5",
+    "cfAzienda":  "55555555555",
+    "dataRichiesta": "05-11-2020",
+    "dataChiusura":  "05-11-2020",
+    "dataInizio": "05-11-2020",
+    "dataFine":  "05-11-2020"
+  },
+  {
+    "idRichiesta": 8,
+    "tipoRichiesta": "Tipo richiesta 8",
+    "motivazione": "Motivazione 8",
+    "macroStato":  "Macro stato 8",
+    "stato":  "Stato 8",
+    "cfAzienda":  "88888888888",
+    "dataRichiesta": "08-08-2020",
+    "dataChiusura":  "08-08-2020",
+    "dataInizio": "08-08-2020",
+    "dataFine":  "08-08-2020"
+  }
+]
