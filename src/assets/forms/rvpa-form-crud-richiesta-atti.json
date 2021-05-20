@@ -107,7 +107,7 @@
               "key": "ricTelefono",
               "label": "Telefono",
               "readOnly": false,
-              "validate": { "required": true, "maxLength": "32" }
+              "validate": { "required": false, "maxLength": "32" }
             },
             {
               "type": "email",
@@ -138,14 +138,14 @@
               "key": "ricCellulare",
               "label": "Cellulare",
               "readOnly": false,
-              "validate": { "required": true, "maxLength": "32" }
+              "validate": { "required": false, "maxLength": "32" }
             },
             {
               "type": "email",
               "key": "ricPec",
               "label": "PEC",
               "readOnly": false,
-              "validate": { "required": false, "maxLength": "32" }
+              "validate": { "required": true, "maxLength": "32" }
             }
           ]
         }
@@ -275,7 +275,7 @@
               "dataSrc": "url",
               "validate": { "required": true },
               "data": {
-                "url": "http://www.collaudo.cliclavoroveneto.it/accessoatti/api/accessoatti/richieste-atti/ricerca-motivazione",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-motivazione",
                 "values": []
               },
               "valueProperty": "id",
@@ -293,7 +293,7 @@
               "dataSrc": "url",
               "validate": { "required": true },
               "data": {
-                "url": "http://www.collaudo.cliclavoroveneto.it/accessoatti/api/accessoatti/richieste-atti/ricerca-tipo-richiesta",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-tipo-richiesta",
                 "values": []
               },
               "valueProperty": "id",
@@ -410,8 +410,9 @@
               "type": "datetime",
               "key": "dataInizio",
               "label": "Data Inizio",
-              "validate": { "required": true },
-              "readOnly": false
+              "validate": { "required": "[{\"!!\":[{\"!=\":[{\"var\":\"idTipoRichiesta\"},3]}]}]" },
+              "readOnly": false,
+              "hidden": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},3]}]}]"
             }
           ]
         },
@@ -421,7 +422,32 @@
               "type": "datetime",
               "key": "dataFine",
               "label": "Data Fine",
-              "readOnly": false
+              "readOnly": false,
+              "hidden": "[{\"!!\":[{\"==\":[{\"var\":\"idTipoRichiesta\"},3]}]}]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "columns",
+      "columns": [
+        {
+          "components": [
+            {
+              "className": "styledBox",
+              "key": "headerType",
+              "type": "htmlbox",
+              "html": "<h4>A supporto della richiesta vanno allegati i seguenti documenti ad esempio mandato di rappresentanza o procura alle liti, sentenza o altri provvedimenti del giudice, provvedimenti esecutivi giudiziali o extragiudiziali, autorizzazione ex art. 492 bis... </br> Qualora l'istanza riguardi sentenze penali o comunque documenti che contengano dati riconducibili ai \"dati giudiziari\", ai sensi dell'art. 4 del Dlgs n. 196/2003, ed in particolare dati idonei a rivelare: iscrizioni nel casellario giudiziario delle condanne penali (ad es. pene inflitte, pene convertite), sanzioni amministrative dipendenti da reato, carichi pendenti, status personale di imputato o di indagato, ecc., il richiedente NON DOVRA' ALLEGARE tale documentazione ma dovrà esclusivamente produrre gli estremi dei provvedimenti e l'eventuale titolo esecutivo di cui è già in possesso.</h4>",
+              "tag": "div",
+              "suffix": "",
+              "hidden": false,
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
             }
           ]
         }
@@ -435,7 +461,7 @@
           "components": [
             {
               "type": "htmlelement",
-              "html": "<h4>Allegati Dichiarazione</h4>"
+              "html": "<h4>Allegati Richiesta</h4>"
             }
           ]
         },
@@ -455,17 +481,17 @@
         {
           "components": [
             {
-              "type": "radio",
+              "type": "selectboxes",
               "key": "dichiarazione",
               "label": "Dichiarazione",
               "values": [
                 {
                   "label": "essere consapevole della responsabilità derivante dall’uso delle informazioni assunte qualora arrechino nocumento a terzi e che l’utilizzo delle stesse dovrà rispettare i principi in tema di riservatezza in conformità al Codice in materia di protezione dei dati personali Reg UE 2016/679",
-                  "value": "essere consapevole della responsabilità derivante dall’uso delle informazioni assunte qualora arrechino nocumento a terzi e che l’utilizzo delle stesse dovrà rispettare i principi in tema di riservatezza in conformità al Codice in materia di protezione dei dati personali Reg UE 2016/679"
+                  "value": "dichiarazione1"
                 },
                 {
                   "label": "le informazioni contenute nella presente richiesta provengono da conoscenza personale e diretta e sono state accuratamente riscontrate",
-                  "value": "le informazioni contenute nella presente richiesta provengono da conoscenza personale e diretta e sono state accuratamente riscontrate"
+                  "value": "dichiarazione2"
                 }
               ],
               "readOnly": false,
@@ -485,6 +511,16 @@
     {
       "type": "columns",
       "columns": [
+        {
+          "components": [
+            {
+              "type": "textfield",
+              "key": "id",
+              "label": "Id Richiesta",
+              "readOnly": true
+            }
+          ]
+        },
         {
           "components": [
             {
@@ -525,8 +561,8 @@
           "components": [
             {
               "type": "button",
-              "key": "bottoneSalvaInvia",
-              "label": "Salva e Invia",
+              "key": "bottoneSalva",
+              "label": "Salva",
               "action": "callback",
               "suffix": "",
               "hidden": "[{\"!!\":[{\"and\":[{\">=\":[{\"var\":\"idStato\"},2]},{\"!=\":[{\"var\":\"idStato\"},5]}]}]}]",
@@ -543,8 +579,26 @@
           "components": [
             {
               "type": "button",
-              "key": "bottoneSalva",
-              "label": "Salva",
+              "key": "bottoneScaricaRihiestaPdf",
+              "label": "Scarica Richiesta",
+              "action": "callback",
+              "suffix": "",
+              "hidden": "[{\"!\":[{\"var\":\"idStato\"}]}]",
+              "defaultValue": null,
+              "validate": {
+                "custom": ""
+              },
+              "input": true,
+              "data": {}
+            }
+          ]
+        },
+        {
+          "components": [
+            {
+              "type": "button",
+              "key": "bottoneSalvaInvia",
+              "label": "Salva e Invia",
               "action": "callback",
               "suffix": "",
               "hidden": "[{\"!!\":[{\"and\":[{\">=\":[{\"var\":\"idStato\"},2]},{\"!=\":[{\"var\":\"idStato\"},5]}]}]}]",
@@ -566,24 +620,6 @@
               "action": "callback",
               "suffix": "",
               "hidden": false,
-              "defaultValue": null,
-              "validate": {
-                "custom": ""
-              },
-              "input": true,
-              "data": {}
-            }
-          ]
-        },
-        {
-          "components": [
-            {
-              "type": "button",
-              "key": "bottoneScaricaRihiestaPdf",
-              "label": "Scarica Richiesta",
-              "action": "callback",
-              "suffix": "",
-              "hidden": "[{\"!\":[{\"var\":\"idStato\"}]}]",
               "defaultValue": null,
               "validate": {
                 "custom": ""

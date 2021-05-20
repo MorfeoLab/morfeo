@@ -5,6 +5,7 @@ import {UtilityService} from '../utility/utility.service';
 import * as _jsonLogic from 'json-logic-js/logic';
 import {Subscription} from 'rxjs';
 import {ElementWrapperComponent} from '../../../form-element/element-wrapper/element-wrapper.component';
+import {toNumbers} from '@angular/compiler-cli/src/diagnostics/typescript_version';
 
 const SCOPED_SUFFIX = ':++';
 
@@ -96,39 +97,37 @@ export class ConditionalService {
     _jsonLogic.add_operation('!=', overrideNotEquals);
 
     const overrideSum = (a, b) => {
-      let parsedA = parseFloat(a);
-      let parsedB = parseFloat(b);
-      parsedA = isNaN(parsedA) ? 0 : parsedA;
-      parsedB = isNaN(parsedB) ? 0 : parsedB;
+      const parsedA = this.utils.numericValue(a);
+      const parsedB = this.utils.numericValue(b);
       return parsedA + parsedB;
     };
     _jsonLogic.add_operation('+', overrideSum);
 
     const overrideGt = (a, b) => {
-      a = isNaN(a) ? a : parseFloat(a);
-      b = isNaN(b) ? b : parseFloat(b);
-      return a > b;
+      const parsedA = this.utils.numericValue(a);
+      const parsedB = this.utils.numericValue(b);
+      return parsedA > parsedB;
     };
     _jsonLogic.add_operation('>', overrideGt);
 
     const overrideGtE = (a, b) => {
-      a = isNaN(a) ? a : parseFloat(a);
-      b = isNaN(b) ? b : parseFloat(b);
-      return a >= b;
+      const parsedA = this.utils.numericValue(a);
+      const parsedB = this.utils.numericValue(b);
+      return parsedA >= parsedB;
     };
     _jsonLogic.add_operation('>=', overrideGtE);
 
     const overrideLt = (a, b) => {
-      a = isNaN(a) ? a : parseFloat(a);
-      b = isNaN(b) ? b : parseFloat(b);
-      return a < b;
+      const parsedA = this.utils.numericValue(a);
+      const parsedB = this.utils.numericValue(b);
+      return parsedA < parsedB;
     };
     _jsonLogic.add_operation('<', overrideLt);
 
     const overrideLtE = (a, b) => {
-      a = isNaN(a) ? a : parseFloat(a);
-      b = isNaN(b) ? b : parseFloat(b);
-      return a <= b;
+      const parsedA = this.utils.numericValue(a);
+      const parsedB = this.utils.numericValue(b);
+      return parsedA <= parsedB;
     };
     _jsonLogic.add_operation('<=', overrideLtE);
     const jsonNot = (a) => {

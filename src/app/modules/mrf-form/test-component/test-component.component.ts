@@ -33,22 +33,40 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
             const dateParts = dateString.split('-');
             return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
         }
-        this.dataTableService
-            .setSortingFunction(['risultatiRicercaSingola', 'dataRichiesta'], dateSortingFunction);
-        this.dataTableService
-            .setSortingFunction(['risultatiRicercaSingola', 'dataChiusura'], dateSortingFunction);
-        this.dataTableService
-            .setSortingFunction(['risultatiRicercaSingola', 'dataInizio'], dateSortingFunction);
-        this.dataTableService
-            .setSortingFunction(['risultatiRicercaSingola', 'dataFine'], dateSortingFunction);
+        this.mainFormJson = {
+            components: [
+                {
+                    key: 'uno',
+                    label: 'Data',
+                    type: 'datetime',
+                    validate: {
+                        custom: '[{"<":["1621502944272",{"var":"uno"}]}]'
+                    }
+                }
+            ]
+        }
 
 
-        this.http.get('assets/forms/rvpa-form-ricerca-richieste-atti.json').subscribe((loadedForm: IForm) => {
-            this.mainFormJson = loadedForm;
-            this.http.get('assets/data/rvpa-risultati-ricerca-richieste-atti.json').subscribe((loadedData: any[]) => {
-                this.dataTableService.setData('risultatiRicercaSingola', loadedData);
-            })
-        });
+        // this.dataTableService
+        //     .setSortingFunction(['risultatiRicercaSingola', 'dataRichiesta'], dateSortingFunction);
+        // this.dataTableService
+        //     .setSortingFunction(['risultatiRicercaSingola', 'dataChiusura'], dateSortingFunction);
+        // this.dataTableService
+        //     .setSortingFunction(['risultatiRicercaSingola', 'dataInizio'], dateSortingFunction);
+        // this.dataTableService
+        //     .setSortingFunction(['risultatiRicercaSingola', 'dataFine'], dateSortingFunction);
+
+
+        // this.http.get('assets/forms/rvpa-form-ricerca-richieste-atti.json').subscribe((loadedForm: IForm) => {
+        //     this.mainFormJson = loadedForm;
+        //     this.http.get('assets/data/rvpa-risultati-ricerca-richieste-atti.json').subscribe((loadedData: any[]) => {
+        //         this.dataTableService.setData('risultatiRicercaSingola', loadedData);
+        //     })
+        // });
+
+        // this.http.get('assets/forms/rvpa-form-crud-richiesta-atti.json').subscribe((loadedForm: IForm) => {
+        //     this.mainFormJson = loadedForm;
+        // });
     }
 
     public clickMe() {
