@@ -57,12 +57,12 @@ export class TestComponentComponent implements OnInit, AfterViewInit {
         //     .setSortingFunction(['risultatiRicercaSingola', 'dataFine'], dateSortingFunction);
 
 
-        // this.http.get('assets/forms/rvpa-form-ricerca-richieste-atti.json').subscribe((loadedForm: IForm) => {
-        //     this.mainFormJson = loadedForm;
-        //     this.http.get('assets/data/rvpa-risultati-ricerca-richieste-atti.json').subscribe((loadedData: any[]) => {
-        //         this.dataTableService.setData('risultatiRicercaSingola', loadedData);
-        //     })
-        // });
+        this.http.get('assets/forms/rvpa-form-ricerca-richieste-atti.json').subscribe((loadedForm: IForm) => {
+            this.mainFormJson = loadedForm;
+            this.http.get('assets/data/rvpa-risultati-ricerca-richieste-atti.json').subscribe((loadedData: any[]) => {
+                this.dataTableService.setData('risultatiRicercaSingola', loadedData);
+            })
+        });
 
         // this.http.get('assets/forms/rvpa-form-crud-richiesta-atti.json').subscribe((loadedForm: IForm) => {
         //     this.mainFormJson = loadedForm;

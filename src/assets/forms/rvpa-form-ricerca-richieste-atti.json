@@ -77,7 +77,7 @@
               "label": "Tipo richiesta",
               "dataSrc": "url",
               "data": {
-                "url": "assets/data/stati.json",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-tipo-richiesta",
                 "values": []
               },
               "valueProperty": "id",
@@ -93,7 +93,7 @@
               "label": "Motivazione",
               "dataSrc": "url",
               "data": {
-                "url": "assets/data/stati.json",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-motivazione",
                 "values": []
               },
               "valueProperty": "id",
@@ -110,7 +110,7 @@
               "label": "Stato richiesta",
               "dataSrc": "url",
               "data": {
-                "url": "assets/data/stati.json",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-stato-richiesta",
                 "values": []
               },
               "valueProperty": "id",
@@ -126,7 +126,7 @@
               "label": "Macro stato",
               "dataSrc": "url",
               "data": {
-                "url": "assets/data/stati.json",
+                "url": "http://localhost:8081/api/accessoatti/richieste-atti/ricerca-macro-stato-richiesta",
                 "values": []
               },
               "valueProperty": "descrizione",
@@ -256,14 +256,17 @@
             "sortable": true
           },
           {
-            "value": "cfAzienda",
-            "label": "Codice fiscale azienda",
+            "value": "cfRiferimento",
+            "label": "Codice fiscale di riferimento",
             "sortable": true
           },
           {
             "value": "dataRichiesta",
             "label": "Data richiesta",
-            "sortable": true
+            "sortable": true,
+            "style": {
+              "align": " large-column"
+            }
           },
           {
             "value": "dataChiusura",

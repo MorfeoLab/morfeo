@@ -1,0 +1,13 @@
+:host::ng-deep {
+  .mat-column-dataRichiesta,
+  .mat-column-dataChiusura,
+  .mat-column-dataInizio,
+  .mat-column-dataFine {
+    width: 500px;
+  }
+
+  .mat-table {
+    overflow-x: scroll;
+    display: block;
+  }
+}
