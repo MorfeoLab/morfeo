@@ -2,7 +2,7 @@ import {AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, Inp
 import {FormControl, NgForm} from '@angular/forms';
 import {Observable, of} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {DataService} from '../../shared/services/data-service/data-service.service';
+import {DataService} from '../../shared/services/data/data.service';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {IFormElement, IFormOptions} from '../../shared/models/form-element.model';
 import {ResetOnChangeService} from '../../shared/services/reset-on-change.service';
@@ -249,7 +249,7 @@ export class AutocompleteElementComponent implements OnInit, AfterViewChecked, A
    * il valore del campo this.formRef.form.value[this.field.key + this.field.suffix]
    * viene effettivamente settato dopo parecchi ms
    */
-  public onBlur($event) {
+  public onBlur() {
     setTimeout(() => {
       if (typeof this.formRef.form.value[this.field.key + this.field.suffix] === 'string') {
         // $event.target.value = '';

@@ -1,9 +1,9 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {NgForm, NgModel} from '@angular/forms';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {IFormElement, IFormOptions} from '../../shared/models/form-element.model';
-import {DataService} from '../../shared/services/data-service/data-service.service';
-import {ComboService} from '../../shared/services/combo-service/combo.service';
+import {DataService} from '../../shared/services/data/data.service';
+import {ComboService} from '../../shared/services/combo/combo.service';
 import {MapToService} from '../../shared/services/map-to.service';
 import {ResetOnChangeService} from '../../shared/services/reset-on-change.service';
 import {ValueService} from '../../shared/services/value/value.service';
@@ -15,11 +15,35 @@ import {MatSelect} from '@angular/material/select';
     styleUrls: ['./combo-element.component.scss']
 })
 export class ComboElementComponent implements OnInit, AfterContentChecked {
+
+    constructor(
+        private dataService: DataService,
+        private translatable: TranslatablePipe,
+        private comboService: ComboService,
+        private resetOnChangeService: ResetOnChangeService,
+        private mapToService: MapToService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private valueService: ValueService
+    ) {
+    }
+
+    /**
+     * Modello JSON per il disegno del campo
+     */
     @Input() field: IFormElement;
-    @Input() formRef: NgForm;
+
+    /**
+     * Flag sola lettura
+     */
     @Input() readOnly: boolean;
 
+    /**
+     * Riferimento al form che contiene questo controllo
+     */
+    @Input() formRef: NgForm;
+
     @ViewChild(MatSelect) private select: MatSelect;
+    @ViewChild('fullValue') private fullValueModel: NgModel;
 
     private valueField = 'value';
     private labelField = 'label';
@@ -39,16 +63,7 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
      */
     private componentWasVisible: boolean;
 
-    constructor(
-        private dataService: DataService,
-        private translatable: TranslatablePipe,
-        private comboService: ComboService,
-        private resetOnChangeService: ResetOnChangeService,
-        private mapToService: MapToService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private valueService: ValueService
-    ) {
-    }
+    private oldValue: any;
 
     /**
      * @description Add description
@@ -74,6 +89,7 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
             this.displayLegend = this.translatable.transform(this.field.legend);
 
         }
+
         if (!!this.field.data && !!this.field.data.configurableParams) {
             const configurableParams = this.field.data.configurableParams;
             Object.keys(configurableParams).forEach(v => {
@@ -88,6 +104,16 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
             });
         }
         this.manageComboElements();
+    }
+
+    public selectOption($event) {
+        if (this.formRef && this.formRef.controls && this.formRef.controls[this.field.key + this.field.suffix]) {
+            const newValue = $event;
+            if (newValue !== this.oldValue) {
+                this.optionSelectedEvent(newValue);
+            }
+            this.oldValue = newValue;
+        }
     }
 
     /**
@@ -108,9 +134,10 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
                 this.manageValuesComboElements();
                 break;
             default:
-                this.setComboElements(this.field.data.values);
+                this.setComboElements(this.field.data.values as IFormOptions[]);
                 console.warn(`[SELECT] ${this.field.key}: Unmanaged case ${this.field.dataSrc}`);
         }
+        this.subscribeToCollectionChange();
     }
 
     /**
@@ -134,11 +161,6 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
      * @description Add description
      */
     private manageResourceComboElements() {
-        this.comboService.collectionChange.subscribe(comboChanged => {
-            if (comboChanged.key === this.field.key + this.field.suffix) {
-                this.setComboElements(comboChanged.list);
-            }
-        });
         console.warn(this.field.key + ' dataSrc:"resource"  currently unsupported!');
     }
 
@@ -148,11 +170,26 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
      */
     private manageUrlComboElements() {
         this.setComboElements([]);
-        const params = {...this.field.data.params} || {};
+        let finalUrl = this.field.data.url;
+        const staticParams = {...this.field.data.params} || {};
         const configurableParams = {...this.field.data.configurableParams} || {};
-        this.dataService.mergeParams(params, configurableParams, this.formRef);
+        this.dataService.mergeParams(staticParams, configurableParams, this.formRef);
+        /**
+         * I parametri il cui nome inizia per $ sono pathParams, gli altri sono queryParams
+         */
+        const params: { [key: string]: string } = {};
+        for (const paramName in staticParams) {
+            if (staticParams.hasOwnProperty(paramName)) {
+                const paramValue = staticParams[paramName];
+                if (paramName.charAt(0) === '$') {
+                    finalUrl = this.field.data.url.split(paramName).join(String(paramValue));
+                } else {
+                    params[paramName] = paramValue;
+                }
+            }
+        }
         this.dataService
-            .getResourceByMethod(this.field.data.url, this.field.data.method, params)
+            .getResourceByMethod(finalUrl, this.field.data.method, params)
             .subscribe(
                 (data: any[]) => {
                     const dataOptions: IFormOptions[] = [];
@@ -172,6 +209,14 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
             );
     }
 
+    private subscribeToCollectionChange() {
+        this.comboService.collectionChange.subscribe(comboChanged => {
+            if (comboChanged.key === this.field.key + this.field.suffix) {
+                this.setComboElements(comboChanged.list);
+            }
+        });
+    }
+
     /**
      * @method checkFieldDataValues
      * @description Add description
@@ -184,7 +229,9 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
                 this.field.dataSrc = 'values';
             }
         } else {
-            this.options = [...this.field.data.values];
+            this.field.data.values = this.field.data.values || [];
+            const {values} = this.field.data;
+            this.options = [...values];
             this.setComboElements(
                 this.field.data.values.map(item => {
                     return {
@@ -202,17 +249,18 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
      * @param data è l'oggetto selezionato
      */
     public optionSelectedEvent(data: any) {
-        this.mapToService.optionSelectedEvent(this.field, data, this.formRef, this.options);
-    }
+        if (this.field.fullValue) {
+            if (this.formRef.controls.hasOwnProperty(this.field.key + '-fullValue' + this.field.suffix)) {
+                const fullValueControlName = this.field.key + '-fullValue' + this.field.suffix;
+                const fullValueControlValue = this.options.filter(item => item[this.valueField] === data)[0] || '';
+                const setData = {};
+                setData[fullValueControlName] = fullValueControlValue;
 
-    public isDisabled(): boolean {
-        this.changeDetectorRef.markForCheck();
-        if (!!this.field) {
-            if (this.field.input) {
-                return !!this.field.disabled;
+                this.formRef.form.patchValue(setData);
             }
         }
-        return !!this.readOnly;
+        // console.log(data);
+        this.mapToService.optionSelectedEvent(this.field, data, this.formRef, this.options);
     }
 
     /**
@@ -245,17 +293,22 @@ export class ComboElementComponent implements OnInit, AfterContentChecked {
     }
 
 
-    private setComboElements(options: IFormOptions[] = []) {
-        this.comboElements = JSON.parse(JSON.stringify(options));
+    private setComboElements(options: any[] = []) {
+        // console.log(JSON.parse(JSON.stringify(this.formRef.value)));
+        this.options = options;
+        this.comboElements = JSON.parse(JSON.stringify(options.map(
+            item => {
+                return {
+                    label: item.label,
+                    value: item.value
+                };
+            }
+        )));
         setTimeout(() => {
             if (!!this.field.defaultValue) {
-                // this.select.value = this.field.defaultValue;
                 const v = {};
                 v[this.field.key + this.field.suffix] = this.field.defaultValue;
                 this.formRef.setValue(v);
-                // this.formRef.form.controls[this.field.key + this.field.suffix].setValue(this.field.defaultValue);
-                // this.changeDetectorRef.detectChanges();
-                // console.log('patate');
             }
         }, 50);
     }

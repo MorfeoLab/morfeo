@@ -1,66 +1,126 @@
 <legend *ngIf="!!field.label">{{field.label}}</legend>
 <ng-container *ngIf="!!filterFormJson">
-  <mat-accordion>
-    <mat-expansion-panel [expanded]="!!filterFormJson.expanded">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Filtra i dati
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mrf-form [form]="filterFormJson" [config]="formConfig"></mrf-form>
-    </mat-expansion-panel>
-  </mat-accordion>
-  <hr>
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="!!filterFormJson.expanded">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span translate>generic.table.filterTitle</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mrf-form
+                    [form]="filterFormJson"
+                    [config]="formConfig"
+                    [externalData]="externalData"
+            ></mrf-form>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <hr>
 </ng-container>
 
 <div class="table-container">
-  <div class="empty-shade" *ngIf="!!dataSource && !dataSource.data?.length">
-    <div class="table-empty">
-      Nessun dato da visualizzare
+    <div class="empty-shade" *ngIf="!!dataSource && !dataSource.data?.length">
+        <div class="table-empty">
+            <span translate>generic.table.noData</span>
+        </div>
     </div>
-  </div>
-  <div class="loading-shade" *ngIf="isLoading || isError">
-    <mat-spinner *ngIf="!hideLoader && isLoading"></mat-spinner>
-    <div class="table-error" *ngIf="isError">
-      Errore nel caricamento dei dati
+    <div class="loading-shade" *ngIf="isLoading || isError">
+        <mat-spinner *ngIf="!hideLoader && isLoading"></mat-spinner>
+<!--        <p>{{field.data.url}}</p>-->
+        <div class="table-error" *ngIf="isError">
+            <span translate>generic.table.dataError</span>
+        </div>
     </div>
-  </div>
-  <table mat-table matSort [dataSource]="dataSource">
+    <table mat-table matSort [dataSource]="dataSource">
 
-    <ng-container *ngFor="let col of columns" matColumnDef="{{col.value}}">
-      <mat-header-cell
-              [matTooltip]="col.tooltip?.text"
-              [matTooltipPosition]="field.tooltip?.position || 'below'"
-              mat-sort-header
-              [disabled]="!col.sortable"
-              *matHeaderCellDef>
-        {{col.label}}
-      </mat-header-cell>
-      <mat-cell
-              [matTooltip]="getCellTooltip(row, col)?.text"
-              [matTooltipPosition]="getCellTooltip(row, col)?.position || 'below'"
-              [attr.data-label]="col.label"
-              *matCellDef="let row"
-              class="align-{{col.style?.align}} vertical-align-{{col.style?.verticalAlign}}">
-        <ng-container *ngIf="!!col.value">
-          {{render(row, col)}}
+        <ng-container *ngFor="let col of columns" matColumnDef="{{col.value}}">
+            <mat-header-cell
+                    [matTooltip]="col.tooltip?.text | translate"
+                    [matTooltipPosition]="field.tooltip?.position || 'below'"
+                    mat-sort-header
+                    [disabled]="!col.sortable"
+                    *matHeaderCellDef>
+                {{col.label | translate}}
+            </mat-header-cell>
+            <mat-cell
+                    [matTooltip]="getCellTooltip(row, col)?.text | translate"
+                    [matTooltipPosition]="getCellTooltip(row, col)?.position || 'below'"
+                    [attr.data-label]="col.label | translate"
+                    *matCellDef="let row"
+                    class="align-{{col.style?.align}} vertical-align-{{col.style?.verticalAlign}}">
+                <ng-container *ngIf="!!col.value">
+                    <span [innerHTML]="getRenderedValue(row, col)"></span>
+                </ng-container>
+
+                <ng-container *ngIf="!!col.buttonGroup && !field.readOnly">
+                    <mat-menu #menu>
+                        <ng-container
+                                *ngFor="let button of col.buttonGroup.buttons">
+                            <button
+                                    [matTooltip]="button.tooltip?.text | translate"
+                                    [matTooltipPosition]="button.tooltip?.position || 'below'"
+                                    [disabled]="button.disabled"
+                                    (click)="buttonAction([col.value, button.action], row)"
+                                    *ngIf="isButtonVisible([col.value, button.action], row, button)"
+                                    mat-menu-item>
+                                <mat-icon
+                                        *ngIf="!!button.icon"
+                                        [attr.aria-label]="button.label"
+                                        [attr.color]="button.color">
+                                    {{button.icon}}
+                                </mat-icon>
+                                <span
+                                        *ngIf="!!button.label || !button.icon">
+                          {{button.label | translate}}
+                        </span>
+                            </button>
+                        </ng-container>
+                    </mat-menu>
+                    <button
+                            mat-button
+                            class="mat-{{col.buttonGroup.style}}-button"
+                            [matMenuTriggerFor]="menu"
+                            [matTooltip]="col.buttonGroup.tooltip?.text | translate"
+                            [matTooltipPosition]="col.buttonGroup.tooltip?.position || 'below'"
+                            [color]="col.buttonGroup.color"
+                    >
+                        <mat-icon
+                                *ngIf="!!col.buttonGroup.icon"
+                                [attr.aria-label]="col.buttonGroup.label"
+                                [attr.color]="col.buttonGroup.style !== 'raised' ? col.buttonGroup.color : false">
+                            {{col.buttonGroup.icon}}
+                        </mat-icon>
+                        <span
+                                *ngIf="!!col.buttonGroup.label || !col.buttonGroup.icon">
+                      {{(col.buttonGroup.label || '[BUTTON]') | translate}}
+                    </span>
+                    </button>
+
+                </ng-container>
+
+                <ng-container *ngIf="!!col.buttons && !field.readOnly">
+                    <ng-container *ngFor="let button of col.buttons">
+                        <mrf-generic-button
+                                [button]="button"
+                                (click)="buttonAction([col.value, button.action], row)"
+                                *ngIf="isButtonVisible([col.value, button.action], row, button)"
+                        ></mrf-generic-button>
+                    </ng-container>
+                </ng-container>
+
+            </mat-cell>
         </ng-container>
-        <ng-container *ngIf="!!col.buttons && !field.readOnly">
-          <ng-container *ngFor="let button of col.buttons">
-          <mrf-generic-button
-            [button]="button"
-            (click)="buttonAction([col.value, button.action], row)"
-            *ngIf="isButtonVisible([col.value, button.action], row, button)"
-          ></mrf-generic-button>
-          </ng-container>
-        </ng-container>
-      </mat-cell>
-    </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-  </table>
+    </table>
 
-  <mat-paginator *ngIf="!!field.data.pagination"></mat-paginator>
+    <mat-paginator
+            *ngIf="!!field.data.pagination"
+            [showFirstLastButtons]="!!field.data.pagination.showFirstLastButtons"
+            [pageSize]="paginatorPageSize"
+            [pageIndex]="paginatorPageIndex"
+            [pageSizeOptions]="paginatorPageSizeOptions"
+            [length]="paginatorLength"
+            (page)="paginatorEvent($event)"></mat-paginator>
 </div>

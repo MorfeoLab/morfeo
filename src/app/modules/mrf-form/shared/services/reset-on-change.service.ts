@@ -11,48 +11,49 @@ import {NgForm} from '@angular/forms';
  * (il comune) deve essere azzerato, in caso contrario avremo una incoerenza tra provincia e comune.
  */
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ResetOnChangeService {
 
-  private rulesArray: any[] = [];
+    private rulesArray: any[] = [];
 
-  constructor() { }
-
-  public resetFieldEvent = new EventEmitter();
-
-  /**
-   * Quando il form è pronto si registra al service cosi vengono inizializzati i listner
-   */
-  registerForm(f: NgForm) {
-      for (const rule of this.rulesArray) {
-        Object.keys(rule).forEach(v => {
-          if (!!f.controls[v]) {
-            f.controls[v].valueChanges.subscribe(() => {
-              if (!!f.controls[rule[v]]) {
-                f.controls[rule[v]].setValue('');
-                this.resetFieldEvent.emit({key: rule[v]});
-              }
-            });
-          } else {
-            console.error('ERROR in ' + v);
-          }
-        });
-      }
-  }
-
-  /**
-   * Quando un componente vuole essere azzerato in funzione del change di un altro campo di input si registra qui.
-   */
-  registerRule(
-    keyToListen: string,
-    ketToReset: string
-  ) {
-    if (!!keyToListen && !!ketToReset && keyToListen !== '$') {
-      const item = {};
-      item[keyToListen] = ketToReset;
-      this.rulesArray.push(item);
+    constructor() {
     }
-  }
+
+    public resetFieldEvent = new EventEmitter();
+
+    /**
+     * Quando il form è pronto si registra al service cosi vengono inizializzati i listner
+     */
+    registerForm(f: NgForm) {
+        for (const rule of this.rulesArray) {
+            Object.keys(rule).forEach(v => {
+                if (!!f.controls[v]) {
+                    f.controls[v].valueChanges.subscribe(() => {
+                        if (!!f.controls[rule[v]]) {
+                            // f.controls[rule[v]].setValue('');
+                            this.resetFieldEvent.emit({key: rule[v]});
+                        }
+                    });
+                } else {
+                    console.error('ERROR in ' + v);
+                }
+            });
+        }
+    }
+
+    /**
+     * Quando un componente vuole essere azzerato in funzione del change di un altro campo di input si registra qui.
+     */
+    registerRule(
+        keyToListen: string,
+        ketToReset: string
+    ) {
+        if (!!keyToListen && !!ketToReset && keyToListen !== '$') {
+            const item = {};
+            item[keyToListen] = ketToReset;
+            this.rulesArray.push(item);
+        }
+    }
 
 }

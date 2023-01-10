@@ -1,0 +1,14 @@
+/**
+Theme utilizzato da CompoDoc per creare la Documentazione
+ */
+@import "./reset.css";
+@import "./bootstrap.min.css";
+@import "./bootstrap-card.css";
+@import "./prism.css";
+@import "./ionicons.min.css";
+@import "./compodoc.css";
+@import "./tablesort.css";
+
+.content.getting-started .img-responsive {
+    max-height: 50vh;
+}

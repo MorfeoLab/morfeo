@@ -46,7 +46,6 @@ export class ValidateCustomDirective implements Validator {
                 }
             }
         } else if (this.validatePreset === 'codiceFiscale') {
-            console.log('meh');
             /**
              * Controlli per il tipo codiceFiscale
              */

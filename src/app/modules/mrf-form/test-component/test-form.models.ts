@@ -1,29 +1,529 @@
 import {IForm, IFormElement} from '../shared/models/form-element.model';
 
-export const FORM_T: IForm = {
-  components: [
-    {
-      key: 'RICHIEDENTE.DATA_NASCITA',
-      label: 'Data di nascita',
-      localizedLabel: {
-        it: 'Data di nascita'
-      },
-      type: 'file',
-      data: {
-        values: []
-      },
-      suffix: '',
-      validate: {
-        pattern: '^[a-zA-Z0-9\\-_\\.]+\\.(([Pp][Dd][Ff]\\.[Pp]7[Mm])|([Pp][Dd][Ff])|([Xx][Mm][Ll])|([Dd][Ww][Ff]\\.[Pp]7[Mm])|([Dd][Ww][Ff])|([Ss][Vv][Gg]\\.[Pp]7[Mm])|([Ss][Vv][Gg])|([Jj][Pp][Gg]\\.[Pp]7[Mm])|([Jj][Pp][Gg]))$|^.*\\.([Zz][Ii][Pp])$',
-        required: true
-      },
-      defaultValue: null,
-      input: false
+export const TEST_SELECT_COMPONENT: IFormElement = {
+  label: 'Select example',
+  key: 'select',
+  type: 'select',
+  fullValue: true,
+  validate: {
+    required: true,
+    custom: ''
+  },
+  defaultValue: null,
+  hidden: false,
+  data: {
+    url: '/assets/data/stati.json?altraSelect=$altraSelect',
+    values: [],
+    configurableParams: {
+      $altraSelect: 'select_2'
     }
-]
-}
+  },
+  dataSrc: 'url',
+  valueProperty: 'codice',
+  labelProperty: 'descrizione',
+  suffix: '',
+  input: true
+};
 
-export const TEST_FORM_2: IForm ={
+export const TEST_SELECT_COMPONENT_2: IFormElement = {
+  label: 'Select example',
+  key: 'select_2',
+  type: 'select',
+  fullValue: true,
+  validate: {
+    required: true,
+    custom: ''
+  },
+  defaultValue: null,
+  hidden: false,
+  data: {
+    url: '/assets/data/stati.json',
+    values: []
+  },
+  dataSrc: 'url',
+  valueProperty: 'codice',
+  labelProperty: 'descrizione',
+  suffix: '',
+  input: true
+};
+
+export const TEST_SELECT_COMPONENT_3: IFormElement = {
+  label: 'Select example',
+  key: 'select_3',
+  type: 'select',
+  validate: {
+    required: true,
+    custom: ''
+  },
+  defaultValue: null,
+  hidden: false,
+  data: {
+    url: '/assets/data/stati.json',
+    values: []
+  },
+  dataSrc: 'url',
+  valueProperty: 'codice',
+  labelProperty: 'descrizione',
+  suffix: '',
+  input: true
+};
+
+export const TEST_SELECT_FORM: IForm = {
+  components: [
+    TEST_SELECT_COMPONENT,
+    TEST_SELECT_COMPONENT_2,
+    TEST_SELECT_COMPONENT_3
+  ]
+};
+
+export const TEST_DATETIME_COMPONENT: IFormElement = {
+  key: 'date',
+  label: 'Data',
+  type: 'datetime',
+  hidden: false,
+  validate: {
+    required: true,
+    custom: '[{">=":[{"var":"date"}, "2021-11-30T10:31:04.692Z"]}]',
+    messages: {
+      custom: 'Scegliere una data precedente al 30/11/2021'
+    }
+  },
+  suffix: '',
+  timePicker: false,
+  defaultValue: '2021-11-30T10:31:04.692Z',
+  input: true,
+  data: {}
+};
+
+export const TEST_DATETIME_COMPONENT_2: IFormElement = {
+  key: 'date-2',
+  label: 'Data e ora',
+  type: 'datetime',
+  hidden: false,
+  validate: {
+    required: true,
+    custom: '[{">=":[{"var":"date-2"}, "2021-11-30T10:31:04.692Z"]}]',
+    messages: {
+      custom: 'Scegliere una data precedente al 30/11/2021'
+    }
+  },
+  suffix: '',
+  timePicker: true,
+  defaultValue: '2021-11-30T10:31:04.692Z',
+  input: true,
+  data: {}
+};
+
+export const TEST_DATETIME_COMPONENT_3: IFormElement = {
+  key: 'date-3',
+  label: 'Data e ora una settimana dopo',
+  type: 'datetime',
+  hidden: false,
+  validate: {
+    required: true,
+    custom: '[{">=":[{"var":"date-2"}, "2021-11-30T10:31:04.692Z"]}]',
+    messages: {
+      custom: 'Scegliere una data precedente al 30/11/2021'
+    }
+  },
+  suffix: '',
+  timePicker: true,
+  defaultValue: null,
+  calculatedValue: '[{"+":[{"var":"date-2"}, "604800"]}]',
+  input: true,
+  data: {}
+};
+
+export const TEST_DATETIME_FORM: IForm = {
+  components: [
+    TEST_DATETIME_COMPONENT,
+    TEST_DATETIME_COMPONENT_2
+  ]
+};
+
+
+export const FORM_T: IForm = {
+  "components": [{
+    "key": "TAB_I_UTG_DOMANDA_BANDI_INFRASTRUTTURE_SC",
+    "type": "tabs",
+    "components": [{
+      "key": "M_MODULO_TIPOLOGIA",
+      "label": "MODULO_TIPOLOGIA",
+      "localizedLabel": {"it": "Modulo tipologia"},
+      "components": [{
+        "key": "TAB_M_MODULO_TIPOLOGIA",
+        "type": "tabs",
+        "components": [{
+          "key": "Q_QUADRO_TIPOLOGIA",
+          "label": "QUADRO_TIPOLOGIA",
+          "localizedLabel": {"it": "Quadro tipologia"},
+          "components": [{
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "00002",
+                "label": "",
+                "type": "htmlelement",
+                "components": [],
+                "suffix": "",
+                "content": {"it": "Seleziona una tipologia di domanda"},
+                "validate": {}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "TIPOLOGIA_DOMANDA",
+                "label": "Tipologia domanda",
+                "localizedLabel": {"it": "Tipologia domanda"},
+                "type": "select",
+                "data": {"values": [{"value": "1", "label": "Singolo Ente"}, {"value": "2", "label": "Partenariato"}]},
+                "dataSrc": "values",
+                "suffix": "",
+                "validate": {"custom": ""},
+                "labelProperty": "label",
+                "valueProperty": "value"
+              }]
+            }]
+          }]
+        }],
+        "selectedIndex": 0
+      }],
+      "moduloTecnico": false
+    },
+      {
+      "key": "M_DOMANDA_BANDI_INFRASTRUTTURE_SC",
+      "label": "DOMANDA_BANDI_INFRASTRUTTURE_SC",
+      "localizedLabel": {"it": "Modulo domanda Bandi Infrastrutture senza compilatore"},
+      "components": [{
+        "key": "TAB_M_DOMANDA_BANDI_INFRASTRUTTURE_SC", "type": "tabs", "components": [{
+          "key": "Q_BANDI_INFRASTRUTTURE_SC_INTESTAZIONE",
+          "label": "BANDI_INFRASTRUTTURE_SC_INTESTAZIONE",
+          "localizedLabel": {"it": "Intestazione"},
+          "components": [{
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "CODICE_BANDO",
+                "label": "Codice procedura",
+                "localizedLabel": {"it": "Codice procedura"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256},
+                "disabled": "true"
+              }]
+            }, {
+              "components": [{
+                "key": "CUP",
+                "label": "CUP",
+                "localizedLabel": {"it": "CUP"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256},
+                "disabled": "true"
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "SYSDATE",
+                "label": "Data sistema",
+                "localizedLabel": {"it": "Data sistema"},
+                "type": "datetime",
+                "data": {"values": []},
+                "suffix": "",
+                "validate": {"custom": ""},
+                "disabled": "true"
+              }]
+            }, {
+              "components": [{
+                "key": "STATO_DOMANDA",
+                "label": "Stato domanda",
+                "localizedLabel": {"it": "Stato domanda"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256},
+                "disabled": "true"
+              }]
+            }]
+          }]
+        }, {
+          "key": "Q_RICHIEDENTE",
+          "label": "RICHIEDENTE",
+          "localizedLabel": {"it": "Dati richiedente"},
+          "components": [{
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE.COGNOME",
+                "label": "Cognome",
+                "localizedLabel": {"it": "Cognome"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256}
+              }]
+            }, {
+              "components": [{
+                "key": "PROPONENTE.NOME",
+                "label": "Nome",
+                "localizedLabel": {"it": "Nome"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE.CODICE_FISCALE",
+                "label": "Codice Fiscale",
+                "localizedLabel": {"it": "Codice Fiscale"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {
+                  "custom": "",
+                  "pattern": "^[A-Za-z]{6}[0-9LMNPQRSTUVlmnpqrstuv]{2}[ABCDEHLMPRSTabcdehlmprst][0-9LMNPQRSTUVlmnpqrstuv]{2}[A-Za-z][0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]$",
+                  "maxLength": 256,
+                  "required": "true"
+                },
+                "hidden": "[{\"!\":[{\"!\":[]}]}]"
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE_NATO_A_STATO",
+                "label": "Stato di nascita",
+                "localizedLabel": {"it": "Stato di nascita"},
+                "type": "autocomplete",
+                "data": {
+                  "values": [],
+                  "url": "/gw/egpal-api-progettocm/bdr/dizionari/altri/stati/1",
+                  "method": "GET",
+                  "params": {"nome": ""}
+                },
+                "dataSrc": "url",
+                "suffix": "",
+                "validate": {"custom": ""},
+                "labelProperty": "descrizione",
+                "valueProperty": "codice"
+              }]
+            }, {
+              "components": [{
+                "key": "PROPONENTE_NATO_A",
+                "label": "Nato a",
+                "localizedLabel": {"it": "Nato a"},
+                "type": "autocomplete",
+                "data": {
+                  "values": [],
+                  "url": "/gw/egpal-api-progettocm/bdr/dizionari/altri/autocomplete/comuni/nascita",
+                  "autocompleteType": "server",
+                  "method": "GET",
+                  "params": {"descrizione": ""},
+                  "configurableParams": {"siglaProvincia": ""},
+                  "mapFieldToFormKey": {"codiceBelfiore": "", "siglaProvincia": ""}
+                },
+                "dataSrc": "url",
+                "suffix": "",
+                "validate": {"custom": ""},
+                "labelProperty": "descrizione",
+                "valueProperty": "codice"
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE_NATO_A_PROV",
+                "label": "Provincia",
+                "localizedLabel": {"it": "Provincia"},
+                "type": "select",
+                "data": {
+                  "values": [],
+                  "url": "/gw/egpal-api-progettocm/bdr/dizionari/altri/autocomplete/province",
+                  "autocompleteType": "server",
+                  "method": "GET",
+                  "params": {"descrizione": ""}
+                },
+                "dataSrc": "url",
+                "suffix": "",
+                "validate": {"custom": ""},
+                "labelProperty": "descrizione",
+                "valueProperty": "sigla"
+              }]
+            }, {
+              "components": [{
+                "key": "PROPONENTE_DATA_DI_NASCITA",
+                "label": "Data di nascita",
+                "localizedLabel": {"it": "Data di nascita"},
+                "type": "datetime",
+                "data": {"values": []},
+                "suffix": "",
+                "validate": {"custom": ""}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "00000",
+                "label": "",
+                "type": "htmlelement",
+                "components": [],
+                "suffix": "",
+                "content": {"it": "<b>Dati Residenza</b>"},
+                "validate": {}
+              }]
+            }]
+          }]
+        }, {
+          "key": "Q_DATI_ENTE",
+          "label": "DATI_ENTE",
+          "localizedLabel": {"it": "Dati Ente di Riferimento"},
+          "components": [{
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE_PG.RAGIONE_SOCIALE",
+                "label": "Ragione Sociale",
+                "localizedLabel": {"it": "Ragione Sociale"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "PROPONENTE_PG.CODICE_FISCALE",
+                "label": "Codice Fiscale",
+                "localizedLabel": {"it": "Codice Fiscale"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {
+                  "custom": "",
+                  "pattern": "(^[A-Za-z]{6}[0-9LMNPQRSTUVlmnpqrstuv]{2}[ABCDEHLMPRSTabcdehlmprst][0-9LMNPQRSTUVlmnpqrstuv]{2}[A-Za-z][0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]$)|(^[0-9]{11}$)",
+                  "maxLength": 256
+                }
+              }]
+            }, {
+              "components": [{
+                "key": "PROPONENTE_PG.P_IVA",
+                "label": "Partita IVA",
+                "localizedLabel": {"it": "Partita IVA"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "pattern": "^[0-9]{11}$", "maxLength": 256}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "00001",
+                "label": "",
+                "type": "htmlelement",
+                "components": [],
+                "suffix": "",
+                "content": {"it": "<b>LEGALE RAPPRESENTANTE</b>"},
+                "validate": {}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "LEGALE_RAPPRESENTANTE_COGNOME",
+                "label": "Cognome",
+                "localizedLabel": {"it": "Cognome"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256}
+              }]
+            }, {
+              "components": [{
+                "key": "LEGALE_RAPPRESENTANTE_NOME",
+                "label": "Nome",
+                "localizedLabel": {"it": "Nome"},
+                "type": "textfield",
+                "data": {"values": []},
+                "validate": {"custom": "", "maxLength": 256}
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "LEGALE_RAPPRESENTANTE_CODICE_FISCALE",
+                "label": "Codice Fiscale",
+                "localizedLabel": {"it": "Codice Fiscale"},
+                "type": "textfield",
+                "validate": {
+                  "custom": "",
+                  "pattern": "^[A-Za-z]{6}[0-9LMNPQRSTUVlmnpqrstuv]{2}[ABCDEHLMPRSTabcdehlmprst][0-9LMNPQRSTUVlmnpqrstuv]{2}[A-Za-z][0-9LMNPQRSTUVlmnpqrstuv]{3}[A-Za-z]$",
+                  "maxLength": 256
+                }
+              }]
+            }]
+          }, {
+            "key": "columns",
+            "label": "Nome del Quadro",
+            "type": "columns",
+            "columns": [{
+              "components": [{
+                "key": "LEGALE_RAPPRESENTANTE_DATA_NASCITA",
+                "label": "Data di nascita",
+                "localizedLabel": {"it": "Data di nascita"},
+                "type": "datetime",
+                "data": {"values": []},
+                "suffix": "",
+                "validate": {"custom": ""}
+              }]
+            }]
+          }]
+        }], "selectedIndex": 0
+      }],
+      "hidden": "[{\"!\":[{\"==\":[{\"var\":\"TIPOLOGIA_DOMANDA\"},\"1\"]}]}]",
+      "moduloTecnico": false
+    }],
+    "selectedIndex": 0
+  }]
+};
+
+export const TEST_FORM_2: IForm = {
   components: [
     {
       type: 'columns',

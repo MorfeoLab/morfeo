@@ -1,0 +1,45 @@
+{
+    "components": [
+        {
+            "type": "select",
+            "label": "select con valori statici",
+            "key": "select-con-valori-statici",
+            "dataSrc": "values",
+            "data": {
+                "values": [
+                    {
+                        "label": "Uno",
+                        "value": "UNO"
+                    },
+                    {
+                        "label": "Due",
+                        "value": "DUE"
+                    },
+                    {
+                        "label": "Tre",
+                        "value": "TRE"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "select",
+            "label": "select con valori dinamici",
+            "key": "select-con-valori-dinamici",
+            "dataSrc": "url",
+            "data": {
+                "url": "assets/test/test-select-values.json"
+            }
+        },
+        {
+            "type": "select",
+            "label": "select con valori dinamici e full value",
+            "key": "select-con-valori-dinamici-e-full-value",
+            "fullValue": true,
+            "dataSrc": "url",
+            "data": {
+                "url": "assets/test/test-select-values.json"
+            }
+        }
+    ]
+}

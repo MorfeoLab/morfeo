@@ -44,7 +44,7 @@ import {MatRadioModule} from '@angular/material/radio';
 @NgModule({
   declarations: [],
   imports: [
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -84,7 +84,7 @@ import {MatRadioModule} from '@angular/material/radio';
     DragDropModule
   ],
   exports: [
-    BrowserAnimationsModule,
+    // BrowserAnimationsModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,

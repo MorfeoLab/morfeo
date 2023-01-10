@@ -1,7 +1,29 @@
-<a [routerLink]="'/test2'">Vai a pagina 2</a>
-<mrf-form
-    #mainForm
-    [form]="mainFormJson"
-></mrf-form>
-<button mat-button (click)="clickMe()">Click me</button>
-<button mat-button (click)="clickMe2()">Click me 2</button>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Main Form
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mrf-form
+            *ngIf="!!mainFormJson"
+            #mainForm
+            [form]="mainFormJson"
+            [externalData]="externalData"
+        ></mrf-form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button (click)="caricaForm1()">UNO</button>
+        <button mat-button (click)="caricaForm2()">DUE</button>
+        <button mat-button (click)="caricaForm3()">TRE</button>
+    </mat-card-actions>
+</mat-card>
+
+<div class="mat-typography">
+    <dl>
+        <dt>mainFormObj.value</dt>
+        <dd>
+            <pre>{{mainFormRef?.value | json}}</pre>
+        </dd>
+    </dl>
+</div>

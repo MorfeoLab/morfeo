@@ -1,13 +1,13 @@
-<div *ngIf="me?.hasError('max')">{{this.messages.max | translate}} {{me.getError('max')}}</div>
-<div *ngIf="me?.hasError('maxlength')">{{this.messages.maxLength | translate}}</div>
-<div *ngIf="me?.hasError('min')">{{this.messages.min | translate}} {{me.getError('min')}}</div>
-<div *ngIf="me?.hasError('minlength')">{{this.messages.minLength | translate}}</div>
-<div *ngIf="me?.hasError('pattern')">{{this.messages.pattern | translate}}</div>
-<div *ngIf="me?.hasError('patternWrong')">{{this.messages.filePatternWrong | translate}}</div>
-<div *ngIf="me?.hasError('required')">{{this.messages.required | translate}}</div>
-<div *ngIf="me?.hasError('uploadRequired')">{{this.messages.uploadRequired | translate}}</div>
-<div *ngIf="me?.hasError('validateJsonRule')">{{this.messages.custom | translate}}</div>
-<div *ngIf="me?.hasError('validatePreset')">{{me.getError('validatePreset')}}</div>
-
-
+<ng-container *ngIf="me?.touched">
+    <div *ngIf="me?.hasError('max')">{{this.messages.max | translate}} {{me.getError('max')}}</div>
+    <div *ngIf="me?.hasError('maxlength')">{{this.messages.maxLength | translate}}</div>
+    <div *ngIf="me?.hasError('min')">{{this.messages.min | translate}} {{me.getError('min')}}</div>
+    <div *ngIf="me?.hasError('minlength')">{{this.messages.minLength | translate}}</div>
+    <div *ngIf="me?.hasError('pattern')">{{this.messages.pattern | translate}}</div>
+    <div *ngIf="me?.hasError('patternWrong')">{{this.messages.filePatternWrong | translate}}</div>
+    <div *ngIf="me?.hasError('required')">{{this.messages.required | translate}}</div>
+    <div *ngIf="me?.hasError('uploadRequired')">{{this.messages.uploadRequired | translate}}</div>
+    <div *ngIf="me?.hasError('validateJsonRule')">{{this.messages.custom | translate}}</div>
+    <div *ngIf="me?.hasError('validatePreset')">{{me.getError('validatePreset')}}</div>
+</ng-container>
 

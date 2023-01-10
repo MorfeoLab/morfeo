@@ -1,12 +1,9 @@
 {
   "compileOnSave": false,
-  "angularCompilerOptions": {
-    "enableIvy": false
-  },
+  "angularCompilerOptions": { },
   "compilerOptions": {
     "baseUrl": "./",
     "declaration": false,
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "lib": [

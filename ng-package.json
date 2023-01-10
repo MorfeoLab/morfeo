@@ -8,9 +8,8 @@
       "@ngx-translate/core": "ngxTranslate",
       "util": "morfeoUtil",
       "@ngx-translate/http-loader": "httpLoader",
-      "@ctrl/ngx-codemirror": "ngxCodemirror",
-      "codemirror": "codemirror",
-      "js-beautify": "jsBeautify"
+      "js-beautify": "jsBeautify",
+      "lodash-es": "lodashEs"
     }
   }
 }

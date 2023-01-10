@@ -1,13 +1,3 @@
 <ng-container *ngIf="!!field">
-  <button
-    type="button"
-    mat-button
-    [matTooltip]="(field.tooltip?.text || '') | translate"
-    [matTooltipPosition]="field.tooltip?.position || 'below'"
-    (click)="execute()"
-    [disabled]="(!!field.input && !!field.disabled) || readOnly"
-    [name]="field.key + field.suffix"
-  >
-    {{ displayLabel() }}
-  </button>
+    <mrf-generic-button [button]="buttonField" (click)="execute()"></mrf-generic-button>
 </ng-container>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {IForm} from '../shared/models/form-element.model';
 
 @Component({
   selector: 'mrf-test-page',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./test-page.component.scss']
 })
 export class TestPageComponent implements OnInit {
+  public testFormJson: IForm;
 
   constructor() { }
 

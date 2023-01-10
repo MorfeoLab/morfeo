@@ -3,41 +3,45 @@ import {IFormElement} from '../../../shared/models/form-element.model';
 import {FormControl, NgForm} from '@angular/forms';
 
 @Component({
-  selector: 'mrf-read-only-date',
-  templateUrl: './read-only-date.component.html',
-  styleUrls: ['./read-only-date.component.scss']
+    selector: 'mrf-read-only-date',
+    templateUrl: './read-only-date.component.html',
+    styleUrls: ['./read-only-date.component.scss']
 })
 export class ReadOnlyDateComponent implements OnInit, AfterViewInit {
-  @Input() field: IFormElement;
-  @Input() formRef: NgForm;
+    @Input() field: IFormElement;
+    @Input() formRef: NgForm;
 
-  public hiddenControl: FormControl;
-  public htmlValue: any;
+    public hiddenControl: FormControl;
+    public htmlValue: any;
 
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-    this.field.suffix = this.field.suffix || '';
-  }
+    ngOnInit() {
+        this.field.suffix = this.field.suffix || '';
+    }
 
-  registerHiddenFieldListener() {
-    this.hiddenControl.valueChanges.subscribe((v: any) => {
-      if ( v !== null ) {
-        this.htmlValue = v;
-      }
-    });
-  }
+    registerHiddenFieldListener() {
+        if (!!this.hiddenControl) {
+            this.hiddenControl.valueChanges.subscribe((v: any) => {
+                if (v !== null) {
+                    this.htmlValue = v;
+                }
+            });
+        }
+    }
 
-  ngAfterViewInit(): void {
-    this.hiddenControl = this.formRef.controls[
-      this.field.key + this.field.suffix
-      ] as FormControl;
+    ngAfterViewInit(): void {
+        this.hiddenControl = this.formRef.controls[
+        this.field.key + this.field.suffix
+            ] as FormControl;
+        if (this.hiddenControl) {
+            setTimeout(() => {
+                this.hiddenControl.setValue(null);
+            }, 0);
+        }
 
-    setTimeout(() => {
-      this.hiddenControl.setValue(null);
-    }, 0);
-
-    this.registerHiddenFieldListener();
-  }
+        this.registerHiddenFieldListener();
+    }
 }

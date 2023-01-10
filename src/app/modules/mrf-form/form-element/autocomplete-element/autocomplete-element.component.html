@@ -11,7 +11,7 @@
       matInput
       placeholder="{{ displayLabel | translate }}"
       [matAutocomplete]="auto"
-      (blur)="onBlur($event)"
+      (blur)="onBlur()"
       [(ngModel)]="formRef.form.value[field.key + field.suffix]"
       [name]="field.key + field.suffix"
       [disabled]="(!!field.input && !!field.disabled) || readOnly"

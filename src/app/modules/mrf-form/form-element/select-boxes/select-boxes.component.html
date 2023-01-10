@@ -1,49 +1,63 @@
 <fieldset *ngIf="!!field">
-  <legend *ngIf="!!displayLabel && !labelIsBlank" class="select-boxes">{{ displayLabel | translate }}&nbsp;<span *ngIf="!!(field.input ? field.validate && field.validate.required : false)">*</span></legend>
-  <legend *ngIf="!!labelIsBlank && (field.input ? field.validate && field.validate.required : false)" class="select-boxes">Selezione obbligatoria *</legend>
+    <legend *ngIf="!!displayLabel && !labelIsBlank" class="select-boxes">{{ displayLabel | translate }}&nbsp;<span
+            *ngIf="!!(field.input ? field.validate && field.validate.required : false)">*</span></legend>
+    <legend *ngIf="!!labelIsBlank && (field.input ? field.validate && field.validate.required : false)"
+            class="select-boxes">Selezione obbligatoria *
+    </legend>
 
-  <div class="checkbox-container">
-    <input
-      type="hidden"
-      [(ngModel)]="formRef.form.value[field.key + field.suffix]"
-      [name]="field.key + field.suffix"
-      #hiddenElement="ngModel"
-      mrfRegisterForm
-      [required]="!!(field.input ? field.validate && field.validate.required : false)"
-      [registerForm]="formRef"
-      [registerModel]="hiddenElement"
-      mrfValidateJsonRule
-      [jsonRule]="field.input ? field.validate.custom : ''"
-    />
-    <div class="selectAll">
-    <mat-checkbox
-      [ngClass]="'mrf-selectboxes-' + field.key"
-      [disabled]="(!!field.input && !!field.disabled) || readOnly"
-      [required]="!!(field.input ? field.validate && field.validate.required : false)"
-      *ngIf="!field.hideSelectAll"
-      name="toggle-select-all"
-      (change)="toggleSelectAll($event)"
-      labelPosition="{{
+    <div class="checkbox-container">
+        <input
+                type="hidden"
+                [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+                [name]="field.key + field.suffix"
+                #hiddenElement="ngModel"
+                mrfRegisterForm
+                [required]="!!(field.input ? field.validate && field.validate.required : false)"
+                [registerForm]="formRef"
+                [registerModel]="hiddenElement"
+                mrfValidateJsonRule
+                [jsonRule]="field.input ? field.validate.custom : ''"
+        />
+        <div class="selectAll">
+            <mat-checkbox
+                    [ngClass]="'mrf-selectboxes-' + field.key"
+                    [disabled]="(!!field.input && !!field.disabled) || readOnly"
+                    [required]="!!(field.input ? field.validate && field.validate.required : false)"
+                    *ngIf="!field.hideSelectAll"
+                    name="toggle-select-all"
+                    (change)="toggleSelectAll($event)"
+                    labelPosition="{{
       field.optionsLabelPosition === 'left' ? 'before' : 'after'
       }}"
-    >
-        Seleziona tutti
-    </mat-checkbox>
-    </div>
-    <mat-checkbox
-      [ngClass]="'mrf-selectboxes-' + field.key"
-      [disabled]="(!!field.input && !!field.disabled) || readOnly"
-      [required]="!!(field.input ? field.validate && field.validate.required : false)"
-      class="option"
-      *ngFor="let value of field.values"
-      labelPosition="{{
+            >
+                Seleziona tutti
+            </mat-checkbox>
+        </div>
+        <mat-checkbox
+                [ngClass]="'mrf-selectboxes-' + field.key"
+                [disabled]="(!!field.input && !!field.disabled) || readOnly"
+                [required]="!!(field.input ? field.validate && field.validate.required : false)"
+                class="option"
+                *ngFor="let value of comboElements"
+                labelPosition="{{
         field.optionsLabelPosition === 'left' ? 'before' : 'after'
       }}"
-      [name]="value.value"
-      (change)="changedCheckbox()"
-    >
-      {{ value.label  | translate}}
-    </mat-checkbox>
-    <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
-  </div>
+                [name]="value.value"
+                (change)="selectOption()"
+        >
+            {{ value.label  | translate}}
+        </mat-checkbox>
+        <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
+
+        <input
+                *ngIf="field.fullValue"
+                type="hidden"
+                [(ngModel)]="formRef.form.value[field.key + '-fullValue' + field.suffix]"
+                [name]="field.key + '-fullValue' + field.suffix"
+                #fullValue="ngModel"
+                mrfRegisterForm
+                [registerForm]="formRef"
+                [registerModel]="fullValue"
+        />
+    </div>
 </fieldset>

@@ -1,0 +1,17 @@
+<input
+        type="hidden"
+        [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+        [name]="field.key + field.suffix"
+        #hiddenElement="ngModel"
+        mrfRegisterForm
+        [registerForm]="formRef"
+        [registerModel]="hiddenElement"
+
+        mrfValidateJsonRule
+        [jsonRule]="field.input ? field.validate.custom : ''"
+/>
+<mrf-element-wrapper [component]="getTableField()" [formRef]="formRef" [externalData]="tableExternalData"></mrf-element-wrapper>
+<button mat-raised-button color="primary" (click)="openModal()">
+    <mat-icon>add_circle</mat-icon>
+    Add...
+</button>

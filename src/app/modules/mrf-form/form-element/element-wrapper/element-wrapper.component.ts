@@ -3,7 +3,6 @@ import {IFormElement} from '../../shared/models/form-element.model';
 import {NgForm} from '@angular/forms';
 import {ConditionalService} from '../../shared/services/conditional/conditional.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
-import {ValueService} from '../../shared/services/value/value.service';
 
 /**
  * Questo componente contiene tutta la logica di visibilità
@@ -24,10 +23,9 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
     private oldHiddenValue = false;
 
     constructor(
-        private conditional: ConditionalService,
+        private conditionalService: ConditionalService,
         private changeDetector: ChangeDetectorRef,
-        private utility: UtilityService,
-        private valueService: ValueService
+        private utility: UtilityService
     ) {
     }
 
@@ -36,9 +34,12 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-      if (this.component.key.indexOf('.')>= 0) {
-        console.warn(`[WARN] Please avoid using dot in element keys to keep json_logic compatibility (${this.component.key}).`);
-      }
+        if (!this.component) {
+            return;
+        }
+        if (this.component.key?.indexOf('.') >= 0) {
+            console.warn(`[WARN] Please avoid using dot in element keys to keep json_logic compatibility (${this.component.key}).`);
+        }
         /**
          * La string "false" deve essere valutata come booleano false
          */
@@ -59,7 +60,7 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
          */
         if (this.isJsonLogic(this.component.hidden)) {
             this.component.input = true;
-            this.conditional.registerJsonRule(
+            this.conditionalService.registerJsonRule(
                 this.formRef,
                 this.component,
                 (this.component.hidden as string),
@@ -96,7 +97,7 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
         }
 
         if (!!this.component.conditional) {
-            this.conditional.registerRule(this.formRef, this.component, this);
+            this.conditionalService.registerRule(this.formRef, this.component, this);
         }
     }
 
@@ -106,7 +107,7 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
         }
         if (this.isJsonLogic(rule)) {
             if (!String(rule).includes('var')) {
-                return this.conditional.applyJsonLogic(rule, {});
+                return this.conditionalService.applyJsonLogic(rule, {});
             } else {
                 return rule;
             }
@@ -156,7 +157,7 @@ export class ElementWrapperComponent implements OnInit, AfterViewInit {
     }
 
     public isVisible() {
-        return !(this.component.input && this.component.hidden);
+        return !!this.component && !(this.component.input && this.component.hidden);
     }
 
 }

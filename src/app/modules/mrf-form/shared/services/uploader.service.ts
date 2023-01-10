@@ -37,9 +37,10 @@ export class UploaderService {
 
     private actionTrigger: EventEmitter<string> = new EventEmitter();
 
-    constructor(
-        private utils: UtilityService
-    ) {
+  public deletingEventHiddenFileEmitter: EventEmitter<string> = new EventEmitter<string>();
+
+
+  constructor(private utilityService: UtilityService) {
     }
 
     public get ready(): boolean {
@@ -54,8 +55,9 @@ export class UploaderService {
         return counter === 0;
     }
 
-    public emitEvent() {
-        this.uploadElementEvent.emit('changed');
+  public emitEvent(key: string) {
+    this.actionTrigger.emit(`changed: ${key}`);
+    this.uploadElementEvent.emit(`changed: ${key}`);
     }
 
 
@@ -67,11 +69,20 @@ export class UploaderService {
         this.uploadElements.push(e);
     }
 
-    public unregisterControl(e: UploadElementComponent) {
-        this.uploadElements = this.uploadElements.filter((el: UploadElementComponent) => {
-            return e.field.key !== el.field.key;
-        });
+  public unRegisterControl(e: UploadElementComponent) {
+    if (!e || !e.field) {
+      console.error('unRegisterControl', e);
+      return;
     }
+    this.uploadElements = this.uploadElements.filter(el => {
+      if (!!el && !!el.field) {
+        return (el.field.key + el.field.suffix) !== (e.field.key + e.field.suffix);
+      } else {
+        console.error('unRegisterControl', el);
+        return true;
+      }
+    });
+  }
 
     /**
      * Fa partire l'upload di tutti gli elementi
@@ -116,6 +127,15 @@ export class UploaderService {
     public uploadDeleted() {
         this.actionTrigger.emit('deleted');
     }
+
+  public registerForDeletingHiddenFile(key: string): EventEmitter<string> {
+    if (!!this.deletingEventHiddenFileEmitter[key]) {
+      return this.deletingEventHiddenFileEmitter[key];
+    }
+    const eventEmitter = new EventEmitter();
+    this.deletingEventHiddenFileEmitter[key] = eventEmitter;
+    return eventEmitter;
+  }
 
     public getUploadElement(nome: string): UploadElementComponent {
         for (const el of this.uploadElements) {

@@ -44,7 +44,6 @@ export class TabsService {
       case 'select':
       case 'selectboxes':
       case 'textarea':
-      case 'codeEditor':
       case 'textfield':
       case 'image':
         /// Salva o aggiorna

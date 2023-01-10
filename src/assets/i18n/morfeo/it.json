@@ -1,0 +1,10 @@
+{
+  "generic": {
+    "buttons": {
+      "save": "Salva"
+    },
+    "labels": {
+      "upload_file": "Carica un file"
+    }
+  }
+}

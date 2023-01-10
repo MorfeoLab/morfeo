@@ -1,12 +1,21 @@
-import {AfterContentChecked, AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {AbstractControl, NgForm} from '@angular/forms';
+import {
+    AfterContentChecked, AfterViewChecked,
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    ViewChild
+} from '@angular/core';
+import {AbstractControl, NgForm, NgModel} from '@angular/forms';
 import {IFormElement} from '../../shared/models/form-element.model';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {ValueService} from '../../shared/services/value/value.service';
 import {Moment} from 'moment';
-import {DatepickerService} from '../../shared/services/datepicker-service/datepicker.service';
+import {DatepickerService} from '../../shared/services/datepicker/datepicker.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
 
 
@@ -26,6 +35,9 @@ export class DateElementComponent implements OnInit, AfterContentChecked, AfterV
     @Input() readOnly: boolean;
 
     @ViewChild('inputElement') private inputElement: AbstractControl;
+    @ViewChild('hiddenElement') private hiddenElement: NgModel;
+    @ViewChild('dateTimePickerElement') private dateTimePickerElement: ElementRef;
+    private dateTimePickerElementValue;
 
     /**
      * Conserviamo il precedente valore booleano di visibilità
@@ -90,23 +102,56 @@ export class DateElementComponent implements OnInit, AfterContentChecked, AfterV
             }
         }
         this.componentWasVisible = !!componentIsVisible;
+
+        /// Tiene traccia del valore del componente dateTimePicker se presente
+        if (this.dateTimePickerElement) {
+            if (this.dateTimePickerElement.nativeElement.value !== this.dateTimePickerElementValue) {
+                this.dateTimePickerElementValue = this.dateTimePickerElement.nativeElement.value;
+                this.tryToSetHiddenValue(this.dateTimePickerElementValue);
+            }
+        }
     }
 
     ngAfterViewInit() {
         if (!!this.field.defaultValue) {
-            this.inputElementModel = new Date(String(this.field.defaultValue)) || null;
+            const dateValue = new Date(String(this.field.defaultValue));
+            if (this.utils.isValidDate(dateValue)) {
+                if (this.field.timePicker) {
+                    this.inputElementModel = this.formatDateForTimePicker(dateValue);
+                } else {
+                    this.inputElementModel = dateValue;
+                }
+            } else {
+                this.formRef.controls[this.field.key + this.field.suffix].setValue(null);
+                this.inputElementModel = null;
+            }
         }
+        if (this.field.timePicker) {
+          // questo serve quando un qualsiasi componente che include il form fa setValue, in quel caso l'input element necessita
+          // la conversione del formato della data per mostrare il campo precompilato
+            this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(e => {
+                if (!this.utils.isNullOrUndefined(e)) {
+                    const asDate = new Date(e);
+                    const formattedValue = this.formatDateForTimePicker(asDate);
+                    //console.log(this.inputElementModel, formattedValue, this.inputElementModel !== formattedValue);
+                    if(this.inputElementModel !== formattedValue) {
+                        this.inputElementModel = formattedValue;
+                    }
+                }
+            });
+        }
+
         if ((!!this.field.input && !!this.field.disabled) || this.readOnly) {
             this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(e => {
                 if (this.utils.isNullOrUndefined(e)) {
                     e = null;
                 }
                 this.inputElementModel = e;
-            })
+            });
         }
     }
 
-    myFilter = (d: any): boolean => {
+    public myFilter = (d: any): boolean => {
         if (!d) {
             return true;
         }
@@ -119,5 +164,60 @@ export class DateElementComponent implements OnInit, AfterContentChecked, AfterV
             return myFilter(d as Date);
         }
         return myFilter((d as Moment).toDate());
+    };
+
+    /**
+     * Utilizzato solo nel caso di timePicker = true
+     */
+    public changedDateTimePickerValue($event) {
+        this.tryToSetHiddenValue($event.target.value);
+    }
+
+    private tryToSetHiddenValue(val) {
+        // set timeout perchè senza da errore "Expression has changed after it was checked"
+        setTimeout(() => {
+            //console.log(val);
+            // facendo questa cosa si perde il fuso orario corretto
+            /*if (val.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/)) {
+                val = val + ':00.000Z';
+            }*/
+            const asDate = new Date(val);
+            if (this.utils.isValidDate(asDate)) {
+                this.formRef.controls[this.field.key + this.field.suffix].setValue(asDate.toJSON());
+            } else {
+                this.formRef.controls[this.field.key + this.field.suffix].setValue(null);
+            }
+        });
+    }
+
+    /**
+     * non va fatto asDate.toJSON().substr(0, 16), non tiene conto del fuso orario
+     * @param date
+     * @private
+     */
+    private formatDateForTimePicker(date: Date) {
+        let result = ''+ date.getFullYear();
+        result += '-';
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+            result += '0';
+        }
+        result += month;
+        result += '-';
+        if (date.getDate() < 10) {
+            result += '0';
+        }
+        result += date.getDate();
+        result += 'T';
+        if (date.getHours() < 10) {
+            result += '0';
+        }
+        result += date.getHours();
+        result += ':';
+        if (date.getMinutes() < 10) {
+            result += '0';
+        }
+        result += date.getMinutes();
+        return result;
     }
 }

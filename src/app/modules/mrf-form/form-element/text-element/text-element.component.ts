@@ -7,170 +7,168 @@ import {ValueService} from '../../shared/services/value/value.service';
 import {notFoundBase64Image} from '../../shared/constants/image.constants';
 
 @Component({
-  selector: 'mrf-text-element',
-  templateUrl: './text-element.component.html',
-  styleUrls: ['./text-element.component.scss'],
-  viewProviders: [
-    {
-      provide: MrfFormComponent,
-      useExisting: NgForm
-    }
-  ]
+    selector: 'mrf-text-element',
+    templateUrl: './text-element.component.html',
+    styleUrls: ['./text-element.component.scss'],
+    viewProviders: [
+        {
+            provide: MrfFormComponent,
+            useExisting: NgForm
+        }
+    ]
 })
 export class TextElementComponent implements AfterViewInit, AfterContentChecked {
-  @Input() field: IFormElement;
-  @Input() formRef: NgForm;
-  @Input() readOnly: boolean;
+    @Input() field: IFormElement;
+    @Input() formRef: NgForm;
+    @Input() readOnly: boolean;
 
-  public inputType: string;
+    public inputType: string;
 
-  /**
-   * L'etichetta da rappresentare
-   */
-  public displayLabel: string;
-  public displayLegend: string;
-
-  /**
-   * Conserviamo il precedente valore booleano di visibilità
-   * per conoscere il momento in cui cambia
-   */
-  private componentWasVisible: boolean;
-  valueNgModel: any = '';
-  calcolatoEDisabilitato = false;
-
-  constructor(
-    private translatable: TranslatablePipe,
-    private valueService: ValueService
-  ) {
-    if (!this.field) {
-      return;
-    }
-    this.field.suffix = this.field.suffix || '';
-  }
-
-  ngAfterViewInit() {
-    this.inputType = this.getValidType();
     /**
-     * Calcolo l'etichetta da rappresentare in base ai valori di label e hideLabel
+     * L'etichetta da rappresentare
      */
-    if (!!this.field.hideLabel) {
-      this.displayLabel = '';
-      this.displayLegend = null;
-    } else {
-      this.displayLabel = this.translatable.transform(this.field.label);
-      this.displayLegend = this.translatable.transform(this.field.legend);
+    public displayLabel: string;
+    public displayLegend: string;
+
+    /**
+     * Conserviamo il precedente valore booleano di visibilità
+     * per conoscere il momento in cui cambia
+     */
+    private componentWasVisible: boolean;
+    valueNgModel: any = '';
+    calcolatoEDisabilitato = false;
+
+    constructor(
+        private translatable: TranslatablePipe,
+        private valueService: ValueService
+    ) {
+        if (!this.field) {
+            return;
+        }
+        this.field.suffix = this.field.suffix || '';
     }
-    if(!!this.field.calculatedValue) {
-      if(!!this.field.disabled) {
-        this.calcolatoEDisabilitato = true;
-      }
-    }
-    if (this.field.defaultValue) {
-      setTimeout(() => {
-        const defaultValue = {};
-        defaultValue[this.field.key + this.field.suffix] = String(this.field.defaultValue);
-        this.formRef.setValue(defaultValue);
-      }, 10);
-    }
-    if((!!this.field.input && !!this.field.disabled) || this.readOnly) {
-      this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(e => {
-        this.valueNgModel = e !== undefined ? e : null;
-        if (!this.formRef.controls[this.field.key + this.field.suffix].value && this.field.defaultValue)
-          this.formRef.controls[this.field.key + this.field.suffix].patchValue(this.field.defaultValue);
-      })
-    }
-    if(!!this.field.jsonLogic && !!this.field.jsonLogic.validate) {
-      if (typeof this.field.jsonLogic.validate === 'string') {
-        // 16/07/2020 la validazione dei campi con espressione regolare sull'idsemantico di tipo testo non funzionava
-        // viene adesso introdotta la gestione con il campo pattern nativo
-        // per evitare errori sul pregresso dovute a regole generate male sul BE introduco questo controllo
-        // per cui in caso di regole definite in questo modo
-        //   validate: '{"regex": ["^.*$", "{var:"NOME_CONTROLLO"}]}'
-        // mi recupero l'espressione regolare in questo modo
-        if (!!this.field.jsonLogic.validate.includes('regex')) {
-          if (!this.field.validate) {
-            this.field.validate = {};
-          }
-          try {
-            const splitted = this.field.jsonLogic.validate.split('{"regex": ["');
-            const splitted2 = splitted[1].split('", "{var:"');
-            console.log(splitted2[0]);
-            let regex = splitted2[0];
-            // con la RTOS_DT-1008 ci hanno passato una regex email che non funziona, per retrocompatibilità metto sta roba
-            // non rifatelo a casa
-            if (regex === '[A-z0-9!#$%&*+/=?^_`\\{|}~-](?:\\.[A-z0-9!#$%&*+/=?^_`\\{|}~-])@(?:[A-z0-9](?:[A-z0-9-][A-z0-9])?\\.)+[A-z0-9](?:[A-z0-9-]*[A-z0-9])?.') {
-              regex = '^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
+
+    ngAfterViewInit() {
+        this.inputType = this.getValidType();
+        /**
+         * Calcolo l'etichetta da rappresentare in base ai valori di label e hideLabel
+         */
+        if (!!this.field.hideLabel) {
+            this.displayLabel = '';
+            this.displayLegend = null;
+        } else {
+            this.displayLabel = this.translatable.transform(this.field.label);
+            this.displayLegend = this.translatable.transform(this.field.legend);
+        }
+        if (!!this.field.calculatedValue) {
+            if (!!this.field.disabled) {
+                this.calcolatoEDisabilitato = true;
             }
-            this.field.validate.pattern = regex;
-          } catch (e) {
-            console.log('Error on ' + this.field.key);
-          }
         }
-      }
-    }
-  }
-
-  getValidType() {
-    let type = 'text';
-    switch (this.field.type) {
-      /// NO!!!! NO!!! NO!!!!
-      /// Input type image non può stare qui
-      /// @todo: Creare componente a parte per input type=image questo è un input di tipo testuale
-      case 'image':
-        type = this.field.type;
-        break;
-      case 'email':
-        type = this.field.type;
-        break;
-      case 'password':
-        type = this.field.type;
-        break;
-      case 'number':
-        type = this.field.type;
-        break;
-      case 'textfield':
-        type = 'text';
-        break;
-      case 'phoneNumber':
-        type = 'tel';
-        break;
-      default:
-        console.log('Unrecognized type' + this.field.type);
-        type = 'text';
-    }
-    return type;
-  }
-
-  errorHandler(event) {
-    event.target.src = notFoundBase64Image;
-  }
-
-  /**
-   * Se l'elemento è nascosto deve perdere il valore
-   */
-  ngAfterContentChecked() {
-    /// Se il componente è appena comparso ricarica il valore dal form
-    const componentIsVisible = this.valueService.isVisible(this.field);
-    const componentId = this.field.key + this.field.suffix;
-    if (componentIsVisible) {
-      if (!this.componentWasVisible) {
-        /// Componente appena comparso
-      }
-    } else {
-      if (this.componentWasVisible) {
-        /// Componente appena nascosto
-        const componentCount = this.valueService.visibleCount;
-        if (!componentCount[componentId]) {
-          /// Non ci sono altri controlli con lo stesso nome
-          if (this.formRef.controls.hasOwnProperty(componentId)) {
-            this.formRef.controls[componentId].setValue(null, {
-              onlySelf: true,
-              emitEvent: false
+        if (this.field.defaultValue) {
+            setTimeout(() => {
+                this.formRef.controls[this.field.key + this.field.suffix].setValue(String(this.field.defaultValue));
+            }, 10);
+        }
+        if ((!!this.field.input && !!this.field.disabled) || this.readOnly) {
+            this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(e => {
+                if (!this.formRef.controls[this.field.key + this.field.suffix].value && this.field.defaultValue) {
+                    this.formRef.controls[this.field.key + this.field.suffix].setValue(this.field.defaultValue);
+                }
             });
-          }
         }
-      }
+        if (!!this.field.jsonLogic && !!this.field.jsonLogic.validate) {
+            if (typeof this.field.jsonLogic.validate === 'string') {
+                // 16/07/2020 la validazione dei campi con espressione regolare sull'idsemantico di tipo testo non funzionava
+                // viene adesso introdotta la gestione con il campo pattern nativo
+                // per evitare errori sul pregresso dovute a regole generate male sul BE introduco questo controllo
+                // per cui in caso di regole definite in questo modo
+                //   validate: '{"regex": ["^.*$", "{var:"NOME_CONTROLLO"}]}'
+                // mi recupero l'espressione regolare in questo modo
+                if (!!this.field.jsonLogic.validate.includes('regex')) {
+                    if (!this.field.validate) {
+                        this.field.validate = {};
+                    }
+                    try {
+                        const splitted = this.field.jsonLogic.validate.split('{"regex": ["');
+                        const splitted2 = splitted[1].split('", "{var:"');
+                        console.log(splitted2[0]);
+                        let regex = splitted2[0];
+                        // con la RTOS_DT-1008 ci hanno passato una regex email che non funziona, per retrocompatibilità metto sta roba
+                        // non rifatelo a casa
+                        if (regex === '[A-z0-9!#$%&*+/=?^_`\\{|}~-](?:\\.[A-z0-9!#$%&*+/=?^_`\\{|}~-])@(?:[A-z0-9](?:[A-z0-9-][A-z0-9])?\\.)+[A-z0-9](?:[A-z0-9-]*[A-z0-9])?.') {
+                            regex = '^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$';
+                        }
+                        this.field.validate.pattern = regex;
+                    } catch (e) {
+                        console.log('Error on ' + this.field.key);
+                    }
+                }
+            }
+        }
     }
-    this.componentWasVisible = !!componentIsVisible;
-  }
+
+    getValidType() {
+        let type: string;
+        switch (this.field.type) {
+            /// NO!!!! NO!!! NO!!!!
+            /// Input type image non può stare qui
+            /// @todo: Creare componente a parte per input type=image questo è un input di tipo testuale
+            case 'image':
+                type = this.field.type;
+                break;
+            case 'email':
+                type = this.field.type;
+                break;
+            case 'password':
+                type = this.field.type;
+                break;
+            case 'number':
+                type = this.field.type;
+                break;
+            case 'textfield':
+                type = 'text';
+                break;
+            case 'phoneNumber':
+                type = 'tel';
+                break;
+            default:
+                console.log('Unrecognized type' + this.field.type);
+                type = 'text';
+        }
+        return type;
+    }
+
+    errorHandler(event) {
+        event.target.src = notFoundBase64Image;
+    }
+
+    /**
+     * Se l'elemento è nascosto deve perdere il valore
+     */
+    ngAfterContentChecked() {
+        /// Se il componente è appena comparso ricarica il valore dal form
+        const componentIsVisible = this.valueService.isVisible(this.field);
+        const componentId = this.field.key + this.field.suffix;
+        if (componentIsVisible) {
+            if (!this.componentWasVisible) {
+                /// Componente appena comparso
+            }
+        } else {
+            if (this.componentWasVisible) {
+                /// Componente appena nascosto
+                const componentCount = this.valueService.visibleCount;
+                if (!componentCount[componentId]) {
+                    /// Non ci sono altri controlli con lo stesso nome
+                    if (this.formRef.controls.hasOwnProperty(componentId)) {
+                        this.formRef.controls[componentId].setValue(null, {
+                            onlySelf: true,
+                            emitEvent: false
+                        });
+                    }
+                }
+            }
+        }
+        this.componentWasVisible = !!componentIsVisible;
+    }
 }

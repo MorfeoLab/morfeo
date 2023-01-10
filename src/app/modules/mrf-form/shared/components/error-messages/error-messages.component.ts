@@ -26,8 +26,8 @@ export class ErrorMessagesComponent implements OnInit {
       pattern: 'generic.labels.pattern',
       required: 'generic.labels.campoObbligatorio',
       uploadRequired: 'generic.labels.fileObbligatorio',
-      ...this.field.validate.messages
-    }
+      ...this.field.validate?.messages
+    };
   }
 
 }

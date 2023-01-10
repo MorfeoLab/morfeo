@@ -1,359 +1,405 @@
 import {
-  AfterContentChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  QueryList,
-  ViewChildren
+    AfterContentChecked,
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewChildren
 } from '@angular/core';
-import {FormControl, NgForm} from '@angular/forms';
-import {IFormElement} from '../../shared/models/form-element.model';
+import {DataService} from '../../shared/services/data/data.service';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
-import {DataService} from '../../shared/services/data-service/data-service.service';
-import {ComboService} from '../../shared/services/combo-service/combo.service';
-import {UtilityService} from '../../shared/services/utility/utility.service';
-import {MatCheckbox} from '@angular/material/checkbox';
+import {ComboService} from '../../shared/services/combo/combo.service';
+import {ResetOnChangeService} from '../../shared/services/reset-on-change.service';
+import {MapToService} from '../../shared/services/map-to.service';
 import {ValueService} from '../../shared/services/value/value.service';
+import {IFormElement, IFormOptions} from '../../shared/models/form-element.model';
+import {NgForm, NgModel} from '@angular/forms';
+import {MatSelect} from '@angular/material/select';
+import {MatCheckbox, MatCheckboxChange} from '@angular/material/checkbox';
+import {Subscription} from 'rxjs';
 
 @Component({
-  selector: 'mrf-select-boxes',
-  templateUrl: './select-boxes.component.html',
-  styleUrls: ['./select-boxes.component.scss']
+    selector: 'mrf-select-boxes',
+    templateUrl: './select-boxes.component.html',
+    styleUrls: ['./select-boxes.component.scss']
 })
-export class SelectBoxesComponent implements OnInit, AfterViewInit, AfterContentChecked {
-  /**
-   * Modello JSON per il disegno del campo
-   */
-  @Input() field: IFormElement;
+export class SelectBoxesComponent implements OnInit, AfterContentChecked, AfterViewInit, OnDestroy {
 
+    public labelIsBlank = false;
+    @ViewChildren(MatCheckbox) private checkboxList;
+    private externalChangeSubscription: Subscription;
 
-  @Input() readOnly: boolean;
-
-  /**
-   * Riferimento al form che contiene questo controllo
-   */
-  @Input() formRef: NgForm;
-
-  /**
-   * Hidden field for real value
-   */
-  public hiddenControl: FormControl;
-
-  /**
-   * Elenco di tutte le checkbox
-   */
-  @ViewChildren(MatCheckbox) private checkBoxes: QueryList<MatCheckbox>;
-
-  public labelIsBlank = false;
-
-  /**
-   * Elenco di tutte le checkbox per nome
-   */
-  private checkBoxesMap: { [key: string]: MatCheckbox } = {};
-
-  /**
-   * La checkbox in alto
-   */
-  private masterCheckBox: MatCheckbox;
-
-  /**
-   * L'etichetta da rappresentare
-   */
-  public displayLabel: string;
-
-  /**
-   * Conserviamo il precedente valore booleano di visibilità
-   * per conoscere il momento in cui cambia
-   */
-  private componentWasVisible: boolean;
-
-  private valueField = 'codice';
-  private labelField = 'descrizione';
-
-  constructor(
-    private dataService: DataService,
-    private translatable: TranslatablePipe,
-    private changeDetector: ChangeDetectorRef,
-    private comboService: ComboService,
-    private utility: UtilityService,
-    private valueService: ValueService
-  ) {
-  }
-
-  ngOnInit() {
-    this.valueField = this.field.valueProperty || this.valueField;
-    this.labelField = this.field.labelProperty || this.labelField;
-    this.field.valueProperty = this.valueField;
-    this.field.labelProperty = this.labelField;
-    this.field.suffix = this.field.suffix || '';
-    this.field.hideSelectAll = this.field.hideSelectAll || false;
+    constructor(
+        private dataService: DataService,
+        private translatable: TranslatablePipe,
+        private comboService: ComboService,
+        private resetOnChangeService: ResetOnChangeService,
+        private mapToService: MapToService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private valueService: ValueService
+    ) {
+    }
 
     /**
-     * Calcolo l'etichetta da rappresentare in base ai valori di label e hideLabel
+     * Modello JSON per il disegno del campo
      */
-    if (!!this.field.label && this.field.label.trim().length === 0) {
-      this.labelIsBlank = true;
-    }
-    if (!!this.field.hideLabel) {
-      this.displayLabel = '';
-    } else {
-      this.displayLabel = this.translatable.transform(this.field.label);
-    }
+    @Input() field: IFormElement;
 
-    if (!!this.field.values) {
-      this.field.values = this.field.values.map(item => {
-        return {
-          label: String(item.label).trim(),
-          value: this.sanitize(item.value)
-        };
-      });
-    }
-  }
+    /**
+     * Flag sola lettura
+     */
+    @Input() readOnly: boolean;
 
-  ngAfterViewInit(): void {
-    if (this.field.dataSrc === 'url') {
-      this.manageUrlSelectboxesElements();
-    } else if (this.field.dataSrc === 'resource') {
-      this.manageSelectboxesElements();
-    } else {
-      this.checkBoxes.forEach((cb: any) => {
-        if (cb.name !== 'toggle-select-all') {
-          this.checkBoxesMap[cb.name] = cb;
-        } else {
-          this.masterCheckBox = cb;
+    /**
+     * Riferimento al form che contiene questo controllo
+     */
+    @Input() formRef: NgForm;
+
+    @ViewChild(MatSelect) private select: MatSelect;
+    @ViewChild('fullValue') private fullValueModel: NgModel;
+
+    private valueField = 'value';
+    private labelField = 'label';
+    /**
+     * L'etichetta da rappresentare
+     */
+    public displayLabel: string;
+    public displayLegend: string;
+
+
+    public comboElements: IFormOptions[] = [];
+    private options: any[];
+
+    /**
+     * Conserviamo il precedente valore booleano di visibilità
+     * per conoscere il momento in cui cambia
+     */
+    private componentWasVisible: boolean;
+
+    private oldValue: any;
+
+    /**
+     * @description Add description
+     */
+    ngOnInit() {
+        if (!this.field) {
+            return;
         }
-      });
-    }
-    /**
-     * Se presente un solo checkbox TUTTI viene nascosto
-     */
-    this.hiddenSelectAll();
+        this.valueField = this.field.valueProperty || this.valueField;
+        this.labelField = this.field.labelProperty || this.labelField;
+        this.field.valueProperty = this.valueField;
+        this.field.labelProperty = this.labelField;
+        this.field.suffix = this.field.suffix || '';
 
-    /**
-     * Se non ho un form (i.e. mi trovo nel composer) non posso fare altro
-     */
-    if (!this.formRef) {
-      return;
-    }
-    /**
-     * Recupero un riferimento all'AbstractControl dell'input hidden
-     */
-    this.hiddenControl = this.formRef.controls[
-    this.field.key + this.field.suffix
-      ] as FormControl;
-    /**
-     * Registra un listener per il campo hidden
-     */
-    this.registerHiddenFieldListener();
-  }
+        this.labelIsBlank = !this.field.label;
 
+        /**
+         * Calcolo l'etichetta da rappresentare in base ai valori di label e hideLabel
+         */
+        if (!!this.field.hideLabel) {
+            this.displayLabel = '';
+            this.displayLegend = null;
+        } else {
+            this.displayLabel = this.translatable.transform(this.field.label);
+            this.displayLegend = this.translatable.transform(this.field.legend);
 
-  /**
-   * Se l'elemento è nascosto deve perdere il valore
-   */
-  ngAfterContentChecked() {
-    /// Se il componente è appena comparso ricarica il valore dal form
-    const componentIsVisible = this.valueService.isVisible(this.field);
-    const componentId = this.field.key + this.field.suffix;
-    if (componentIsVisible) {
-      if (!this.componentWasVisible) {
-        /// Componente appena comparso
-      }
-    } else {
-      if (this.componentWasVisible) {
-        /// Componente appena nascosto
-        const componentCount = this.valueService.visibleCount;
-        if (!componentCount[componentId]) {
-          /// Non ci sono altri controlli con lo stesso nome
-          if (this.formRef.controls.hasOwnProperty(componentId)) {
-            this.formRef.controls[componentId].setValue(null, {
-              onlySelf: true,
-              emitEvent: false
+        }
+
+        // per retrocompatibilità
+        if (this.field.values && this.field.values.length > 0) {
+            this.field.data.values = this.field.values;
+        }
+
+        if (!!this.field.data && !!this.field.data.configurableParams) {
+            const configurableParams = this.field.data.configurableParams;
+            Object.keys(configurableParams).forEach(v => {
+                if (configurableParams[v] !== '') {
+                    this.resetOnChangeService.registerRule(configurableParams[v], this.field.key);
+                    this.resetOnChangeService.resetFieldEvent.subscribe((e) => {
+                        if (e.key === this.field.key) {
+                            this.manageComboElements();
+                        }
+                    });
+                }
             });
-          }
-          for (const key in this.checkBoxesMap) {
-            if (this.checkBoxesMap[key].checked) {
-              this.checkBoxesMap[key].toggle();
-            }
-          }
         }
-      }
+        this.manageComboElements();
     }
-    this.componentWasVisible = !!componentIsVisible;
-  }
 
-
-  /**
-   * Registra un listener ai cambiamenti del campo hidden
-   * Il valore che ci si aspetta è un array di stringhe in formato stringa JSON
-   */
-  registerHiddenFieldListener() {
-    if (!this.hiddenControl) {
-      return;
+    ngAfterViewInit() {
+        this.subscribeToExternalChange();
     }
-    this.hiddenControl.valueChanges.subscribe((v: string) => {
-      let valueList: string[] = [];
-      if (this.utility.isJSON(v)) {
-        valueList = JSON.parse(v);
-      } else if (typeof v === 'string') {
-        if (/\t/.test(v)) {
-          /// La stringa contiene un tab
-          valueList = v.split('\t');
-        } else {
-          /// Una stringa non splittabile?
-          valueList = [v];
-        }
-      }
-      if (Array.isArray(valueList)) {
-        valueList = valueList.map(item => {
-          return String(item);
-        });
-      }
-      const foundValues: string[] = [];
-      for (let key of valueList) {
-        key = key.trim();
-        if (this.checkBoxesMap.hasOwnProperty(key)) {
-          foundValues.push(key);
-        }
-      }
-      if (valueList.length !== foundValues.length) {
-        this.hiddenControl.setValue(JSON.stringify(foundValues), {onlySelf: true, emitEvent: false});
-        return; // avoid loop
-      }
-      let checkedCount = 0;
-      let uncheckedCount = 0;
-      for (const name of Object.keys(this.checkBoxesMap)) {
-        const shouldBeChecked: boolean = foundValues.indexOf(name) >= 0;
-        const isChecked: boolean = this.checkBoxesMap[name].checked;
-        if (shouldBeChecked !== isChecked) {
-          this.checkBoxesMap[name].checked = shouldBeChecked;
-        }
-        if (shouldBeChecked) {
-          checkedCount++;
-        } else {
-          uncheckedCount++;
-        }
-      }
-      if (!!this.masterCheckBox) {
-        this.masterCheckBox.checked = uncheckedCount === 0;
-      }
-    });
-  }
 
-  changedCheckbox() {
-    const value: string[] = [];
-    for (const key in this.checkBoxesMap) {
-      if (this.checkBoxesMap.hasOwnProperty(key) && key !== 'toggle-select-all') {
-        if (this.checkBoxesMap[key].checked) {
-          value.push(key);
+    ngOnDestroy() {
+        if (!!this.externalChangeSubscription) {
+            this.externalChangeSubscription.unsubscribe();
+            this.externalChangeSubscription = null;
         }
-      }
     }
-    if (!!this.hiddenControl) {
-      if (value.length > 0) {
-        this.hiddenControl.setValue(JSON.stringify(value));
-      } else {
-        this.hiddenControl.setValue(null);
-      }
-      this.hiddenControl.markAsTouched();
-    }
-    setTimeout(() => {
-      this.hiddenControl.markAsTouched();
-      this.formRef.form.markAsDirty();
-      this.formRef.form.controls[this.field.key + this.field.suffix].updateValueAndValidity({onlySelf: true});
-    }, 0);
-  }
 
-  toggleSelectAll($event) {
-    const value: string[] = [];
-    for (const name of Object.keys(this.checkBoxesMap)) {
-      if (name !== 'toggle-select-all') {
-        if ($event.checked) {
-          value.push(name);
+    public selectOption() {
+        if (this.formRef && this.formRef.controls && this.formRef.controls[this.field.key + this.field.suffix]) {
+            this.optionSelectedEvent();
         }
-        this.checkBoxesMap[name].checked = $event.checked;
-      }
     }
-    if (!!this.hiddenControl) {
-      if (value.length > 0) {
-        this.hiddenControl.setValue(JSON.stringify(value));
-      } else {
-        this.hiddenControl.setValue(null);
-      }
-      this.hiddenControl.markAsTouched();
-    }
-  }
 
-  hasRequiredError(model: any) {
-    if (model.dirty || model.touched) {
-      return model.hasError('required');
-    } else {
-      return false;
-    }
-  }
-
-  private manageUrlSelectboxesElements() {
-    this.dataService
-      .getResource(this.field.data.url)
-      .subscribe(
-        (data: any[]) => {
-          this.field.values = data.map(item => {
-            return {
-              value: item[this.valueField] || this.sanitize(this.translatable.transform(item[this.labelField])),
-              label: this.translatable.transform(item[this.labelField]),
-              checked: null
-            };
-          });
-          this.redraw();
-          this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
-        },
-        () => {
-          this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
-        }
-      );
-  }
-
-  private manageSelectboxesElements() {
-    this.comboService.collectionChange.subscribe(change => {
-      if (change.key === this.field.key + this.field.suffix) {
-        this.field.values = change.list;
-        this.redraw();
-      }
-    });
-    console.warn(this.field.key + ' dataSrc:"resource"  currently unsupported!');
-  }
-
-  private redraw() {
-    this.changeDetector.detectChanges();
-    setTimeout(() => {
-      this.checkBoxesMap = {};
-      this.checkBoxes.forEach((cb: any) => {
-        if (cb.name !== 'toggle-select-all') {
-          this.checkBoxesMap[cb.name] = cb;
-        } else {
-          this.masterCheckBox = cb;
-        }
-      });
-      // qui ricalcolo il numero di checkbox
-      this.hiddenSelectAll();
-    });
-  }
-
-  private hiddenSelectAll() {
-    if (Object.keys(this.checkBoxesMap).length === 1) {
-      this.field.hideSelectAll = true;
-    }
-  }
-
-  private sanitize(str) {
     /**
-     * Non possiamo modificare il valore inserito ma per evitare
-     * malfunzionamenti siamo obbligati almeno a rimuovere gli spazi
-     * duplicati, i tab e gli altri caratteri non stampabili
+     * @method manageComboElements
+     * @description Add description
      */
-    return str.replace(/\s+/gim, ' ').trim();
-  }
-}
+    manageComboElements() {
+        this.checkFieldDataValues();
+        switch (this.field.dataSrc) {
+            case 'url':
+                this.manageUrlComboElements();
+                break;
+            case 'resource':
+                // @todo al momento non lo supportiamo
+                this.manageResourceComboElements();
+                break;
+            case 'values':
+                this.manageValuesComboElements();
+                break;
+            default:
+                this.setComboElements(this.field.data.values as IFormOptions[]);
+                console.warn(`[SELECT] ${this.field.key}: Unmanaged case ${this.field.dataSrc}`);
+        }
+        this.subscribeToCollectionChange();
+    }
 
+    /**
+     * @method manageValuesComboElements
+     * @description Add description
+     */
+    private manageValuesComboElements() {
+        this.setComboElements(
+            this.field.data.values
+        );
+    }
+
+    /**
+     * TODO - Implement method
+     * @method manageResourceComboElements
+     * @description Add description
+     */
+    private manageResourceComboElements() {
+        console.warn(this.field.key + ' dataSrc:"resource"  currently unsupported!');
+    }
+
+    /**
+     * @method manageUrlComboElements
+     * @description Add description
+     */
+    private manageUrlComboElements() {
+        this.setComboElements([]);
+        let finalUrl = this.field.data.url;
+        const staticParams = {...this.field.data.params} || {};
+        const configurableParams = {...this.field.data.configurableParams} || {};
+        this.dataService.mergeParams(staticParams, configurableParams, this.formRef);
+        /**
+         * I parametri il cui nome inizia per $ sono pathParams, gli altri sono queryParams
+         */
+        const params: { [key: string]: string } = {};
+        for (const paramName in staticParams) {
+            if (staticParams.hasOwnProperty(paramName)) {
+                const paramValue = staticParams[paramName];
+                if (paramName.charAt(0) === '$') {
+                    finalUrl = this.field.data.url.split(paramName).join(String(paramValue));
+                } else {
+                    params[paramName] = paramValue;
+                }
+            }
+        }
+        this.dataService
+            .getResourceByMethod(finalUrl, this.field.data.method, params)
+            .subscribe(
+                (data: any[]) => {
+                    const dataOptions: IFormOptions[] = [];
+                    data.map((item: any) => {
+                        dataOptions.push({
+                            value: item[this.valueField],
+                            label: this.translatable.transform(item[this.labelField])
+                        });
+                    });
+                    this.setComboElements(dataOptions);
+                    this.options = data;
+                    this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
+                },
+                () => {
+                    this.comboService.unregisterComboWithRemoteData(this.field.key + this.field.suffix);
+                }
+            );
+    }
+
+    private subscribeToCollectionChange() {
+        this.comboService.collectionChange.subscribe(comboChanged => {
+            if (comboChanged.key === this.field.key + this.field.suffix) {
+                this.setComboElements(comboChanged.list);
+            }
+        });
+    }
+
+    /**
+     * @method checkFieldDataValues
+     * @description Add description
+     */
+    private checkFieldDataValues() {
+        if (['url', 'values', 'resource'].indexOf(this.field.dataSrc) < 0) {
+            if (!!this.field.data.url) {
+                this.field.dataSrc = 'url';
+            } else if (Array.isArray(this.field.data.values)) {
+                this.field.dataSrc = 'values';
+            }
+        } else {
+            this.field.data.values = this.field.data.values || [];
+            const {values} = this.field.data;
+            this.options = [...values];
+            this.setComboElements(
+                this.field.data.values.map(item => {
+                    return {
+                        value: item[this.valueField],
+                        label: item[this.labelField]
+                    };
+                })
+            );
+        }
+    }
+
+    public optionSelectedEvent(skipSetValue = false) {
+        const value = this.getCheckedValues();
+        if (!skipSetValue) {
+            /// Salva il valore nel campo del form
+            this.formRef.controls[this.field.key + this.field.suffix].setValue(value);
+        }
+
+        if (this.field.fullValue) {
+            if (this.formRef.controls.hasOwnProperty(this.field.key + '-fullValue' + this.field.suffix)) {
+                const fullValueControlName = this.field.key + '-fullValue' + this.field.suffix;
+                const fullValueControlValue = this.options.filter(item => value.includes(item[this.valueField]));
+                const setData = {};
+                setData[fullValueControlName] = fullValueControlValue;
+
+                this.formRef.form.patchValue(setData);
+            }
+        }
+
+
+    }
+
+    /**
+     * Se l'elemento è nascosto deve perdere il valore
+     */
+    ngAfterContentChecked() {
+        /// Se il componente è appena comparso ricarica il valore dal form
+        const componentIsVisible = this.valueService.isVisible(this.field);
+        const componentId = this.field.key + this.field.suffix;
+        if (componentIsVisible) {
+            if (!this.componentWasVisible) {
+                /// Componente appena comparso
+            }
+        } else {
+            if (this.componentWasVisible) {
+                /// Componente appena nascosto
+                const componentCount = this.valueService.visibleCount;
+                if (!componentCount[componentId]) {
+                    /// Non ci sono altri controlli con lo stesso nome
+                    if (this.formRef.controls.hasOwnProperty(componentId)) {
+                        this.formRef.controls[componentId].setValue(null, {
+                            onlySelf: true,
+                            emitEvent: false
+                        });
+                    }
+                }
+            }
+        }
+        this.componentWasVisible = !!componentIsVisible;
+    }
+
+
+    private setComboElements(options: any[] = []) {
+        this.options = options;
+        this.comboElements = JSON.parse(JSON.stringify(options.map(
+            item => {
+                return {
+                    label: item.label,
+                    value: item.value
+                };
+            }
+        )));
+        setTimeout(() => {
+            if (!!this.field.defaultValue) {
+                const v = {};
+                v[this.field.key + this.field.suffix] = this.field.defaultValue;
+                this.formRef.setValue(v);
+            }
+        }, 50);
+    }
+
+    public toggleSelectAll($event: MatCheckboxChange) {
+        this.checkboxList.forEach((cb: MatCheckbox) => {
+            if (cb.name !== 'toggle-select-all') {
+                cb.checked = $event.checked;
+            }
+        });
+        this.optionSelectedEvent();
+    }
+
+    public changedCheckbox() {
+        console.log('changedCheckbox');
+    }
+
+    private getCheckedValues() {
+        const value = [];
+        let allChecked = true;
+        let allUnchecked = true;
+        let shouldChangeSelectAll = false;
+        let checkAllReference: MatCheckbox;
+        this.checkboxList.forEach((cb: MatCheckbox) => {
+            if (cb.name === 'toggle-select-all') {
+                checkAllReference = cb;
+            } else {
+                shouldChangeSelectAll = true;
+                if (cb.checked) {
+                    allUnchecked = false;
+                    value.push(cb.name);
+                } else {
+                    allChecked = false;
+                }
+            }
+        });
+        if (checkAllReference && shouldChangeSelectAll) {
+            if (allChecked) {
+                checkAllReference.checked = true;
+            } else if (allUnchecked) {
+                checkAllReference.checked = false;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Quando cambia il valore nel form aggiorna
+     * il valore visibile
+     * @private
+     */
+    private subscribeToExternalChange() {
+        if (!!this.externalChangeSubscription) {
+            return;
+        }
+        if (!this.formRef || !this.formRef?.controls[this.field.key + this.field.suffix]) {
+            setTimeout(this.subscribeToExternalChange, 100);
+            return;
+        }
+        this.externalChangeSubscription = this.formRef.controls[this.field.key + this.field.suffix].valueChanges.subscribe(val => {
+            if (Array.isArray(val)) {
+                this.checkboxList.forEach(cb => {
+                    cb.checked = val.includes(cb.name);
+                });
+            }
+            this.optionSelectedEvent(true);
+        });
+    }
+}

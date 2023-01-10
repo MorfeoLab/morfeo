@@ -21,24 +21,23 @@ export class LayoutTabsComponent implements OnInit, AfterViewInit {
   constructor(
     private tabsService: TabsService,
     public utility: UtilityService,
-    private conditional: ConditionalService
+    private conditionalService: ConditionalService
   ) {
   }
 
   ngOnInit() {
-    if (!this.field) {
-      return;
-    }
-    this.field.components = this.field.components || [];
-    for (const component of this.field.components) {
-      component.suffix = this.field.suffix || '';
-      /**
-       * Iscrive il tab al servizio condizionale
-       */
-      if (this.utility.isJSON(component.hidden)) {
-        this.registerTabConditional(component);
-        /// Assicuriamoci di mostrare almeno una volta il contenuto
-        component.hidden = false;
+    if (!!this.field) {
+      this.field.components = this.field.components || [];
+      for (const component of this.field.components) {
+        component.suffix = this.field.suffix || '';
+        /**
+         * Iscrive il tab al servizio condizionale
+         */
+        if (this.utility.isJSON(component.hidden)) {
+          this.registerTabConditional(component);
+          /// Assicuriamoci di mostrare almeno una volta il contenuto
+          component.hidden = false;
+        }
       }
     }
   }
@@ -85,7 +84,7 @@ export class LayoutTabsComponent implements OnInit, AfterViewInit {
 
   registerTabConditional(tab: IFormElement) {
     tab.input = true;
-    this.conditional.registerJsonRule(
+    this.conditionalService.registerJsonRule(
       this.formRef,
       tab,
       (tab.hidden as string),

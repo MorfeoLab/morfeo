@@ -13,7 +13,7 @@
           <button
             mat-button
             type="button"
-            *ngIf="field.displayMode !== 'output' && !readOnly"
+            *ngIf="field.displayMode !== 'output' && !readOnly && !field.hideButtons"
             (click)="deleteElement(innerField)"
             class="flex-small"
           >
@@ -22,7 +22,7 @@
         </div>
       </ng-container>
     </ng-container>
-    <a mat-button (click)="addElement()" *ngIf="!!fields && fields.length >= 0 && field.displayMode !== 'output' && !readOnly">
+    <a mat-button (click)="addElement()" *ngIf="!!fields && fields.length >= 0 && field.displayMode !== 'output' && !readOnly && !field.hideButtons">
       <mat-icon>add</mat-icon>
       {{ field.label | translate }}
     </a>

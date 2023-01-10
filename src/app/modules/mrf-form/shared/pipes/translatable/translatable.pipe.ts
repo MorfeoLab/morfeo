@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+// import {TranslateService} from '@ngx-translate/core';
 import {UtilityService} from '../../services/utility/utility.service';
 
 @Pipe({
@@ -7,8 +7,8 @@ import {UtilityService} from '../../services/utility/utility.service';
 })
 export class TranslatablePipe implements PipeTransform {
     constructor(
-        private ts: TranslateService,
-        private utility: UtilityService) {
+        private utility: UtilityService
+    ) {
     }
 
     // gli oggetti traducibili della bmd sono mappe<lingua, label>
@@ -27,8 +27,8 @@ export class TranslatablePipe implements PipeTransform {
             return String(value);
         }
 
-        const defaultLang = this.ts.getDefaultLang();
-        let currentLang = this.ts.getBrowserLang();
+        const defaultLang = 'it'; // this.ts.getDefaultLang();
+        let currentLang = 'it'; // this.ts.getBrowserLang();
 
         // @TODO spesso non si accorge che la lingua cambia.
         if (typeof args === 'string' && args.length === 2) {

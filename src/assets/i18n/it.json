@@ -1,0 +1,20 @@
+{
+  "generic": {
+    "buttons": {
+      "back": "Indietro"
+    },
+    "labels": {
+      "upload_file": "Carica un file"
+    }
+  },
+  "table": {
+    "column": {
+      "one": "UNO",
+      "two": "DUE",
+      "three": "TRE",
+      "four": "QUATTRO",
+      "five": "CINQUE",
+      "six": "SEI"
+    }
+  }
+}

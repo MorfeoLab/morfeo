@@ -12,7 +12,7 @@ import {IFormElement} from '../shared/models/form-element.model';
 import {ConditionalService} from '../shared/services/conditional/conditional.service';
 import {COMPONENT_RESOLVER, ComponentBase} from '../shared/constants/component-resolver.constants';
 import {UtilityService} from '../shared/services/utility/utility.service';
-import {ComboService} from '../shared/services/combo-service/combo.service';
+import {ComboService} from '../shared/services/combo/combo.service';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -34,7 +34,7 @@ export class FormElementComponent implements OnInit {
     public displayMode: 'input' | 'output';
 
     constructor(
-        private conditional: ConditionalService,
+        private conditionalService: ConditionalService,
         private changeDetector: ChangeDetectorRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private utility: UtilityService,
@@ -131,8 +131,8 @@ export class FormElementComponent implements OnInit {
             /**
              * JsonLogic per disabilitare
              */
-            if (this.isJsonLogic(this.component.disabled)) {
-                this.conditional.registerJsonRule(
+            if (this.utility.isJSON(this.component.disabled)) {
+                this.conditionalService.registerJsonRule(
                     this.formRef,
                     this.component,
                     (this.component.disabled as string),
@@ -151,8 +151,8 @@ export class FormElementComponent implements OnInit {
             /**
              * JsonLogic per required
              */
-            if (this.isJsonLogic(this.component.validate.required)) {
-                this.conditional.registerJsonRule(
+            if (this.utility.isJSON(this.component.validate.required)) {
+                this.conditionalService.registerJsonRule(
                     this.formRef,
                     this.component,
                     (this.component.validate.required as string),
@@ -171,8 +171,8 @@ export class FormElementComponent implements OnInit {
         /**
          * JsonLogic per il valore predefinito
          */
-        if (this.isJsonLogic(this.component.calculatedValue)) {
-            this.conditional.registerJsonRule(
+        if (this.utility.isJSON(this.component.calculatedValue)) {
+            this.conditionalService.registerJsonRule(
                 this.formRef,
                 this.component,
                 (this.component.calculatedValue as string),
@@ -189,14 +189,11 @@ export class FormElementComponent implements OnInit {
                         v = '';
                     }
                     if (!!this.formRef.controls[this.component.key + this.component.suffix]) {
-                        this.formRef.controls[this.component.key + this.component.suffix].setValue(v, {
-                            onlySelf: true,
-                            emitEvent: false
-                        });
+                        this.formRef.controls[this.component.key + this.component.suffix].setValue(v);
                         this.formRef.controls[this.component.key + this.component.suffix].markAsTouched({onlySelf: true});
                     }
                 },
-                true
+                false
             );
         }
         /**
@@ -205,17 +202,6 @@ export class FormElementComponent implements OnInit {
         this.changeDetector.detectChanges();
     }
 
-    /**
-     * verifica se un parametro è JsonLogic
-     */
-    isJsonLogic(prop: any): boolean {
-        if (typeof prop === 'string') {
-            if (this.utility.isJSON(prop)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Converte
@@ -260,7 +246,6 @@ export class FormElementComponent implements OnInit {
             'textarea',
             'textfield',
             'image',
-            'codeEditor',
         ].includes(comp.type);
     }
 }

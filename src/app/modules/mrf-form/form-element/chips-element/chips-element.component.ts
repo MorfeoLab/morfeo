@@ -16,7 +16,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {TranslatablePipe} from '../../shared/pipes/translatable/translatable.pipe';
 import {IFormElement, IFormOptions} from '../../shared/models/form-element.model';
-import {DataService} from '../../shared/services/data-service/data-service.service';
+import {DataService} from '../../shared/services/data/data.service';
 import {ResetOnChangeService} from '../../shared/services/reset-on-change.service';
 import {MapToService} from '../../shared/services/map-to.service';
 import {UtilityService} from '../../shared/services/utility/utility.service';
@@ -199,7 +199,9 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
      * Imposto il valore iniziale a null (altrimenti sarebbe stringa vuota)
      */
     setTimeout(() => {
-      this.hiddenControl.setValue(null);
+      if (!!this.hiddenControl) {
+        this.hiddenControl.setValue(null);
+      }
     }, 0);
     /**
      * Registra un listener per il campo hidden
@@ -367,7 +369,6 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
             option[this.field.data.labelField || 'descrizione']
           );
         }
-
         this.array.push({
           label,
           value: option[this.field.data.codiceField || 'codice']
@@ -416,6 +417,9 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
    * Aggiunge un chip all'elenco
    */
   addChip(chip: AutocompleteOption) {
+    if (!this.hiddenControl) {
+      return;
+    }
     this.chips.push(chip);
     // this.hiddenControl.setValue(this.chips);
     this.refreshFieldValue();
@@ -425,12 +429,18 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
    * Rimuove un chip dall'elenco
    */
   removeChip(chip: AutocompleteOption) {
+    if (!this.hiddenControl) {
+      return;
+    }
     this.chips.splice(this.chips.indexOf(chip), 1);
     this.hiddenControl.setValue(this.chips);
     this.refreshFieldValue();
   }
 
   refreshFieldValue() {
+    if (!this.hiddenControl) {
+      return;
+    }
     let value: any = '';
     switch (this.valueType) {
       case 'object':
@@ -461,9 +471,11 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   registerHiddenFieldListener() {
-    this.hiddenControl.valueChanges.subscribe((v: any[] = []) => {
-      this.setVisibleValue(v);
-    });
+    if (!!this.hiddenControl) {
+      this.hiddenControl.valueChanges.subscribe((v: any[] = []) => {
+        this.setVisibleValue(v);
+      });
+    }
   }
 
   /**
@@ -476,6 +488,9 @@ export class ChipsElementComponent implements OnInit, AfterViewInit, OnDestroy, 
   }
 
   public setVisibleValue(v: any[] = []) {
+    if (!this.hiddenControl) {
+      return;
+    }
     if (!Array.isArray(v)) {
       /**
        * Possiamo accettare solo Array come valore,

@@ -10,9 +10,11 @@ import {
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {FormContainerConfig, MrfFormComponent} from '../../mrf-form.component';
-import {DataTableService} from '../../shared/services/data-table-service/data-table.service';
+import {DataTableService} from '../../shared/services/data-table/data-table.service';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
+import {ConditionalService} from '../../shared/services/conditional/conditional.service';
+import {UtilityService} from '../../shared/services/utility/utility.service';
 
 @Component({
     selector: 'mrf-data-table',
@@ -20,6 +22,30 @@ import {NgForm} from '@angular/forms';
     styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit, AfterViewInit {
+
+
+    constructor(
+        private dataTableService: DataTableService,
+        private http: HttpClient,
+        private conditionalService: ConditionalService,
+        private utility: UtilityService
+    ) {
+        this.formConfig = {
+            showReset: true,
+            resetIcon: 'clear',
+            resetLabel: 'Annulla',
+            resetCallback: () => {
+                this.filterTable('');
+            },
+            showSubmit: true,
+            submitIcon: 'search',
+            submitLabel: 'Cerca',
+            submitCallback: (f) => {
+                this.filterTable(f.value);
+            }
+        };
+    }
+
     public dataSource: MatTableDataSource<any>;
     /**
      * Elenco delle colonne da visualizzare in tabella
@@ -32,6 +58,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort, {static: true}) sort: MatSort;
 
     @Input() field: IFormElement;
+    @Input() formRef: NgForm;
+    @Input() externalData: { [key: string]: any };
+
+    private renderedValues: { [key: string]: string } = {};
 
     public formConfig: FormContainerConfig;
     public filterFormJson: IForm;
@@ -41,32 +71,22 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     public isError = false;
     public hideLoader = false;
 
+    public paginatorPageSize = 0;
+    public paginatorPageIndex = 0;
+    public paginatorPageSizeOptions: number[] = [5, 10, 15];
+    public paginatorLength = 0;
 
-    constructor(
-        private dataTableService: DataTableService,
-        private http: HttpClient
-    ) {
-        this.formConfig = {
-            showReset: true,
-            resetIcon: 'clear',
-            resetLabel: 'Annulla',
-            resetCallback: () => {
-                this.filterTable('')
-            },
-            showSubmit: true,
-            submitIcon: 'search',
-            submitLabel: 'Cerca',
-            submitCallback: (f) => {
-                this.filterTable(f.value)
-            }
-        };
+    private static getCellKey(row, col) {
+        return btoa(JSON.stringify(row) + '-' + JSON.stringify(col));
     }
 
     ngOnInit(): void {
         this.hideLoader = !!this.field.hideLoader ? this.field.hideLoader : false;
         this.filterFormJson = this.field.data.filter;
         this.columns = this.field.data.columns || [];
-        this.displayedColumns = this.columns.map(item => item.value);
+        this.initColumnVisibility();
+        this.initUrlLogic();
+        this.dataTableService.registerComponent(this.field.key + this.field.suffix, this);
 
         if (this.field.dataSrc === 'values') {
             this.dataSource = new MatTableDataSource<any>(this.field.data.values);
@@ -82,8 +102,17 @@ export class DataTableComponent implements OnInit, AfterViewInit {
                 return item[property];
             };
 
-            this.dataTableService.getDataEmitter(this.field.key + this.field.suffix).subscribe((data: any[]) => {
-                this.dataSource.data = data;
+            this.dataTableService.getDataEmitter(this.field.key + this.field.suffix).subscribe((data: any) => {
+                if (data.hasOwnProperty('records')) {
+                    this.dataSource = data.records;
+                    if (!!data.pagination) {
+                        this.paginatorPageIndex = Math.max((data.pagination.currentPage - 1), 0);
+                        this.paginatorPageSize = data.pagination.pageSize || this.paginatorPageSize;
+                        this.paginatorLength = data.pagination.totalRecords || this.paginatorLength;
+                    }
+                } else {
+                    this.dataSource.data = data;
+                }
             });
 
         } else if (this.field.dataSrc === 'url') {
@@ -106,7 +135,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
                         this.loadDataFromUrl(this.field.data.url);
                     }, 60); /// Dentro ComboElementComponent.setComboElements c'è un ritardo di 50ms, questo deve essere superiore
                 }
-            })
+            });
         }
         if (!!this.field.data.pagination) {
             this.initPagination();
@@ -118,14 +147,25 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     }
 
     private initPagination() {
-        this.paginator.pageSizeOptions = this.field.data.pagination.sizeOptions;
-        this.paginator.pageSize = this.field.data.pagination.size || this.field.data.pagination.sizeOptions[0] || 10;
+        this.paginatorPageSizeOptions = this.field.data.pagination.sizeOptions;
+        this.paginatorPageSize = this.field.data.pagination.size || this.field.data.pagination.sizeOptions[0] || 10;
         if (this.field.dataSrc === 'values') {
             this.dataSource.paginator = this.paginator;
         } else if (this.field.dataSrc === 'url') {
-            this.paginator.page.subscribe(() => {
-                this.loadDataFromUrl()
+            this.paginator.page.subscribe((event) => {
+                this.paginatorPageSize = event.pageSize;
+                this.paginatorPageIndex = event.pageIndex;
+                this.paginatorLength = event.length;
+                /// {previousPageIndex: 0, pageIndex: 1, pageSize: 3, length: 10}
+                this.loadDataFromUrl();
             });
+        }
+    }
+
+    public paginatorEvent(event) {
+        const paginatorCallback = this.dataTableService.getPaginatorCallback(this.field.key + this.field.suffix);
+        if (!!paginatorCallback) {
+            paginatorCallback(event);
         }
     }
 
@@ -138,7 +178,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
                         if (filterObj[key] !== null) {
                             if (row.hasOwnProperty(key)) {
                                 if (row[key].toLowerCase().indexOf(filterObj[key].toLowerCase()) === -1) {
-                                    return false
+                                    return false;
                                 }
                             }
                         }
@@ -155,16 +195,16 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         } else if (this.field.dataSrc === 'url') {
             this.sort.sortChange.subscribe(() => {
                 this.loadDataFromUrl();
-            })
+            });
         }
     }
 
-    public filterTable(row: any) {
+    public filterTable(row?: any) {
         if (this.field.dataSrc === 'values') {
-            this.dataSource.filter = JSON.stringify(row);
+            this.dataSource.filter = JSON.stringify(row || {});
         } else if (this.field.dataSrc === 'url') {
             // Ogni nuova ricerca riparte dalla prima pagina
-            this.paginator.pageIndex = 0;
+            this.paginatorPageIndex = 0;
             this.loadDataFromUrl();
         }
     }
@@ -183,14 +223,35 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         };
     }
 
-    public render(row, col) {
+    public getRenderedValue(row, col) {
+        const cellKey = DataTableComponent.getCellKey(row, col);
+
+        if (this.renderedValues.hasOwnProperty(cellKey)) {
+            return this.renderedValues[cellKey];
+        }
+        this.render(row, col);
+        return '?';
+    }
+
+    private render(row, col) {
+        const cellKey = DataTableComponent.getCellKey(row, col);
+        let colValue = '';
+        if (row.hasOwnProperty(col.value)) {
+            colValue = row[col.value];
+        }
         if (col.hasOwnProperty('renderer')) {
             const renderer = this.dataTableService.getRenderer(col.renderer);
-            return renderer(row[col.value]);
-        } else if (row.hasOwnProperty(col.value)) {
-            return row[col.value];
+            const renderedValue = renderer(colValue, row);
+            if (typeof renderedValue === 'string') {
+                this.renderedValues[cellKey] = renderedValue;
+            } else {
+                (renderedValue as Promise<string>).then(result => {
+                    console.log(result);
+                    this.renderedValues[cellKey] = result;
+                });
+            }
         } else {
-            return '';
+            this.renderedValues[cellKey] = colValue;
         }
     }
 
@@ -198,22 +259,27 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
         this.isError = false;
         url = url || this.field.data.url;
+        if (this.utility.isJSON(url)) {
+            console.warn('La tabella è configurata per calcolare la URL in runtime, ma non è ancora pronta');
+            return;
+        }
         const paginationOptions = {
-            $pageNum: this.getPageNum(),
-            $pageSize: this.getPageSize(),
-            $sortField: this.getSortField(),
-            $sortDirection: this.getSortDirection(),
+            $pagenum: this.getPageNum(),
+            $pagesize: this.getPageSize(),
+            $sortfield: this.getSortField(),
+            $sortdirection: this.getSortDirection(),
             $filter: this.getRequestFilter()
         };
 
-        url = url.replace(/\$pageNum|\$pageSize|\$sortField|\$sortDirection|\$filter/gi, (matched) => encodeURI(paginationOptions[matched]));
+        url = url.replace(/\$pageNum|\$pageSize|\$sortField|\$sortDirection|\$filter/gi, (matched) => encodeURI(String(paginationOptions[matched.toLowerCase()])));
 
         this.http.get(url, {observe: 'response'}).subscribe(
             (data: any) => {
                 const response: IFormAjaxResponse<any> = this.mapResponseToData(data);
                 this.dataSource = new MatTableDataSource(response.records);
-                this.paginator.length = response.pagination.totalRecords;
-                this.paginator.pageSize = this.getPageSize();
+                this.paginatorLength = response.pagination?.totalRecords || this.paginatorLength;
+                this.paginatorPageIndex = Math.max((response.pagination?.currentPage - 1), 0) || this.paginatorPageIndex;
+                this.paginatorPageSize = this.getPageSize(response.pagination?.pageSize);
             },
             () => {
                 this.isError = true;
@@ -221,7 +287,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
             () => {
                 this.isLoading = false;
             }
-        )
+        );
     }
 
     public isButtonVisible(action: string[], row: any, button: any) {
@@ -237,22 +303,23 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         return responseHandler(data);
     }
 
-    private getPageSize(): number {
-        if (!!this.paginator) {
-            return this.paginator.pageSize;
+    private getPageSize(overridePageSize: number = 0): number {
+        if (!!overridePageSize) {
+            return overridePageSize;
         }
-        return this.field.data.pagination.size || 5;
+        return this.paginatorPageSize || this.field.data.pagination.size || 5;
     }
 
     private getPageNum(): number {
+        this.field.data.pagination.startIndex = isNaN(this.field.data.pagination.startIndex) ? 1 : Number(this.field.data.pagination.startIndex);
         if (!!this.paginator) {
-            return this.paginator.pageIndex + 1;
+            return this.paginatorPageIndex + this.field.data.pagination.startIndex;
         }
-        return 1;
+        return this.field.data.pagination.startIndex;
     }
 
     private getSortField(): string {
-        const defaultSortColumn: IFormTableColumn = this.field.data.columns.filter(e => !!e.sortDefault);
+        const defaultSortColumn: IFormTableColumn[] = this.field.data.columns.filter(e => !!e.sortDefault);
         const sortName = !!defaultSortColumn[0] ? defaultSortColumn[0].value : this.displayedColumns[0];
         if (!!this.sort) {
             return this.sort.active || sortName;
@@ -261,7 +328,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     }
 
     private getSortDirection(): string {
-        const defaultSortDirectionColumn: IFormTableColumn = this.field.data.columns.filter(e => !!e.sortDirectionDefault);
+        const defaultSortDirectionColumn: IFormTableColumn[] = this.field.data.columns.filter(e => !!e.sortDirectionDefault);
         const sortDirection = !!defaultSortDirectionColumn[0] ? defaultSortDirectionColumn[0].sortDirectionDefault : 'desc';
         if (!!this.sort) {
             return this.sort.direction || sortDirection;
@@ -272,8 +339,69 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     private getRequestFilter(): string {
         let filterString = '';
         if (!!this.filterForm) {
-            filterString = this.dataTableService.getRequestFilter(this.filterForm.value);
+            /// Recupero un mapper se esiste
+            const filterMapper = this.dataTableService.getFilterMapper(this.field.key + this.field.suffix);
+            filterString = this.dataTableService.getRequestFilter(this.filterForm.value, filterMapper);
         }
         return filterString;
+    }
+
+    private initColumnVisibility() {
+        let containsJsonLogic = false;
+        this.columns.map(column => {
+            if (this.utility.isJSON(column.hidden)) {
+                containsJsonLogic = true;
+                this.conditionalService.registerJsonRule(
+                    this.formRef,
+                    column,
+                    column.hidden as string,
+                    this.externalData,
+                    (v) => {
+                        let isHidden = true;
+                        for (const valid of v) {
+                            if (!valid) {
+                                isHidden = false;
+                            }
+                        }
+                        column.hidden = isHidden;
+                        this.filterColumnVisibility();
+                    }
+                );
+            }
+        });
+        if (containsJsonLogic) {
+            /// @TODO: Non c'è un modo migliore per calcolare il valore iniziale?
+            this.conditionalService.applyAllJsonRules();
+        }
+        this.filterColumnVisibility();
+    }
+
+    private filterColumnVisibility() {
+        this.displayedColumns = this.columns
+            .filter(column => !column.hidden)
+            .map(column => column.value);
+    }
+
+    private initUrlLogic() {
+        /**
+         * JsonLogic per l'attributo url
+         */
+        if (!!this.field.data && this.utility.isJSON(this.field.data.url)) {
+            this.conditionalService.registerJsonRule(
+                this.formRef,
+                this.field,
+                (this.field.data.url as string),
+                this.externalData,
+                (v) => {
+                    if (Array.isArray(v)) {
+                        v = v.join('');
+                    }
+                    this.field.data.url = v;
+                    this.paginatorPageIndex = 0;
+                    this.loadDataFromUrl();
+                },
+                true
+            );
+        }
     }
 }

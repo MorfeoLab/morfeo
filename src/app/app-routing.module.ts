@@ -22,7 +22,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), MrfFormModule],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }), MrfFormModule],
   exports: [RouterModule],
   providers: [TranslatablePipe]
 })

@@ -2,7 +2,6 @@
   <div class="check-boxes">
 
     <mat-checkbox
-        #checkbox
         [(ngModel)]="(!!field.input && !!field.disabled) || readOnly ? '' : formRef.form.value[field.key + field.suffix]"
         [name]="field.key + field.suffix"
         [required]="!!(field.input ? field.validate && field.validate.required : false)"

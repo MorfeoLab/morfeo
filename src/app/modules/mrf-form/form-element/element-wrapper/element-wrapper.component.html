@@ -1,4 +1,4 @@
-<div class="{{component.className || ''}} {{isVisible() ? '' : 'hidden'}}">
+<div class="{{component?.className || ''}} {{isVisible() ? '' : 'hidden'}}">
   <ng-container *ngIf="!!formRef">
     <mrf-form-element
       [component]="component"

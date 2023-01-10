@@ -1,0 +1,103 @@
+{
+  "components": [
+    {
+      "type": "select",
+      "key": "legato",
+      "label": "Campo a cui è legato configurableParams",
+      "dataSrc": "values",
+      "fullValue": true,
+      "data": {
+        "values": [
+          {
+            "label": "User",
+            "value": "users"
+          },
+          {
+            "label": "Posts",
+            "value": "posts"
+          }
+        ]
+      }
+    },
+    {
+      "type": "select",
+      "key": "non-legato",
+      "label": "Campo a cui NON è legato configurableParams",
+      "dataSrc": "values",
+      "fullValue": true,
+      "data": {
+        "values": [
+          {
+            "label": "User",
+            "value": "users"
+          },
+          {
+            "label": "Posts",
+            "value": "posts"
+          }
+        ]
+      }
+    },
+    {
+      "label": "Campo che si carica tramite URL",
+      "key": "example4",
+      "type": "selectboxes",
+      "validate": {
+        "required": true,
+        "custom": ""
+      },
+      "defaultValue": null,
+      "hidden": false,
+      "data": {
+        "url": "https://jsonplaceholder.typicode.com/$serviceName",
+        "values": [],
+        "params": {
+          "$serviceName": "users"
+        },
+        "configurableParams": {
+          "serviceName": "legato"
+        }
+      },
+      "dataSrc": "url",
+      "fullValue": true,
+      "valueProperty": "id",
+      "labelProperty": "name",
+      "suffix": "",
+      "input": true
+    },
+    {
+      "label": "Campo con valori statici",
+      "key": "example5",
+      "type": "selectboxes",
+      "validate": {
+        "required": true,
+        "custom": ""
+      },
+      "defaultValue": null,
+      "hidden": false,
+      "data": {
+        "values": [
+          {
+            "label": "Sette",
+            "value": "SETTE"
+          },
+          {
+            "label": "Otto",
+            "value": "OTTO"
+          },
+          {
+            "label": "Nove",
+            "value": "NOVE"
+          }
+        ]
+      },
+      "dataSrc": "values",
+      "fullValue": true,
+      "valueProperty": "value",
+      "labelProperty": "label",
+      "suffix": "",
+      "input": true
+    }
+  ],
+  "avoidLowerCase": true
+}

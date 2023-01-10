@@ -9,7 +9,6 @@
   >
     <input
       matInput
-      #inputElement
       [(ngModel)]="formRef.form.value[field.key + field.suffix]"
       [name]="field.key + field.suffix"
       [type]="inputType === 'image' ? 'text': inputType"
@@ -18,11 +17,11 @@
       placeholder="{{ displayLabel | translate }}"
       [pattern]="!!field.validate ? field.validate.pattern : ''"
       [required]="!!(field.input ? field.validate && field.validate.required : false)"
-      [minlength]="field.validate.minLength"
-      [maxlength]="field.validate.maxLength"
+      [minlength]="field.validate?.minLength"
+      [maxlength]="field.validate?.maxLength"
       [validatePreset]="!!field.validate ? field.validate.preset : ''"
-      [min]="field.validate.min"
-      [max]="field.validate.max"
+      [min]="field.validate?.min"
+      [max]="field.validate?.max"
 
       #me="ngModel"
       mrfRegisterForm
@@ -33,9 +32,8 @@
 
       mrfValidateJsonRule
       [jsonRule]="field.input ? field.validate.custom : ''"
-      [value]="field.defaultValue || valueNgModel"
     />
     <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
   </mat-form-field>
-  <img alt="Image preview" *ngIf="inputType === 'image' && (formRef.form.value[field.key + field.suffix]||field.defaultValue || valueNgModel)" [src]="formRef.form.value[field.key + field.suffix] || field.defaultValue || valueNgModel" height="150px" (error)="errorHandler($event)"/>
+  <img alt="Image preview" *ngIf="inputType === 'image' && (formRef.form.value[field.key + field.suffix])" [src]="formRef.form.value[field.key + field.suffix]" height="150px" (error)="errorHandler($event)"/>
 </ng-container>

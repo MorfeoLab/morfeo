@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import "../../../../../../assets/theme-variables";
 .container {
   display: flex;
@@ -25,10 +26,10 @@
     justify-content: flex-end;
   }
   .green {
-    color: map_get($mat-green, 500);
+    color: map_get(mat.$green-palette, 500);
   }
   .red {
-    color: map_get($mat-red, 500);
+    color: map_get(mat.$red-palette, 500);
   }
 }
 

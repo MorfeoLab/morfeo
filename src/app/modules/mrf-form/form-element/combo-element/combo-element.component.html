@@ -19,12 +19,24 @@
       mrfValidateJsonRule
       [jsonRule]="field.input ? field.validate.custom : ''"
       (selectionChange)="optionSelectedEvent($event.value)"
+      (ngModelChange)="selectOption($event)"
     >
       <mat-option *ngFor="let value of comboElements" [value]="value.value">
         {{ value.label | translate }}
       </mat-option>
     </mat-select>
     <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
+
+    <input
+            *ngIf="field.fullValue"
+            type="hidden"
+            [(ngModel)]="formRef.form.value[field.key + '-fullValue' + field.suffix]"
+            [name]="field.key + '-fullValue' + field.suffix"
+            #fullValue="ngModel"
+            mrfRegisterForm
+            [registerForm]="formRef"
+            [registerModel]="fullValue"
+    />
   </mat-form-field>
 </ng-container>
 

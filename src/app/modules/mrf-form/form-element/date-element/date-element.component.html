@@ -1,34 +1,62 @@
 <ng-container *ngIf="!!field">
-  <mat-form-field
-    class="field full-width"
-    [matTooltip]="(field.tooltip?.text || '') | translate"
-    [matTooltipPosition]="field.tooltip?.position || 'below'">
-    <input
-      (click)="picker.open()"
-      (dateChange)="picker.close()"
-      #inputElement
-      matInput
-      [matDatepicker]="picker"
-      [matDatepickerFilter]="myFilter"
-      [(ngModel)]="inputElementModel"
-      placeholder="{{ displayLabel | translate }}"
-      [disabled]="(!!field.input && !!field.disabled) || readOnly"
-      [required]="!!(field.input ? field.validate && field.validate.required : false)"
-      [name]="field.key + field.suffix"
-      type="text"
-      #me="ngModel"
-      mrfRegisterForm
-      [registerForm]="formRef"
-      [registerModel]="me"
+    <mat-form-field
+            *ngIf="!field.timePicker"
+            class="field full-width"
+            [matTooltip]="(field.tooltip?.text || '') | translate"
+            [matTooltipPosition]="field.tooltip?.position || 'below'">
+        <input
+                (click)="picker.open()"
+                (dateChange)="picker.close()"
+                #inputElement
+                matInput
+                [matDatepicker]="picker"
+                [matDatepickerFilter]="myFilter"
+                [(ngModel)]="inputElementModel"
+                placeholder="{{ displayLabel | translate }}"
+                [disabled]="(!!field.input && !!field.disabled) || readOnly"
+                [required]="!!(field.input ? field.validate && field.validate.required : false)"
+                [name]="field.key + field.suffix"
+                type="text"
+                #me="ngModel"
+                mrfRegisterForm
+                [registerForm]="formRef"
+                [registerModel]="me"
 
-      mrfValidateJsonRule
-      [jsonRule]="field.input ? field.validate.custom : ''"
-    />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
-  </mat-form-field>
-  <label *ngIf="field.label.length > 30">
-    {{ field.label }}
-  </label>
+                mrfValidateJsonRule
+                [jsonRule]="field.input ? field.validate.custom : ''"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error mrfErrorMessages [me]="me" [field]="field"></mat-error>
+    </mat-form-field>
+    <mat-form-field
+            *ngIf="!!field.timePicker"
+            class="field full-width"
+            [matTooltip]="(field.tooltip?.text || '') | translate"
+            [matTooltipPosition]="field.tooltip?.position || 'below'">
+        <input
+                matInput
+                (change)="changedDateTimePickerValue($event)"
+                [(ngModel)]="inputElementModel"
+                #dateTimePickerElement
+                placeholder="{{ displayLabel | translate }}"
+                [disabled]="(!!field.input && !!field.disabled) || readOnly"
+                [required]="!!(field.input ? field.validate && field.validate.required : false)"
+                type="datetime-local"
+        />
+        <input
+                type="hidden"
+                [(ngModel)]="formRef.form.value[field.key + field.suffix]"
+                [name]="field.key + field.suffix"
+                #hiddenElement="ngModel"
+
+                mrfRegisterForm
+                [registerForm]="formRef"
+                [registerModel]="hiddenElement"
+
+                mrfValidateJsonRule
+                [jsonRule]="field.input ? field.validate.custom : ''"
+        />
+        <mat-error mrfErrorMessages [me]="hiddenElement" [field]="field"></mat-error>
+    </mat-form-field>
 </ng-container>

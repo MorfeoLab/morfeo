@@ -1,12 +1,12 @@
 <div *ngIf="type==='delete' ">
-  <h1 mat-dialog-title>Sei sicuro di voler eliminare il file<br/>{{file.data.name}} ?</h1>
+  <h1 mat-dialog-title>Sei sicuro di voler eliminare il file<br/>{{file?.data?.name}} ?</h1>
   <div class="action">
     <button mat-button [matTooltip]="'chiudi'" (click)="onNoClick()">Chiudi</button>
-    <button mat-button [matTooltip]="'elimina'" [mat-dialog-close]="data" cdkfocusinitial>Elimina</button>
+    <button mat-button [matTooltip]="'elimina'" [mat-dialog-close]="data">Elimina</button>
   </div>
 </div>
 <div *ngIf="type==='change' ">
-  <h1 mat-dialog-title>Sei sicuro di voler sostituire il file<br/> {{file.data.name}} ?</h1>
+  <h1 mat-dialog-title>Sei sicuro di voler sostituire il file<br/> {{file?.data?.name}} ?</h1>
   <div class="action">
     <button mat-button [matTooltip]="'chiudi'" (click)="onNoClick()">Chiudi</button>
     <button mat-button [matTooltip]="'Sostituisci'" [mat-dialog-close]="data">Sostituisci</button>

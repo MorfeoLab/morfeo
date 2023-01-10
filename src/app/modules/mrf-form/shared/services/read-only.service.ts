@@ -27,7 +27,6 @@ export class ReadOnlyService {
         'textarea',
         'textfield',
         'image',
-        'codeEditor',
         'select',
         'autocomplete',
         'chips',

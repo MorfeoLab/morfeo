@@ -50,8 +50,9 @@ export class CodiceFiscale {
             }
             s += n;
         }
-        if (s % 26 + 'A'.charCodeAt(0) !== cf.charCodeAt(15))
+        if (s % 26 + 'A'.charCodeAt(0) !== cf.charCodeAt(15)) {
             return 'Invalid checksum.';
+        }
         return null;
     }
 
@@ -71,8 +72,9 @@ export class CodiceFiscale {
             let n = cf.charCodeAt(i) - '0'.charCodeAt(0);
             if ((i % 2) === 1) {
                 n *= 2;
-                if (n > 9)
+                if (n > 9) {
                     n -= 9;
+                }
             }
             s += n;
         }

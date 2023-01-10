@@ -69,26 +69,28 @@ export class TextMultilinguaComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Recupero un riferimento all'AbstractControl della casella di testo per l'autocomplete
-    this.valueText =
-      this.valueText || (this.valuesForm.controls.valueText as FormControl);
+    if (!!this.valuesForm) {
+      // Recupero un riferimento all'AbstractControl della casella di testo per l'autocomplete
+      this.valueText =
+          this.valueText || (this.valuesForm.controls.valueText as FormControl);
 
-    // Recupero un riferimento all'AbstractControl della casella di testo per l'autocomplete
-    this.valueSelect =
-      this.valueSelect || (this.valuesForm.controls.valueSelect as FormControl);
+      // Recupero un riferimento all'AbstractControl della casella di testo per l'autocomplete
+      this.valueSelect =
+          this.valueSelect || (this.valuesForm.controls.valueSelect as FormControl);
 
-    // Recupero un riferimento all'AbstractControl dell'input hidden
-    this.hiddenControl =
-      this.hiddenControl ||
-      (this.formRef.controls[
-        this.field.key + this.field.suffix
-      ] as FormControl);
+      // Recupero un riferimento all'AbstractControl dell'input hidden
+      this.hiddenControl =
+          this.hiddenControl ||
+          (this.formRef.controls[
+          this.field.key + this.field.suffix
+              ] as FormControl);
 
-    // Registra un listenere per le modifiche ai campi visibili
-    this.registerVisibleFieldsListener();
+      // Registra un listenere per le modifiche ai campi visibili
+      this.registerVisibleFieldsListener();
 
-    // Registra un listener per il campo hidden
-    this.registerHiddenFieldListener();
+      // Registra un listener per il campo hidden
+      this.registerHiddenFieldListener();
+    }
   }
 
   /**
@@ -96,14 +98,16 @@ export class TextMultilinguaComponent implements OnInit, AfterViewInit {
    * @description Catch valueChange on hiddenControl form to set the selected value
    */
   registerHiddenFieldListener() {
-    this.hiddenControl.valueChanges.subscribe(v => {
-      for (const lang in v) {
-        if (v.hasOwnProperty(lang)) {
-          this.valueSelect.setValue(lang);
-          return;
+    if (!!this.hiddenControl) {
+      this.hiddenControl.valueChanges.subscribe(v => {
+        for (const lang in v) {
+          if (v.hasOwnProperty(lang)) {
+            this.valueSelect.setValue(lang);
+            return;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   /**

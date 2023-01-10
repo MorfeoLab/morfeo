@@ -15,8 +15,8 @@
 "
 
     [required]="!!(field.input ? field.validate && field.validate.required : false)"
-    [minlength]="field.validate.minLength"
-    [maxlength]="field.validate.maxLength"
+    [minlength]="field.validate?.minLength"
+    [maxlength]="field.validate?.maxLength"
 
     #me="ngModel"
     mrfRegisterForm

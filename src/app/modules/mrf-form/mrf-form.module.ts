@@ -32,7 +32,6 @@ import {ObjectListSelectorModalComponent} from './form-element/object-list-selec
 import {BytesPipe} from './shared/pipes/bytes/bytes.pipe';
 import {ReadOnlyComponent} from './form-element/read-only/read-only.component';
 import {ReadOnlyKeyvalueComponent} from './form-element/read-only/read-only-keyvalue/read-only-keyvalue.component';
-import {ReadOnlyTradComponent} from './form-element/read-only/read-only-trad/read-only-trad.component';
 import {ReadOnlyFileComponent} from './form-element/read-only/read-only-file/read-only-file.component';
 import {ReadOnlyDateComponent} from './form-element/read-only/read-only-date/read-only-date.component';
 import {ReadOnlyObjectlistComponent} from './form-element/read-only/read-only-objectlist/read-only-objectlist.component';
@@ -56,22 +55,24 @@ import {CacheRegistryInterceptor} from './cache/cache-registry.interceptor';
 import {DataTableComponent} from './form-element/data-table/data-table.component';
 import {GenericButtonComponent} from './shared/components/generic-button/generic-button.component';
 import {TextElementComponent} from './form-element/text-element/text-element.component';
-import {CodeEditorElementComponent} from './form-element/code-editor-element/code-editor-element.component';
 import {ValidateCustomDirective} from './shared/directives/validate-custom/validate-custom.directive';
-import { LeftMenuComponent } from './layout/left-menu/left-menu.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {LeftMenuComponent} from './layout/left-menu/left-menu.component';
+import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CodemirrorModule} from '@ctrl/ngx-codemirror';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {ErrorMessagesComponent} from './shared/components/error-messages/error-messages.component';
+import {ReadOnlyTradComponent} from './form-element/read-only/read-only-trad/read-only-trad.component';
+import {DataSelectComponent} from './form-element/data-select/data-select.component';
+import {DataSelectModalComponent} from './form-element/data-select/data-select-modal/data-select-modal.component';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http,  '/assets/i18n/', '.json');
 }
 
 export const COMBO_ELEMENT_VALUE = {};
@@ -83,6 +84,7 @@ export const declarationList = [
     CheckboxElementComponent,
     ChipsElementComponent,
     ComboElementComponent,
+    DataSelectModalComponent,
     DataTableComponent,
     DateElementComponent,
     DebugObjectComponent,
@@ -114,10 +116,10 @@ export const declarationList = [
     RadioElementComponent,
     ReadOnlyComponent,
     ReadOnlyKeyvalueComponent,
-    ReadOnlyTradComponent,
     ReadOnlyFileComponent,
     ReadOnlyDateComponent,
     ReadOnlyObjectlistComponent,
+    ReadOnlyTradComponent,
     ReadOnlyWysiwygComponent,
     RegisterFormModelDirective,
     RepeatableContainerComponent,
@@ -128,7 +130,6 @@ export const declarationList = [
     TestPageComponent,
     TextAreaElementComponent,
     TextElementComponent,
-    CodeEditorElementComponent,
     TextMultilinguaComponent,
     TooltipButtonComponent,
     TranslatablePipe,
@@ -139,21 +140,20 @@ export const declarationList = [
     ValidateJsonRuleDirective,
     WysiwygElementComponent
 ];
-
 export const importsList = [
     CommonModule,
     ReactiveFormsModule,
     MaterialImportsModule,
-    CodemirrorModule,
+    MatDialogModule,
     FormsModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
+    TranslateModule.forChild({
         loader: {
             provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
+            useFactory: (createTranslateLoader),
             deps: [HttpClient]
-        }
-    })
+        },
+        extend: true
+    }),
 ];
 
 export const exportsList = [
@@ -185,7 +185,6 @@ export const exportsList = [
     SelectBoxesComponent,
     TextAreaElementComponent,
     TextElementComponent,
-    CodeEditorElementComponent,
     TextMultilinguaComponent,
     TooltipButtonComponent,
     TranslatablePipe,
@@ -208,11 +207,12 @@ export const providersList = [
     {
         provide: MAT_DATE_LOCALE,
         useValue: 'it'
-    },
+    }
 ];
 
 export const entryComponentsList = [
     /// MODALS
+    DataSelectModalComponent,
     ListModalComponent,
     SnackBarCustomComponent,
     ObjectListSelectorModalComponent,
@@ -244,16 +244,15 @@ export const entryComponentsList = [
     SelectBoxesComponent,
     TextAreaElementComponent,
     TextElementComponent,
-    CodeEditorElementComponent,
     TextMultilinguaComponent,
     UploadElementComponent,
     /// READ ONLY
     ReadOnlyComponent,
     ReadOnlyKeyvalueComponent,
-    ReadOnlyTradComponent,
     ReadOnlyFileComponent,
     ReadOnlyDateComponent,
     ReadOnlyObjectlistComponent,
+    ReadOnlyTradComponent,
     ReadOnlyWysiwygComponent,
     /// EXTRAS
     HtmlBoxElementComponent,
@@ -264,15 +263,15 @@ export const entryComponentsList = [
 // TODO - check if we need to export all components or just MrfFormComponent
 @NgModule({
     declarations: [
-        declarationList
+        declarationList,
+        DataSelectComponent
     ],
     imports: [
         importsList,
         RouterModule
     ],
     exports: exportsList,
-    providers: providersList,
-    entryComponents: entryComponentsList
+    providers: providersList
 })
 export class MrfFormModule {
 }
